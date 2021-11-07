@@ -1,0 +1,16 @@
+{
+    "name": "Truth Check - The role-play assistant",
+    "short_name": "Truth Check",
+    "categories": [
+        "games",
+        "utilities"
+    ],
+    "description": "An app with multiple tools to help while doing role-play",
+    "background_color": "#51ff51",
+    "theme_color": "#00b34b",
+    "display": "standalone",
+    "lang": "es",
+    "direction": "ltr",
+    "start_url": "./index.html",
+    "scope": "."
+}
