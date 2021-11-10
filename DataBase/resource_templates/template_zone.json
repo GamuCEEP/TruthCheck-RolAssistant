@@ -1,0 +1,11 @@
+{
+    "name": "zone",
+    "description": "",
+    "situations": [
+        {
+            "name":"situation",
+            "description": "",
+            "effects": ""
+        }
+    ]
+}

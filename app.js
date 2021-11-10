@@ -12,7 +12,7 @@ const basepath = __dirname.replace(/\\/g,'/',);
 
 const server = http.createServer((req,res) =>{
     if(req.url === '/') req.url = '/index.html';
-
+    
     fs.readFile(basepath + req.url, (err, data) => {
         res.statusCode = 200;
         
