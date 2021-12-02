@@ -5,7 +5,7 @@ import logger from "./routes/test.routes.ts";
 const app = new Application();
 const port = "localhost:8000";
 
-// C:\Users\GamuD\.deno\bin\denon :denon route
+// .deno\bin\denon :denon route
 
 app.use(logger);
 

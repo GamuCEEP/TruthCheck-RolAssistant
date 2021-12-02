@@ -1,9 +1,9 @@
-import Resource from "./resource.types.ts";
-import Event from "./event.types.ts";
+import Resource from './resource.types.ts';
+import Timeline from '../util/timeline.types.ts';
 
 interface Zone extends Resource {
   description: string;
-  events: Event[];
+  events: Timeline;
 }
 
 export default Zone;

@@ -6,7 +6,7 @@ interface Character extends Resource {
 
   inventory: Item[];
   equipment: Item[];
-  statistics: Record<string, string | number>[];
+  statistics: [string, string | number][];
 }
 
 export default Character;
