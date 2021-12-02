@@ -6,7 +6,7 @@ import Item from "./item.types.ts";
 import Zone from "./zone.types.ts";
 
 interface Interaction extends Resource {
-  causes: (Character | Item | Zone)[];
+  trigger(triggers: (Character | Item | Zone)[]): boolean ;
   effects: Effect[];
 }
 

@@ -3,7 +3,7 @@ import Character from "./character.types.ts";
 import Effect from "./effect.types.ts";
 
 interface Relation extends Resource {
-  effects: [Effect, Character][];
+  effects: [Character, Effect][];
 }
 
 export default Relation;
