@@ -6,6 +6,7 @@ import Interaction from './tc-types/character.types.ts';
 import Event from './tc-types/character.types.ts';
 import Relation from './tc-types/character.types.ts';
 import Effect from './tc-types/character.types.ts';
+import Resource from './tc-types/resource.types.ts';
 
 import Timeline from './util/timeline.types.ts';
 
@@ -19,4 +20,5 @@ export type {
   Relation,
   Effect,
   Timeline,
+  Resource,
 };

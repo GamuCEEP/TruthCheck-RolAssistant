@@ -5,21 +5,6 @@ import logger from "./routes/test.routes.ts";
 const app = new Application();
 const port = "localhost:8000";
 
-// .deno\bin\denon :denon route
-
-interface test{
-  stats: {[name: string]: number | string | boolean}
-}
-
-let prueba: test;
-
-prueba = {
-  stats:{
-    vida: 15,
-    mana: 20,
-    2:true
-  }
-}
 
 
 app.use(logger);
