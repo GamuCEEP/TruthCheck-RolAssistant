@@ -9,3 +9,5 @@ class EventTable extends Model{
     ...resource,
   }
 }
+
+export { EventTable };
