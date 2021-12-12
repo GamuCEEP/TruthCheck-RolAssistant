@@ -15,7 +15,7 @@ import Effect from "./effect.types.ts";
 interface Event extends Resource {
   probability: number;
   priority: number;
-  effect: (Interaction | Relation | Effect)[];
+  effect: (Interaction | Relation )[];
 }
 
 export default Event;
