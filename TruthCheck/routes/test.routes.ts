@@ -1,7 +1,7 @@
-import { Request, Response } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { Request, Response, Context} from "https://deno.land/x/oak@v10.0.0/mod.ts";
 
 const logger = async (
-  { response, request }: { response: Response; request: Request },
+  { response, request }: {response: any, request: any},
   next: Function,
 ) => {
   await next();

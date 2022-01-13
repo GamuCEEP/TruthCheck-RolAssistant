@@ -1,5 +1,5 @@
 
-import Event from '../tc-types/event.types.ts';
+import Event from '../game/event.types.ts';
 
 
 interface Timeline{

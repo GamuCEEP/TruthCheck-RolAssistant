@@ -1,8 +1,8 @@
-import { Application } from "https://deno.land/x/oak@v10.0.0/mod.ts";
+import { oak } from "./dependencies.ts";
 import mainRouter from "./routes/index.routes.ts";
 import logger from "./routes/test.routes.ts";
 
-const app = new Application();
+const app = new oak.Application();
 const port = "localhost:8000";
 
 
