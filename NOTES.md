@@ -12,3 +12,5 @@
 - Resource expansion on GET http requests
 - JsonPatch on PUT http requests
 - Json + Hypermedia formats
+
+Sergio es wapo
