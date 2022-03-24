@@ -1,0 +1,28 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "request": "launch",
+      "name": "Launch Program",
+      "type": "pwa-node",
+      "program": "/app.ts",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "DENO_DIR": "C:\\Users\\GamuD\\.deno\\bin"
+      },
+      "runtimeExecutable": "C:\\ProgramData\\chocolatey\\bin\\deno.exe",
+      "runtimeArgs": [
+        "run",
+        "--unstable",
+        "--import-map",
+        "./.vscode/import_map.json",
+        "--inspect",
+        "--allow-all"
+      ],
+      "attachSimplePort": 9229
+    }
+  ]
+}

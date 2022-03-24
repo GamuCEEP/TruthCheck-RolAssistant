@@ -1,7 +1,7 @@
 
 ### Architecture:
 - RESTful
-- API & client app
+- API & client app PWA
 
 ## Tecnologies:
 - denodb    ( DataBase manager ORM )                -> https://deno.land/x/denodb@v1.0.40/mod.ts
@@ -13,3 +13,4 @@
 - JsonPatch on PUT http requests
 - Json + Hypermedia formats
 - navigator.credentials mdn
+- Vue 🤔

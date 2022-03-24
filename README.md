@@ -6,4 +6,4 @@
 
  Y donde **todos** los recursos, como personajes, items, dados, etc. pueden ser compartidos 
 
- La aplicación será una *Progresive web app* para que esta sea accesible desde cualquier dispositivo
+ La aplicación será una *Progresive Web App* para que esta sea accesible desde cualquier dispositivo
