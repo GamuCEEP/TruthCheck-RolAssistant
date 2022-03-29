@@ -3,4 +3,6 @@ import Item from "./resources/item.model.ts";
 import Stage from "./resources/stage.model.ts";
 import Effect from "./resources/effect.model.ts";
 
-export type { Actor, Effect, Item, Stage };
+import User from "./user/user.model.ts";
+
+export type { Actor, Effect, Item, Stage, User };

@@ -21,10 +21,17 @@ const client = new mongo.MongoClient();
 
 const db = await client.connect(uri);
 
-db.collection<models.Actor>('actors');
-db.collection<models.Item>('items');
-db.collection<models.Stage>('stages');
-db.collection<models.Effect>('effects');
+const actorCollection = db.collection<models.Actor>("actors");
+const itemCollection = db.collection<models.Item>("items");
+const stageCollection = db.collection<models.Stage>("stages");
+const effectCollection = db.collection<models.Effect>("effects");
 
+const userCollection = db.collection<models.User>("users");
 
-export { db };
+export {
+  actorCollection,
+  effectCollection,
+  itemCollection,
+  stageCollection,
+  userCollection,
+};

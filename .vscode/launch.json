@@ -8,7 +8,7 @@
       "request": "launch",
       "name": "Launch Program",
       "type": "pwa-node",
-      "program": "/app.ts",
+      "program": "./TruthCheck/app.ts",
       "cwd": "${workspaceFolder}",
       "env": {
         "DENO_DIR": "C:\\Users\\GamuD\\.deno\\bin"
