@@ -1,4 +1,4 @@
-import { oak } from '/dependencies.ts'
+import { oak } from 'root/deps.ts'
 
 const router = new oak.Router();
 

@@ -1,5 +1,5 @@
-import { oak, oauth } from '/dependencies.ts';
-import { router } from '/routes/routes.ts'
+import { oak, oauth } from 'root/deps.ts';
+import { router } from 'root/routes/routes.ts'
 
 const port = 8000;
 
