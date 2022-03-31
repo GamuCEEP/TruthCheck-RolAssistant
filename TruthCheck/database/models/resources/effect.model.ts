@@ -1,6 +1,6 @@
-import { mongo } from 'root/deps.ts';
+import { mongo } from "root/deps.ts";
 
-interface Effect{
+interface Effect {
   _id: mongo.ObjectId;
   author: mongo.ObjectId;
   name: string;

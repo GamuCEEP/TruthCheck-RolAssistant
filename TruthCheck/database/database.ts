@@ -1,24 +1,11 @@
-import { ini, mongo } from "root/deps.ts";
-import * as models from "./models/models.ts";
+import { mongo, configLoader } from "root/deps.ts";
+import * as models from "./models/_models.ts";
 
-const config = ini.decode(await Deno.readTextFile("./credentials.ini"));
-
-if (
-  !config.uri || !config.user || !config.password || !config.dbname ||
-  !config.cluster_url
-) {
-  console.log("config data missing", config);
-}
-
-let uri: string = config.uri;
-
-uri = uri.replace("{user}", config.user);
-uri = uri.replace("{password}", config.password);
-uri = uri.replace("{dbname}", config.dbname);
-uri = uri.replace("{cluster_url}", config.cluster_url);
 
 const client = new mongo.MongoClient();
 
+
+const uri: string = await configLoader.getProperty('./credentials.ini', 'uri', 'database')
 const db = await client.connect(uri);
 
 const actorCollection = db.collection<models.Actor>("actors");
@@ -28,10 +15,13 @@ const effectCollection = db.collection<models.Effect>("effects");
 
 const userCollection = db.collection<models.User>("users");
 
+// const gameCollection = db.collection<model.Game>("games"); 
+
 export {
   actorCollection,
   effectCollection,
   itemCollection,
   stageCollection,
   userCollection,
+  // gameCollection
 };

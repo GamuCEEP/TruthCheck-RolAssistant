@@ -1,12 +1,22 @@
 import { oak } from "root/deps.ts";
-import {
-  actorCollection,
-  effectCollection,
-  itemCollection,
-  stageCollection,
-} from "root/database/database.ts";
 
-const rest = new oak.Router();
+import ActorRestRouter from "./resources/actor.resource.ts";
+import StageRestRouter from "./resources/stage.resource.ts";
+import ItemRestRouter from "./resources/item.resource.ts";
+import EffectRestRouter from "./resources/effect.resource.ts";
 
-export default rest;
-export { actorCollection, effectCollection, itemCollection, stageCollection };
+const routers = [
+  ActorRestRouter,
+  StageRestRouter,
+  ItemRestRouter,
+  EffectRestRouter,
+];
+
+const restRouter = new oak.Router();
+
+for (const router of routers) {
+  restRouter.use(router.routes());
+  restRouter.use(router.allowedMethods());
+}
+
+export { restRouter };

@@ -1,5 +1,5 @@
-import { oak, oauth } from 'root/deps.ts';
-import { router } from 'root/routes/routes.ts'
+import { oak, oauth } from "root/deps.ts";
+import { router } from "root/routes/routes.ts";
 
 const port = 8000;
 
@@ -8,9 +8,8 @@ const dashport = new oauth.DashportOak(app);
 
 // TODO continue setting up dashport :)
 
-app.use(router.routes())
-app.use(router.allowedMethods())
-
+app.use(router.routes());
+app.use(router.allowedMethods());
 
 app.addEventListener("listen", () => {
   console.log("Running on address", port);
