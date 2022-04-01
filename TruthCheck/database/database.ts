@@ -1,12 +1,12 @@
-import { mongo, ezconfig as config} from "root/deps.ts";
+import { configFile, ezconfig, mongo } from "root/deps.ts";
 import * as models from "./models/_models.ts";
 
+const uri = await ezconfig.getProperty(configFile, "uri", "database");
+
+// const config = (await ezconfig.getConfig(configFile))["database"];
 
 const client = new mongo.MongoClient();
 
-
-const uri: string = await config.getProperty('./credentials.ini', 'uri', 'database')
-console.log(uri)
 const db = await client.connect(uri);
 
 const actorCollection = db.collection<models.Actor>("actors");
@@ -16,7 +16,7 @@ const effectCollection = db.collection<models.Effect>("effects");
 
 const userCollection = db.collection<models.User>("users");
 
-// const gameCollection = db.collection<model.Game>("games"); 
+// const gameCollection = db.collection<model.Game>("games");
 
 export {
   actorCollection,

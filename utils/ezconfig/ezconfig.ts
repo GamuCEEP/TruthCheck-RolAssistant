@@ -1,4 +1,5 @@
 import * as ini from "https://deno.land/x/ini@v2.1.0/mod.ts";
+import { templater } from "../templater/templater.js";
 
 async function getConfig(path: string, section?: string) {
   const config = ini.decode(await Deno.readTextFile(path));
@@ -6,12 +7,6 @@ async function getConfig(path: string, section?: string) {
   return config;
 }
 
-/**
- * @param path 
- * @param templateName 
- * @param section 
- * @returns property template filled
- */
 async function getProperty(
   path: string,
   templateName: string,
@@ -19,11 +14,7 @@ async function getProperty(
 ) {
   const config = await getConfig(path, section);
   const template: string = config[templateName];
-  let property: string = template;
-  for (const match of template.match(/{.*?}/g) || []) {
-    property = property.replaceAll(match,config[match.substring(1,match.length-1)])
-  }
-  return property;
+  return templater.fromTemplate(template, config);
 }
 
-export { getProperty, getConfig }
+export { getConfig, getProperty };

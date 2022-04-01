@@ -5,4 +5,7 @@ import GoogleStrategy from "https://deno.land/x/dashport_google@v1.0.0/mod.ts";
 
 import * as ezconfig from "../utils/ezconfig/ezconfig.ts";
 
-export { GoogleStrategy, mongo, oak, oauth, ezconfig };
+
+const configFile = './config.ini';
+
+export { GoogleStrategy, mongo, oak, oauth, ezconfig, configFile };

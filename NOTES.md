@@ -13,8 +13,4 @@
 - JsonPatch on PUT http requests
 - Json + Hypermedia formats
 - navigator.credentials mdn
-- Vue 🤔
-
-
-
-mongodb+srv://TruthCheckBackEnd:YJvQfJNDhDCCLsS6@truthcheck.ztgtz.mongodb.net/TruthCheck?retryWrites=true&w=majority
+- JWT auth
