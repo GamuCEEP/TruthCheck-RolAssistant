@@ -18,10 +18,6 @@ const templater = {
   },
 };
 
-const curier = {
-  expand: (base, suffix) => {
-    return base.replace(/\/{.*}/g, (suffix[0] == '/' ? suffix : '/'+suffix));
-  },
-};
 
-export { templater, curier };
+
+export { templater };
