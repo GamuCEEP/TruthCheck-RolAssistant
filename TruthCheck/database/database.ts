@@ -3,8 +3,6 @@ import * as models from "./models/_models.ts";
 
 const uri = await ezconfig.getProperty(configFile, "uri", "database");
 
-// const config = (await ezconfig.getConfig(configFile))["database"];
-
 const client = new mongo.MongoClient();
 
 const db = await client.connect(uri);

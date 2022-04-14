@@ -14,3 +14,7 @@
 - Json + Hypermedia formats
 - navigator.credentials mdn
 - JWT auth
+
+
+https://github.com/vicky-gonsalves/deno_rest 😍 mirar
+parece que me va a facilitar muchisimo, auth y la base de datos
