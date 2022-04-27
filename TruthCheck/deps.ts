@@ -1,11 +1,30 @@
-import * as oak from "https://deno.land/x/oak@v10.1.0/mod.ts";
-import * as mongo from "https://deno.land/x/mongo@v0.29.3/mod.ts";
-import * as oauth from "https://deno.land/x/dashport@v1.2.1/mod.ts";
-import GoogleStrategy from "https://deno.land/x/dashport_google@v1.0.0/mod.ts";
+import * as yup from "https://cdn.skypack.dev/yup";
 
-import * as ezconfig from "../utils/ezconfig/ezconfig.ts";
-
-
-const configFile = './config.ini';
-
-export { GoogleStrategy, mongo, oak, oauth, ezconfig, configFile };
+export { compare, genSalt, hash } from "https://deno.land/x/bcrypt/mod.ts";
+export {
+  Application,
+  Context,
+  helpers,
+  isHttpError,
+  Router,
+  send,
+  Status,
+} from "https://deno.land/x/oak/mod.ts";
+export type { RouterContext, State } from "https://deno.land/x/oak/mod.ts";
+export { configSync } from "https://deno.land/std/dotenv/mod.ts";
+export { getLogger, handlers, setup } from "https://deno.land/std/log/mod.ts";
+export { Bson, MongoClient } from "https://deno.land/x/mongo/mod.ts";
+export type { Document } from "https://deno.land/x/mongo/mod.ts";
+export { oakCors } from "https://deno.land/x/cors/mod.ts";
+export type { Header, Payload } from "https://deno.land/x/djwt/mod.ts";
+export { create, decode, verify } from "https://deno.land/x/djwt/mod.ts";
+export { superoak } from "https://deno.land/x/superoak/mod.ts";
+export {
+  afterAll,
+  afterEach,
+  beforeEach,
+  describe,
+  it,
+} from "https://deno.land/std/testing/bdd.ts";
+export { expect } from "https://deno.land/x/expect/mod.ts";
+export { yup };
