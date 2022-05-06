@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "lib": ["esnext", "dom", "dom.iterable", "deno.ns"], 
+    "experimentalDecorators": true,
+    "strict": true, 
+    "strictPropertyInitialization": false, 
+    "importsNotUsedAsValues": "preserve"
+  }
+}

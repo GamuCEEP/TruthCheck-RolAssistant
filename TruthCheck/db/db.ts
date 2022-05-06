@@ -9,7 +9,6 @@ const { dbName, mongoUrl } = configs;
  */
 class Database {
   public client: MongoClient;
-
   /**
    * Constructor function for Database
    * @param dbName

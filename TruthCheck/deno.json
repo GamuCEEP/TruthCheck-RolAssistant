@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {},
+  "tasks": {
+    "go": "C:/Users/GamuD/.deno/bin/denon start"
+  }
+}
