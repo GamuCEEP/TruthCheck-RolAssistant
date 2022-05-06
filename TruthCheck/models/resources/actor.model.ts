@@ -1,4 +1,5 @@
 import db from "../../db/db.ts";
+import { Bson } from '../../deps.ts'
 
 export interface ActorSchema {
   _id: string;
@@ -6,7 +7,7 @@ export interface ActorSchema {
   name: string;
   description: string;
   stats: Record<string, string>;
-  pasive: /*array of references to effect*/string;
+  pasive: Bson.UUID[];
   active: /*array of references to effect*/string;
   inventory: /*array of references to item*/string;
   equipment: /*array of references to item*/string;
