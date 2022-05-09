@@ -1,5 +1,0 @@
-
-
-export interface ActorStructure{
-//TODO
-}

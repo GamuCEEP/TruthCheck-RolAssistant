@@ -1,12 +1,14 @@
 import db from "../../db/db.ts";
+import { ForeignKey } from "../../types/types.interface.ts";
 
 export interface ItemSchema {
   _id: string;
-  author: /*reference to user*/ string;
+  author: ForeignKey;
   name: string;
   description: string;
-  pasive: /*array of references to effect*/string;
-  active: /*array of references to effect*/string;
+  pasive: ForeignKey[];
+  active: ForeignKey[];
+  imageURI: string;
   tags: string[];
 }
 

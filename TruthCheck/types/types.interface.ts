@@ -56,3 +56,35 @@ export interface JwtPayload {
   id: string;
   exp: number;
 }
+
+export interface ForeignKey{
+  referencedCollection: string;
+  referencedItem: Bson.UUID
+}
+
+interface ResourceStructure{
+  id: string;
+  author: UserStructure | ForeignKey;
+  name: string;
+  description: string;
+  imageURI: string;
+  tags: string;
+}
+
+export interface ActorStructure extends ResourceStructure{
+  stats: Record<string, string>;
+  pasive: (EffectStructure | ForeignKey)[];
+  active: (EffectStructure | ForeignKey)[];
+  inventory: (ItemStructure | ForeignKey)[];
+  equipment: (ItemStructure | ForeignKey)[];
+}
+export interface ItemStructure extends ResourceStructure{
+  pasive: (EffectStructure | ForeignKey)[];
+  active: (EffectStructure | ForeignKey)[];
+}
+export interface StageStructure extends ResourceStructure{
+  pasive: (EffectStructure | ForeignKey)[];
+}
+export interface EffectStructure extends ResourceStructure{
+  code: string
+}

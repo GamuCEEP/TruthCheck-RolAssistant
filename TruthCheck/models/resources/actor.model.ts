@@ -1,16 +1,17 @@
 import db from "../../db/db.ts";
-import { Bson } from '../../deps.ts'
+import { ForeignKey } from "../../types/types.interface.ts";
 
 export interface ActorSchema {
   _id: string;
-  author: /*reference to user*/ string;
+  author: ForeignKey;
   name: string;
   description: string;
   stats: Record<string, string>;
-  pasive: Bson.UUID[];
-  active: /*array of references to effect*/string;
-  inventory: /*array of references to item*/string;
-  equipment: /*array of references to item*/string;
+  pasive: ForeignKey[];
+  active: ForeignKey[];
+  inventory: ForeignKey[];
+  equipment: ForeignKey[];
+  imageURI: string;
   tags: string[];
 }
 

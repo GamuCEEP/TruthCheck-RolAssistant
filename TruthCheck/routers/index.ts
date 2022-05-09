@@ -11,6 +11,7 @@ const init = (app: Application) => {
   app.use(authRouter.allowedMethods());
   app.use(userRouter.allowedMethods());
   app.use(defaultRouter.allowedMethods());
+  
 };
 
 export default {

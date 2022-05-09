@@ -3,10 +3,6 @@ import HashHelper from "../helpers/hash.helper.ts";
 import { throwError } from "../middlewares/errorHandler.middleware.ts";
 import log from "../middlewares/logger.middleware.ts";
 import { User, UserSchema } from "../models/user.model.ts";
-import {
-  UserHistory,
-  UserHistorySchema,
-} from "../models/user_history.model.ts";
 import type {
   CreateUserStructure,
   UpdatedStructure,
@@ -52,20 +48,7 @@ class UserService {
       },
     );
 
-    if (user) {
-      await UserHistory.insertOne(
-        {
-          user: user as string,
-          name,
-          email,
-          password: hashedPassword,
-          role,
-          isDisabled,
-          createdAt,
-          docVersion: 1,
-        },
-      );
-    } else {
+    if (!user) {
       log.error("Could not create user");
       return throwError({
         status: Status.BadRequest,
@@ -199,23 +182,7 @@ class UserService {
         docVersion: newDocVersion,
       },
     });
-    if (result) {
-      const user: UserHistorySchema = {
-        user: id,
-        isDisabled: isDisabled === true,
-        docVersion: newDocVersion,
-      };
-      if (name) {
-        user.name = name;
-      }
-      if (email) {
-        user.email = email;
-      }
-      if (role) {
-        user.role = role;
-      }
-      await UserHistory.insertOne(user);
-    } else {
+    if (!result){
       return throwError({
         status: Status.BadRequest,
         name: "BadRequest",
@@ -252,23 +219,7 @@ class UserService {
     const deleteCount: number = await User.deleteOne({
       _id: new Bson.ObjectId(id),
     });
-    if (deleteCount) {
-      const { name, email, role, isDisabled, createdAt, docVersion } = user;
-      const newDocVersion = docVersion + 1;
-      const updatedAt = new Date();
-      await UserHistory.insertOne(
-        {
-          user: id,
-          name,
-          email,
-          role,
-          isDisabled,
-          createdAt,
-          updatedAt,
-          docVersion: newDocVersion,
-        },
-      );
-    } else {
+    if (!deleteCount){
       return throwError({
         status: Status.BadRequest,
         name: "BadRequest",

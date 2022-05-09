@@ -80,3 +80,6 @@ export const deleteUserValidation = {
       .trim(),
   }),
 };
+
+
+// Do validations for crud on types

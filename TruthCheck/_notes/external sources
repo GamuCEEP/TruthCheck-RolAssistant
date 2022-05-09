@@ -1,2 +1,12 @@
 Shadow from 'https://deno.land/x/shadow@v1.0.7/mod.ts'  (Custom web components)
 Gun.js from 'https://gun.eco/docs/Introduction'         (Decentraliced P2P DB ( for Offline play ))
+
+
+Router <- Controller <- Service <- model & schema <- types
+store images on fs
+entity relations are represented with
+{
+  collection: <collection>,
+  uuid:<uuid>
+}
+should make a type out of it
