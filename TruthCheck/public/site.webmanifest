@@ -1,0 +1,19 @@
+{
+    "name": "TruthCheck-The RolePlay app",
+    "short_name": "TruthCheck",
+    "icons": [
+       {
+          "src": "assets/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+       },
+       {
+        "src": "assets/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+        }
+    ],
+    "theme_color": "#0AC2FF",
+    "background_color": "#2D242C",
+    "display": "standalone"
+ }

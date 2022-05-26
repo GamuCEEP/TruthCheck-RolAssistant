@@ -1,0 +1,22 @@
+:root{
+  --bg-color: #221B21;
+  --main-color: #967D69;
+  --accent-color: #0AC2FF;
+  --detail-color: #1FAD9A;
+  --dark-color: #483C32;
+
+}
+
+*{
+  box-sizing: border-box;
+}
+body{
+  background-color: var(--bg-color);
+}
+
+a{
+  color: var(--accent-color);
+}
+a:visited{
+  color: var(--detail-color);
+}
