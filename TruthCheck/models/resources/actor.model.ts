@@ -1,18 +1,12 @@
 import db from "../../db/db.ts";
-import { ForeignKey } from "../../types/types.interface.ts";
+import { ResourceSchema } from "../resource.model.ts";
 
-export interface ActorSchema {
-  _id: string;
-  author: ForeignKey;
-  name: string;
-  description: string;
+export interface ActorSchema extends ResourceSchema {
   stats: Record<string, string>;
-  pasive: ForeignKey[];
-  active: ForeignKey[];
-  inventory: ForeignKey[];
-  equipment: ForeignKey[];
-  imageURI: string;
-  tags: string[];
+  pasive: string[]; //effect id
+  active: string[]; //effect id
+  inventory: string[]; //item id
+  equipment: string[]; //item id
 }
 
-export const User = db.getDatabase.collection<ActorSchema>("actors");
+export const Actor = db.getDatabase.collection<ActorSchema>("actors");

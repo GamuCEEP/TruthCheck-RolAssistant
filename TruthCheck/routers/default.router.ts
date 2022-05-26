@@ -2,20 +2,25 @@ import { Context, Router, send } from "../deps.ts";
 import configs from "../config/config.ts";
 
 // deno-lint-ignore no-explicit-any
-const router: any = new Router();
+const router = new Router();
+
+const pages: Record<string, string> = {
+  home: 'pages/home.html',
+  login: 'pages/login.html',
+  register: 'pages/register.html',
+  playground: 'pages/playground.html',
+  workshop: 'pages/workshop.html',
+  marketplace: 'pages/marketplace.html'
+}
 
 router.get("/(.*)", async (context: Context) => {
-  if (configs.env === "production") {
-    const path = context.request.url.pathname.split("/")[1];
-    let resource = context.request.url.pathname;
-    const options = { root: Deno.cwd() };
-    if (path !== "build") {
-      resource = "build/index.html";
-    }
-    await send(context, resource, options);
-  } else {
-    context.response.status = 200;
-    context.response.body = "ready";
+  const resource = context.request.url.pathname;
+  const options = { root: `${Deno.cwd()}/public` };
+  console.log(resource)
+  try{
+    await send(context, pages[resource.substring(1)] ?? resource, options);
+  }catch(_e){
+    context.response.body = { error: `File '${resource}' was not found`}
   }
 });
 

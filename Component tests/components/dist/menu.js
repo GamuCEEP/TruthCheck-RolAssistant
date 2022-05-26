@@ -2,21 +2,6 @@
 // deno-lint-ignore-file
 // This code was bundled using `deno bundle` and it's not recommended to edit it manually
 
-function __default(n1) {
-    for(var l, e, s = arguments, t = 1, r = "", u = "", a = [
-        0
-    ], c = function(n) {
-        1 === t && (n || (r = r.replace(/^\s*\n\s*|\s*\n\s*$/g, ""))) ? a.push(n ? s[n] : r) : 3 === t && (n || r) ? (a[1] = n ? s[n] : r, t = 2) : 2 === t && "..." === r && n ? a[2] = Object.assign(a[2] || {}, s[n]) : 2 === t && r && !n ? (a[2] = a[2] || {})[r] = !0 : t >= 5 && (5 === t ? ((a[2] = a[2] || {})[e] = n ? r ? r + s[n] : s[n] : r, t = 6) : (n || r) && (a[2][e] += n ? r + s[n] : r)), r = "";
-    }, h1 = 0; h1 < n1.length; h1++){
-        h1 && (1 === t && c(), c(h1));
-        for(var i = 0; i < n1[h1].length; i++)l = n1[h1][i], 1 === t ? "<" === l ? (c(), a = [
-            a,
-            "",
-            null
-        ], t = 3) : r += l : 4 === t ? "--" === r && ">" === l ? (t = 1, r = "") : r = l + r[0] : u ? l === u ? u = "" : r += l : '"' === l || "'" === l ? u = l : ">" === l ? (c(), t = 1) : t && ("=" === l ? (t = 5, e = r, r = "") : "/" === l && (t < 5 || ">" === n1[h1][i + 1]) ? (c(), 3 === t && (a = a[0]), t = a, (a = a[0]).push(this.apply(null, t.slice(1))), t = 0) : " " === l || "\t" === l || "\n" === l || "\r" === l ? (c(), t = 2) : r += l), 3 === t && "!--" === r && (t = 4, a = a[0]);
-    }
-    return c(), a.length > 2 ? a.slice(1) : a[1];
-}
 function convertDashToCamel(str) {
     return str.replace(/-([a-z0-9])/g, (g)=>g[1].toUpperCase()
     );
@@ -44,81 +29,6 @@ function isTrue(input) {
 function isObject(obj) {
     return obj !== null && typeof obj === "object" && Array.isArray(obj) === false;
 }
-const SVG_NS = "http://www.w3.org/2000/svg";
-function isArrayOfListeners(input) {
-    return input.every((i)=>typeof i === "function"
-    );
-}
-function isSpecialKey(input) {
-    return input === "id" || input === "class";
-}
-function isHReturn(input) {
-    return isObject(input) && input.element instanceof Element;
-}
-function h(type, props, ...children) {
-    const eventsAndListeners = [];
-    const queries = [];
-    const collection = [];
-    const element = type === "svg" ? document.createElementNS(SVG_NS, "svg") : document.createElement(type);
-    for(const key in props){
-        if (typeof props[key] === "function") {
-            eventsAndListeners.push({
-                event: key,
-                listener: props[key]
-            });
-        } else if (Array.isArray(props[key]) && isArrayOfListeners(props[key])) {
-            props[key].forEach((listener)=>eventsAndListeners.push({
-                    event: key,
-                    listener
-                })
-            );
-        } else if (key[0] === "@") {
-            const idOrClass = key.slice(1);
-            if (isSpecialKey(idOrClass)) {
-                queries.push({
-                    kind: idOrClass,
-                    selector: props[key].replace(/ .*/, "")
-                });
-                element.setAttribute(idOrClass, props[key]);
-            }
-        } else if (props[key] === true) {
-            element.setAttribute(key, "");
-        } else if (typeof props[key] === "object" && props[key] !== null) {
-            element.setAttribute(key, JSON.stringify(props[key]));
-        } else if (typeof props[key] === "string") {
-            element.setAttribute(key, props[key]);
-        } else if (props[key] === null || props[key] === false || props[key] === undefined) {
-            element.removeAttribute(key);
-        }
-    }
-    if (type === "svg") {
-        element.innerHTML = children.flat(2).reduce((acc, child)=>{
-            return acc + (isHReturn(child) ? child.element.outerHTML : stringify(child));
-        }, "");
-    } else {
-        for (const child of children.flat(2)){
-            if (isHReturn(child)) {
-                collection.push(...child.collection);
-                element.appendChild(child.element);
-            } else {
-                const str = stringify(child);
-                if (str) element.appendChild(document.createTextNode(str));
-            }
-        }
-    }
-    if (queries.length || eventsAndListeners.length) {
-        collection.push({
-            target: element,
-            queries,
-            eventsAndListeners
-        });
-    }
-    return {
-        element,
-        collection
-    };
-}
-const html = __default.bind(h);
 class ShadowError extends Error {
     constructor(message){
         super(message);
@@ -317,6 +227,96 @@ class Shadow extends HTMLElement {
     static styles = [];
     static is;
 }
+function __default(n1) {
+    for(var l, e, s = arguments, t = 1, r = "", u = "", a = [
+        0
+    ], c = function(n) {
+        1 === t && (n || (r = r.replace(/^\s*\n\s*|\s*\n\s*$/g, ""))) ? a.push(n ? s[n] : r) : 3 === t && (n || r) ? (a[1] = n ? s[n] : r, t = 2) : 2 === t && "..." === r && n ? a[2] = Object.assign(a[2] || {}, s[n]) : 2 === t && r && !n ? (a[2] = a[2] || {})[r] = !0 : t >= 5 && (5 === t ? ((a[2] = a[2] || {})[e] = n ? r ? r + s[n] : s[n] : r, t = 6) : (n || r) && (a[2][e] += n ? r + s[n] : r)), r = "";
+    }, h1 = 0; h1 < n1.length; h1++){
+        h1 && (1 === t && c(), c(h1));
+        for(var i = 0; i < n1[h1].length; i++)l = n1[h1][i], 1 === t ? "<" === l ? (c(), a = [
+            a,
+            "",
+            null
+        ], t = 3) : r += l : 4 === t ? "--" === r && ">" === l ? (t = 1, r = "") : r = l + r[0] : u ? l === u ? u = "" : r += l : '"' === l || "'" === l ? u = l : ">" === l ? (c(), t = 1) : t && ("=" === l ? (t = 5, e = r, r = "") : "/" === l && (t < 5 || ">" === n1[h1][i + 1]) ? (c(), 3 === t && (a = a[0]), t = a, (a = a[0]).push(this.apply(null, t.slice(1))), t = 0) : " " === l || "\t" === l || "\n" === l || "\r" === l ? (c(), t = 2) : r += l), 3 === t && "!--" === r && (t = 4, a = a[0]);
+    }
+    return c(), a.length > 2 ? a.slice(1) : a[1];
+}
+const SVG_NS = "http://www.w3.org/2000/svg";
+function isArrayOfListeners(input) {
+    return input.every((i)=>typeof i === "function"
+    );
+}
+function isSpecialKey(input) {
+    return input === "id" || input === "class";
+}
+function isHReturn(input) {
+    return isObject(input) && input.element instanceof Element;
+}
+function h(type, props, ...children) {
+    const eventsAndListeners = [];
+    const queries = [];
+    const collection = [];
+    const element = type === "svg" ? document.createElementNS(SVG_NS, "svg") : document.createElement(type);
+    for(const key in props){
+        if (typeof props[key] === "function") {
+            eventsAndListeners.push({
+                event: key,
+                listener: props[key]
+            });
+        } else if (Array.isArray(props[key]) && isArrayOfListeners(props[key])) {
+            props[key].forEach((listener)=>eventsAndListeners.push({
+                    event: key,
+                    listener
+                })
+            );
+        } else if (key[0] === "@") {
+            const idOrClass = key.slice(1);
+            if (isSpecialKey(idOrClass)) {
+                queries.push({
+                    kind: idOrClass,
+                    selector: props[key].replace(/ .*/, "")
+                });
+                element.setAttribute(idOrClass, props[key]);
+            }
+        } else if (props[key] === true) {
+            element.setAttribute(key, "");
+        } else if (typeof props[key] === "object" && props[key] !== null) {
+            element.setAttribute(key, JSON.stringify(props[key]));
+        } else if (typeof props[key] === "string") {
+            element.setAttribute(key, props[key]);
+        } else if (props[key] === null || props[key] === false || props[key] === undefined) {
+            element.removeAttribute(key);
+        }
+    }
+    if (type === "svg") {
+        element.innerHTML = children.flat(2).reduce((acc, child)=>{
+            return acc + (isHReturn(child) ? child.element.outerHTML : stringify(child));
+        }, "");
+    } else {
+        for (const child of children.flat(2)){
+            if (isHReturn(child)) {
+                collection.push(...child.collection);
+                element.appendChild(child.element);
+            } else {
+                const str = stringify(child);
+                if (str) element.appendChild(document.createTextNode(str));
+            }
+        }
+    }
+    if (queries.length || eventsAndListeners.length) {
+        collection.push({
+            target: element,
+            queries,
+            eventsAndListeners
+        });
+    }
+    return {
+        element,
+        collection
+    };
+}
+const html = __default.bind(h);
 function css(strings, ...values) {
     const cssTemplates = [];
     cssTemplates.push(createTemplate(`<style>${values.reduce((acc, value, i)=>{
@@ -367,9 +367,6 @@ function property({ reflect =true , render =true , wait =false , assert =false  
         });
     };
 }
-function mod(number, base) {
-    return (number % base + base) % base;
-}
 function _applyDecoratedDescriptor(target, property5, decorators, descriptor, context) {
     var desc1 = {};
     Object.keys(descriptor).forEach(function(key) {
@@ -408,96 +405,47 @@ function _initializerDefineProperty(target, property6, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class, _descriptor, _dec, _descriptor1, _dec1, _descriptor2, _dec2;
-var _dec3 = customElement("enum-selector");
-let EnumSelector = _class = _dec3(((_class = class EnumSelector extends Shadow {
-    htmlOption = (option, index)=>html`
-      <button click="${this.select}" @class="option ${index}">
-        ${option}
-      </button>
-    `
-    ;
-    selected = ()=>this.dom.class["option"][Math.floor(this.shown / 2)]
-    ;
+var _class, _descriptor, _dec;
+var _dec1 = customElement("g-menu");
+let Menu = _class = _dec1(((_class = class Menu extends Shadow {
+    isGoingToOpen = true;
     static styles = css`
-    div{
-      display:flex;
-    }
-    button{
-      border: none;
-      background-color: transparent;
-    }
-    .option{
-      color: red;
-    }
-    .selected{
-      color: green;
-    }
+      #panel{
+        display: block;
+        background-color: #999;
+        position: relative;
+        transform-origin: top right;
+        transition: transform 5ms ease;
+        width: min-content;
+      }
+      #panel:focus{
+        transform: scale(1)
+      }
+      #panel{
+        transform: scale(0)
+      }
   `;
     render() {
         return html`
-    <div>
-      <button id="previous" click=${this.previous}> ${"<"} </button>
-      <div>
-        ${this.shownOptions().map((a)=>a
-        )}
-      </div>
-      <button id="next" click="${this.next}"> ${">"} </button>
-    </div>
-    `;
+        <g-panel @id="panel" tabindex="1" href="${this.href}"></g-panel>
+  `;
     }
-    next() {
-        this.selectedIndex = mod(this.selectedIndex + 1, this.options.length);
-    }
-    previous() {
-        this.selectedIndex = mod(this.selectedIndex - 1, this.options.length);
-    }
-    select(e) {
-        this.selectedIndex = parseInt(e.target.classList.item(1));
-    }
-    shownOptions() {
-        const list = [];
-        const diff = Math.floor(this.shown / 2);
-        for(let i = -diff; i <= diff; i++){
-            const index = mod(this.selectedIndex + i, this.options.length);
-            list.push(this.htmlOption(this.options[index], index));
-        }
-        list[diff]["element"].classList.add("selected");
-        return list;
+    toggle() {
+        console.log('clickaste el boton aaaaaa', this.isGoingToOpen);
+        this.dom.id["panel"].focus();
     }
     constructor(...args){
         super(...args);
-        _initializerDefineProperty(this, "options", _descriptor, this);
-        _initializerDefineProperty(this, "selectedIndex", _descriptor1, this);
-        _initializerDefineProperty(this, "shown", _descriptor2, this);
+        _initializerDefineProperty(this, "href", _descriptor, this);
     }
-}) || _class, _dec = property(), _dec1 = property(), _dec2 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "options", [
+}) || _class, _dec = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "href", [
     _dec
 ], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function() {
-        return [];
-    }
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "selectedIndex", [
-    _dec1
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return 0;
-    }
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "shown", [
-    _dec2
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return 3;
+        return null;
     }
 }), _class)) || _class;
-export { EnumSelector as EnumSelector };
-
+export { Menu as Menu };

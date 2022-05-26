@@ -9,18 +9,14 @@ import type {
   UpdateUserStructure,
   UserStructure,
 } from "../types/types.interface.ts";
-import { roleRights, roles } from "../config/roles.ts";
+import { roleRights } from "../config/roles.ts";
+import { equals } from "../helpers/foreignKey.helper.ts";
 
 class UserService {
-  /**
-   * Create user Service
-   * @param options
-   * @returns Promise<string | Bson.ObjectId | Error> Returns Mongo Document of user or error
-   */
-  public static async createUser(
+  public static async createOne(
     options: CreateUserStructure,
-  ): Promise<string | Bson.ObjectId | Error> {
-    const { name, email, password, role, isDisabled } = options;
+  ) {
+    const { name, email, password, isDisabled } = options;
     const userExists: (UserSchema | undefined) = await User.findOne({ email });
     if (userExists) {
       log.error("User already exists");
@@ -41,10 +37,11 @@ class UserService {
         name,
         email,
         password: hashedPassword,
-        role,
+        role: "user",
         isDisabled,
         createdAt,
         docVersion: 1,
+        likedResources: [],
       },
     );
 
@@ -61,21 +58,10 @@ class UserService {
     }
     return user;
   }
-
-  /**
-   * Get users service
-   * @returns Promise<UserSchema[]> Returns Array of users documents
-   */
-  public static getUsers(): Promise<UserSchema[]> {
+  public static getMany() {
     return User.find().toArray();
   }
-
-  /**
-   * Get single user service
-   * @param id
-   * @returns Promise<UserSchema | Error> Returns user document
-   */
-  public static async getUser(id: string): Promise<UserStructure | Error> {
+  public static async getOne(id: string) {
     const user: (UserSchema | undefined) = await User.findOne(
       { _id: new Bson.ObjectId(id) },
     );
@@ -90,22 +76,31 @@ class UserService {
         type: "NotFound",
       });
     }
-    const { name, email, role, isDisabled, createdAt, updatedAt } = user;
-    return { id, name, email, role, isDisabled, createdAt, updatedAt };
+    const {
+      name,
+      email,
+      role,
+      isDisabled,
+      createdAt,
+      updatedAt,
+      likedResources,
+    } = user;
+    return {
+      id,
+      name,
+      email,
+      role,
+      isDisabled,
+      createdAt,
+      updatedAt,
+      likedResources,
+    } as UserStructure;
   }
-
-  /**
-   * Update user service
-   * @param id
-   * @param state
-   * @param options
-   * @returns Promise<UpdatedStructure | Error> Returns Updated acknowledgement
-   */
-  public static async updateUser(
+  public static async updateOne(
     id: string,
     state: Record<string, string>,
     options: UpdateUserStructure,
-  ): Promise<UpdatedStructure | Error> {
+  ) {
     const user: (UserSchema | undefined) = await User.findOne(
       { _id: new Bson.ObjectId(id) },
     );
@@ -120,7 +115,7 @@ class UserService {
         type: "NotFound",
       });
     }
-    const { isDisabled, name, email, role } = options;
+    const { isDisabled, name, email, likedResources } = options;
     const userRights: string[] = roleRights.get(state.role);
     if (state.id !== id && !userRights.includes("manageUsers")) {
       return throwError({
@@ -132,20 +127,7 @@ class UserService {
         type: "Forbidden",
       });
     }
-    const roleTobeChanged = roles.indexOf(role as string);
-    if (
-      (roleTobeChanged > roles.indexOf(user.role)) &&
-      (roles.indexOf(state.role) < roleTobeChanged)
-    ) {
-      return throwError({
-        status: Status.Forbidden,
-        name: "Forbidden",
-        path: `access_token`,
-        param: `access_token`,
-        message: `Cannot change role to higher`,
-        type: "Forbidden",
-      });
-    }
+
     if (email) {
       const userExists: (UserSchema | undefined) = await User.findOne({
         email,
@@ -163,11 +145,29 @@ class UserService {
         });
       }
     }
+    if (likedResources) {
+      if (likedResources.add) {
+        for (const foreignKey of likedResources.add) {
+          const keyExists = user.likedResources.find(
+            (key) => equals(key, foreignKey),
+          );
+          if (keyExists) continue;
+          user.likedResources.push(foreignKey);
+        }
+      }
+      if (likedResources.remove) {
+        for (const foreignKey of likedResources.remove) {
+          user.likedResources = user.likedResources.filter(
+            (key) => !equals(key, foreignKey),
+          );
+        }
+      }
+    }
+
     const { docVersion } = user;
     const newDocVersion = docVersion + 1;
     const updatedAt = new Date();
     const result: ({
-      // deno-lint-ignore no-explicit-any
       upsertedId: any;
       upsertedCount: number;
       matchedCount: number;
@@ -176,13 +176,13 @@ class UserService {
       $set: {
         name,
         email,
-        role,
         isDisabled,
         updatedAt,
         docVersion: newDocVersion,
+        likedResources: user.likedResources,
       },
     });
-    if (!result){
+    if (!result) {
       return throwError({
         status: Status.BadRequest,
         name: "BadRequest",
@@ -193,15 +193,9 @@ class UserService {
       });
     }
 
-    return result;
+    return result as UpdatedStructure;
   }
-
-  /**
-   * Remove user service
-   * @param id
-   * @returns Promise<number | Error Returns deleted count
-   */
-  public static async removeUser(id: string): Promise<number | Error> {
+  public static async removeOne(id: string): Promise<number | Error> {
     const user: (UserSchema | undefined) = await User.findOne(
       { _id: new Bson.ObjectId(id) },
     );
@@ -219,7 +213,7 @@ class UserService {
     const deleteCount: number = await User.deleteOne({
       _id: new Bson.ObjectId(id),
     });
-    if (!deleteCount){
+    if (!deleteCount) {
       return throwError({
         status: Status.BadRequest,
         name: "BadRequest",

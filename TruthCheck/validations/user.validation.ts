@@ -1,5 +1,5 @@
 import { yup } from "../deps.ts";
-import { roles } from "../config/roles.ts";
+import { foreignKeyValidation, idValidation } from "./resource.validation.ts";
 
 export const createUserValidation = {
   body: yup.object({
@@ -19,10 +19,6 @@ export const createUserValidation = {
       .required()
       .min(6)
       .max(255),
-    role: yup
-      .string()
-      .default("user")
-      .oneOf(roles),
     isDisabled: yup
       .bool()
       .default(false),
@@ -45,13 +41,35 @@ export const getUserValidation = {
 * e.g. /users?some-invalid-query=shouldnt_allow
 * */
 export const getUsersValidation = {};
-
+export const updateMeValidation = {
+  body: yup.object({
+    name: yup
+      .string()
+      .min(1)
+      .max(255)
+      .trim(),
+    email: yup
+      .string()
+      .email()
+      .trim(),
+    isDisabled: yup
+      .bool(),
+    likedResources: yup
+      .object({
+        add: yup
+          .array(
+            foreignKeyValidation(["actors", "effects", "items", "stages"]),
+          ),
+        remove: yup
+          .array(
+            foreignKeyValidation(["actors", "effects", "items", "stages"]),
+          ),
+      }),
+  }),
+};
 export const updateUserValidation = {
   params: yup.object({
-    id: yup
-      .string()
-      .required()
-      .trim(),
+    id: idValidation(),
   }),
   body: yup.object({
     name: yup
@@ -63,15 +81,22 @@ export const updateUserValidation = {
       .string()
       .email()
       .trim(),
-    role: yup
-      .string()
-      .default("user")
-      .oneOf(roles),
     isDisabled: yup
       .bool(),
+    likedResources: yup
+      .object({
+        add: yup
+          .array(
+            foreignKeyValidation(["actors", "effects", "items", "stages"]),
+          ),
+        remove: yup
+          .array(
+            foreignKeyValidation(["actors", "effects", "items", "stages"]),
+          ),
+      }),
   }),
 };
-
+export const deleteMeValidation = {};
 export const deleteUserValidation = {
   params: yup.object({
     id: yup
@@ -80,6 +105,3 @@ export const deleteUserValidation = {
       .trim(),
   }),
 };
-
-
-// Do validations for crud on types

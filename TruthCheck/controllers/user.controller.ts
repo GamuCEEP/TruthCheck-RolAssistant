@@ -5,107 +5,97 @@ import UserService from "../services/user.service.ts";
 import { Status } from "../deps.ts";
 
 class UserController {
-  /**
-   * Create User function
-   * @param request
-   * @param response
-   * @returns Promise<void>
-   */
   public static async create(
     { request, response }: RouterContext<string>,
-  ): Promise<void> {
+  ) {
     const body = request.body();
     const {
       name,
       email,
       password,
-      role,
       isDisabled,
     } = await body.value;
     log.debug("Creating user");
-    response.body = await UserService.createUser({
+    response.body = await UserService.createOne({
       name,
       email,
       password,
-      role: role || roles[0],
       isDisabled: typeof isDisabled === "boolean" ? isDisabled : false,
     });
     response.status = Status.Created;
   }
-
-  /**
-   * Get single user function
-   * @param response
-   * @returns Promise<void>
-   */
+  /** Get all users */
   public static async fetch(
     { response }: RouterContext<string>,
-  ): Promise<void> {
+  ) {
     log.debug("Getting users list");
-    response.body = await UserService.getUsers();
+    response.body = await UserService.getMany();
   }
 
-  /**
-   * Get my user document
-   * @param state
-   * @param response
-   * @returns Promise<void>
-   */
+  /** Get me */
   public static me({ state, response }: RouterContext<string>): void {
     log.debug("Getting me data");
     response.body = state;
   }
 
-  /**
-   * Get all users function
-   * @param params
-   * @param response
-   * @returns Promise<void>
-   */
+  /** Get a user given an id */
   public static async show(
     { params, response }: RouterContext<string>,
-  ): Promise<void> {
+  ) {
     const { id } = params;
     log.debug("Getting user");
-    response.body = await UserService.getUser(id as string);
+    response.body = await UserService.getOne(id as string);
   }
 
-  /**
-   * Update user function
-   * @param params
-   * @param request
-   * @param response
-   * @param state
-   * @returns Promise<void>
-   */
+  /** Update user */
   public static async update(
     { params, request, response, state }: RouterContext<string>,
-  ): Promise<void | Error> {
+  ) {
     const { id } = params;
     const body = request.body();
-    const { name, email, role, isDisabled } = await body.value;
+    const { name, email, isDisabled, likedResources } = await body.value;
     log.debug("Updating user");
-    await UserService.updateUser(id as string, state, {
+    await UserService.updateOne(id as string, state, {
       name,
       email,
-      role,
       isDisabled,
+      likedResources,
     });
-    response.body = await UserService.getUser(id as string);
+    response.body = await UserService.getOne(id as string);
+  }
+  public static async updateMe(
+    { request, response, state }: RouterContext<string>,
+  ) {
+    const { id } = state;
+    const body = request.body();
+    const { name, email, isDisabled, likedResources } = await body.value;
+    log.debug("Updating me");
+    await UserService.updateOne(id as string, state, {
+      name,
+      email,
+      isDisabled,
+      likedResources,
+    });
+    response.body = await UserService.getOne(id as string);
   }
 
-  /**
-   * Delete user function
-   * @param params
-   * @param response
-   * @returns Promise<void>
-   */
+  /** Delete user */
+  public static async removeMe(
+    { state, response }: RouterContext<string>,
+  ) {
+    const { id } = state;
+    log.debug("Removing user");
+    const deleteCount = await UserService.removeOne(
+      id as string,
+    );
+    response.body = { deleted: deleteCount };
+  }
   public static async remove(
     { params, response }: RouterContext<string>,
-  ): Promise<void> {
+  ) {
     const { id } = params;
     log.debug("Removing user");
-    const deleteCount: number | Error = await UserService.removeUser(
+    const deleteCount = await UserService.removeOne(
       id as string,
     );
     response.body = { deleted: deleteCount };

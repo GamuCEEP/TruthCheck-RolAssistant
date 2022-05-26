@@ -1,6 +1,6 @@
 {
   "compilerOptions": {},
   "tasks": {
-    "go": "C:/Users/GamuD/.deno/bin/denon start"
+    "go": "deno run --watch --allow-all app.ts"
   }
 }

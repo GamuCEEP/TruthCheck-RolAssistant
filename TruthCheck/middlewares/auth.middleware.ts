@@ -45,29 +45,8 @@ export const auth = (requiredRights: string[]) =>
     next: () => Promise<unknown>,
   ): Promise<void> => {
     let JWT: string;
-    const jwt: string = ctx.request.headers.get("Authorization")
-      ? ctx.request.headers.get("Authorization")!
-      : "";
-    if (jwt && jwt.includes("Bearer")) {
-      JWT = jwt.split("Bearer ")[1];
-      // deno-lint-ignore no-explicit-any
-      const data: any | Error = await JwtHelper.getJwtPayload(JWT);
-      if (data) {
-        const user: UserStructure | Error = await UserService.getUser(data.id);
-        if (user && checkRights(requiredRights, user as UserStructure)) {
-          ctx.state = user;
-        }
-      } else {
-        throwError({
-          status: Status.Unauthorized,
-          name: "Unauthorized",
-          path: `access_token`,
-          param: `access_token`,
-          message: `access_token is invalid`,
-          type: "Unauthorized",
-        });
-      }
-    } else {
+    const jwt: string = ctx.request.headers.get("Authorization") ?? ''
+    if (!(jwt && jwt.includes("Bearer"))) {
       throwError({
         status: Status.Unauthorized,
         name: "Unauthorized",
@@ -77,5 +56,23 @@ export const auth = (requiredRights: string[]) =>
         type: "Unauthorized",
       });
     }
+    JWT = jwt.split("Bearer ")[1];
+    // deno-lint-ignore no-explicit-any
+    const data: any | Error = await JwtHelper.getJwtPayload(JWT);
+    if (!data) {
+      throwError({
+        status: Status.Unauthorized,
+        name: "Unauthorized",
+        path: `access_token`,
+        param: `access_token`,
+        message: `access_token is invalid`,
+        type: "Unauthorized",
+      });
+    }
+    const user: UserStructure | Error = await UserService.getOne(data.id);
+    if (user && checkRights(requiredRights, user as UserStructure)) {
+      ctx.state = user;
+    }
+
     await next();
   };

@@ -1,14 +1,8 @@
 import db from "../../db/db.ts";
-import { ForeignKey } from "../../types/types.interface.ts";
+import { ResourceSchema } from "../resource.model.ts";
 
-export interface StageSchema {
-  _id: string;
-  author: ForeignKey;
-  name: string;
-  description: string;
-  pasive: ForeignKey[];
-  imageURI: string;
-  tags: string[];
+export interface StageSchema extends ResourceSchema {
+  pasive: string[]; //effect id
 }
 
-export const User = db.getDatabase.collection<StageSchema>("stages");
+export const Stage = db.getDatabase.collection<StageSchema>("stages");

@@ -15,7 +15,7 @@
         "ENV": "development"
       },
       "watch": true,
-      "tsconfig": "tsconfig.json"
+      "tsconfig": "deno.json"
     },
     "start:docker": {
       "cmd": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build",

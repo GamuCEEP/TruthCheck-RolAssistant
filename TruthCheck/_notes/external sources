@@ -3,10 +3,9 @@ Gun.js from 'https://gun.eco/docs/Introduction'         (Decentraliced P2P DB ( 
 
 
 Router <- Controller <- Service <- model & schema <- types
-store images on fs
-entity relations are represented with
-{
-  collection: <collection>,
-  uuid:<uuid>
-}
-should make a type out of it
+store images on fs and a uri on mongo
+
+level scaling
+event deck tied to stage card
+
+

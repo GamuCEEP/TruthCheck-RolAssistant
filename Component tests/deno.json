@@ -1,9 +1,12 @@
 {
+  "tasks": {
+    "compileOnce": "FILE=panel && deno bundle ./components/src/$FILE.ts ./components/dist/$FILE.js"
+  },
   "compilerOptions": {
     "removeComments": true,
     "lib": ["esnext", "dom", "dom.iterable", "deno.ns"], 
     "experimentalDecorators": true,
-    "strict": true, 
+    "strict": false, 
     "strictPropertyInitialization": false, 
     "importsNotUsedAsValues": "preserve"
   }

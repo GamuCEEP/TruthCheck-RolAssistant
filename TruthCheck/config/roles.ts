@@ -1,12 +1,11 @@
-export const roles = ["user", "admin", "superAdmin"];
+export const roles = ["user", "admin"];
 export const roleRights = new Map();
 roleRights.set(roles[0], [
-  "getMe",
-  "updateMe",
+  "manageMe",
+  "manageResources",
 ]);
 roleRights.set(roles[1], [
-  "getMe",
-  "getUsers",
+  "manageMe",
+  "manageResources",
   "manageUsers",
-  "updateMe",
 ]);

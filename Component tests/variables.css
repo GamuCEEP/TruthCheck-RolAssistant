@@ -1,0 +1,9 @@
+:root{
+  --modal-cover: #32CBFF80;
+  --modal-bg: #967D69;
+}
+
+body{
+  background-color: #272727;
+  color: aliceblue;
+}

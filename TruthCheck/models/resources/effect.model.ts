@@ -1,14 +1,9 @@
 import db from "../../db/db.ts";
 import { ForeignKey } from "../../types/types.interface.ts";
+import { ResourceSchema } from "../resource.model.ts";
 
-export interface EffectSchema {
-  _id: string;
-  author: ForeignKey;
-  name: string;
-  description: string;
+export interface EffectSchema extends ResourceSchema {
   code: string;
-  imageURI: string;
-  tags: string[];
 }
 
-export const User = db.getDatabase.collection<EffectSchema>("effects");
+export const Effect = db.getDatabase.collection<EffectSchema>("effects");

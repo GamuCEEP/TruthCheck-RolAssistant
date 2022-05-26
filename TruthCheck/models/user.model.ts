@@ -1,4 +1,6 @@
 import db from "../db/db.ts";
+import { ForeignKey } from "../types/types.interface.ts";
+
 
 export interface UserSchema {
   _id: string;
@@ -6,6 +8,7 @@ export interface UserSchema {
   email: string;
   password: string;
   role: string;
+  likedResources: ForeignKey[];
   docVersion: number;
   isDisabled: boolean;
   createdAt?: Date;

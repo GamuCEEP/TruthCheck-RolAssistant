@@ -27,7 +27,7 @@ class AuthService {
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
-      const { _id, name, email, role, isDisabled, createdAt, updatedAt }:
+      const { _id, name, email, role, isDisabled, createdAt, updatedAt, likedResources }:
         UserSchema = user;
       const tokens: TokenStructure | Error = await TokenService
         .generateAuthTokensService(_id.toString());
@@ -41,6 +41,7 @@ class AuthService {
           isDisabled,
           createdAt,
           updatedAt,
+          likedResources
         },
       });
     }
@@ -66,7 +67,7 @@ class AuthService {
       .verifyTokenService(token, "refresh");
     if ("user" in refreshTokenDoc) {
       const userId = refreshTokenDoc.user;
-      const user: UserStructure | Error = await UserService.getUser(userId);
+      const user: UserStructure | Error = await UserService.getOne(userId);
       await TokenService.removeExistingRefreshToken(
         refreshTokenDoc?._id?.toString(),
       );
