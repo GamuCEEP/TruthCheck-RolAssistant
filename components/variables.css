@@ -1,0 +1,18 @@
+:root{
+  --bg-color: #221B21;
+  --main-color: #967D69;
+  --accent-color: #0AC2FF;
+  --detail-color: #1FAD9A;
+  --dark-color: #483C32;
+  --light-color: #EBFAFF;
+  --frame-color: var(--dark-color)
+}
+*{
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #272727;
+  color: aliceblue;
+  margin: 0;
+}

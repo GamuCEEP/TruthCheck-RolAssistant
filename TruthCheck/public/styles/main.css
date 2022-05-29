@@ -4,19 +4,31 @@
   --accent-color: #0AC2FF;
   --detail-color: #1FAD9A;
   --dark-color: #483C32;
-
+  --light-color: #EBFAFF;
+  --frame-color: var(--dark-color)
 }
 
 *{
   box-sizing: border-box;
+  user-select: none;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 body{
   background-color: var(--bg-color);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
 }
 
 a{
   color: var(--accent-color);
+  text-decoration: underline 2px;
 }
 a:visited{
   color: var(--detail-color);
+}
+button{
+  border: none;
+  border-radius: 3px;
 }

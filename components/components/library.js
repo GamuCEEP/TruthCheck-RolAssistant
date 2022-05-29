@@ -1,3 +1,5 @@
+
+
 //Enum carrousel
 import './dist/enumSelector.js'
 
@@ -11,5 +13,8 @@ import './dist/menu.js'
 //Generico
 import './dist/panel.js'
 
-//Frame
+//account
+import './dist/accountHandler.js'
+
+//frame
 import './dist/frame.js'

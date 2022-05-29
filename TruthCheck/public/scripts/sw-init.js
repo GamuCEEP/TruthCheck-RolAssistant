@@ -1,4 +1,4 @@
-(() => {
+(async () => {
   if (!("serviceWorker" in navigator)) {
     console.log("Service workers are not supported");
     return;
@@ -6,11 +6,14 @@
   const controller = navigator.serviceWorker.controller;
   if (controller) {
     console.log(`Page already controlled by ${controller.scriptURL}`);
-    return;
+    // return;
+    //development only :)
+    const r = await navigator.serviceWorker.getRegistration(
+      controller.scriptURL,
+    );
+    console.log(`Updated: ${await r.update()}`);
   }
-  globalThis.addEventListener("load", () => {
-    registerSW("sw.js");
-  });
+  registerSW("sw.js");
 })();
 
 async function registerSW(src) {

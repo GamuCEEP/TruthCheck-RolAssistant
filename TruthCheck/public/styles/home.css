@@ -1,0 +1,30 @@
+@import url('./main.css');
+
+body{
+  display: grid;
+  grid-template-rows: 80px 1fr;
+}
+header button{
+  width: 80px;
+  height: 40px;
+  float: right;
+}
+main{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+  align-content: center;
+  flex-wrap: wrap;
+}
+main button{
+  display: block;
+  width: 400px;
+  height: 80px;
+  margin: 20px auto;
+  font-size: 20px;
+}
+main #title{
+  text-align: center;
+  color: var(--light-color);
+  font-size: 2em;
+}

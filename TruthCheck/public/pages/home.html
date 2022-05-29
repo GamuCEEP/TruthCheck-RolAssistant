@@ -4,36 +4,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="A RolePlay app where you can play and create new stories with your friends">
+  <meta name="description" content="A RolePlay app where you can play and create new stories with your friends">
+  <meta url="home">
+  <title>TruthCheck - Home</title>
   <link rel="manifest" href="../site.webmanifest">
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-  <title>TruthCheck - Home</title>
+  <link rel="stylesheet" href="../styles/home.css">
+
+  <script src="../scripts/library.js" type="module"></script>
 </head>
 
 <body>
   <header>
     <div>
-      <!-- account -->
-    </div>
-    <div>
-      <!-- nav(play, create, explore) -->
+      <a href="account">
+        <button>
+          Account
+        </button>
+      </a>
     </div>
   </header>
   <main>
-    <div>
-      <!-- TC -->
-      <h1>TruthCheck-The RolePlay Assistant</h1>
+    <div id="title">
+      <h1>TruthCheck <br> The RolePlay App</h1>
     </div>
-    <div>
-      <!-- info and pics? -->
+    <div id="controls">
+      <a href="playground">
+        <button>
+          Play
+        </button>
+      </a>
+      <a href="workshop">
+        <button>
+          Create
+        </button>
+      </a>
+      <a href="playground">
+        <button>
+          Explore
+        </button>
+      </a>
     </div>
   </main>
-  <footer>
-    <div>
-      <!-- copy and rest -->
-    </div>
-  </footer>
 </body>
 
 </html>

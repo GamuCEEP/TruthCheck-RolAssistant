@@ -1,10 +1,12 @@
 import { roleRights } from "../config/roles.ts";
-import { Status } from "../deps.ts";
+import { Context, Status } from "../deps.ts";
 import type { RouterContext } from "../deps.ts";
 import JwtHelper from "../helpers/jwt.helper.ts";
 import UserService from "../services/user.service.ts";
 import type { UserStructure } from "../types/types.interface.ts";
 import { throwError } from "./errorHandler.middleware.ts";
+import log from "../middlewares/logger.middleware.ts";
+
 /**
  * Check user Rights
  * @param requiredRights
@@ -34,16 +36,11 @@ const checkRights = (
   return true;
 };
 
-/**
- * Auth Middleware
- * @param requiredRights
- * @returns Promise<void>
- */
 export const auth = (requiredRights: string[]) =>
   async (
     ctx: RouterContext<string>,
     next: () => Promise<unknown>,
-  ): Promise<void> => {
+  ) => {
     let JWT: string;
     const jwt: string = ctx.request.headers.get("Authorization") ?? ''
     if (!(jwt && jwt.includes("Bearer"))) {
@@ -76,3 +73,15 @@ export const auth = (requiredRights: string[]) =>
 
     await next();
   };
+
+  export const pageAuth = async (ctx: Context)=>{
+    const jwt: string = ctx.request.headers.get("Authorization") ?? ''
+    if (!(jwt && jwt.includes("Bearer"))) {
+      return false
+    }
+    const JWT = jwt.split("Bearer ")[1];
+    try{
+      var data: any | Error = await JwtHelper.getJwtPayload(JWT);
+    }catch{}
+    return !!data
+  }

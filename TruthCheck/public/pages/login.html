@@ -5,20 +5,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta url="login">
   <title>TruthCheck - Login</title>
   <link rel="stylesheet" href="../styles/form.css">
   <!-- <link rel="stylesheet" href="../styles/main.css"> -->
+  <script src="../scripts/library.js" type="module"></script>
+
 </head>
 
 <body>
-  <form action="/api/auth/login" method="POST">
+
+  <form action="api/auth/login" method="POST">
     <h2>Welcome back!</h2>
-    <input type="text" placeholder="User">
-    <input type="password" placeholder="Password">
+    <input type="text" placeholder="Email" name="email">
+    <input type="password" placeholder="Password" name="password">
     <div>
-      <a href="./register">Register</a>
+      <a href="register">Register</a>
       <input type="submit" value="Log in &rarr;">
     </div>
+    <!-- Hacer componente que lea la url y muestre una notificación de error
+    recibe el mensaje y el parametro que buscar
+    -->
   </form>
 
 </body>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="variables.css">
+  <script src="components/library.js" type="module"></script>
+
+</head>
+
+<body>
+
+  <h2>Test</h2>
+  <g-selector options="juan, tu, zri">
+  </g-selector>
+  <button onclick="document.querySelector('#menu').toggle()">Desplegar menu</button>
+  <button onclick="document.querySelector('#first').open()">Abrir modal :)</button>
+
+  <g-modal id="first" href="/test.html">
+  </g-modal>
+
+  <g-menu id="menu" href="/test.html">
+  </g-menu>
+
+  <!-- <g-account>
+  </g-account> -->
+  <style>
+    #caja{
+      width: 400px;
+      height: 400px;
+    }
+  </style>
+  <div id="caja">
+    <g-frame>
+      <page url="/test3.html" icon="../assets/icons/quill.png" />
+      <page url="/test4.html" icon="../assets/icons/package-box.png" />
+    
+    </g-frame>
+
+  </div>
+</body>
+
+</html>

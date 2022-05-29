@@ -29,5 +29,4 @@ app.addEventListener("listen", () => {
 if (import.meta.main) {
   await app.listen({ port });
 }
-
 export { app };

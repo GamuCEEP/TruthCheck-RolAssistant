@@ -1,14 +1,7 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "webworker",
-      "webworker.importscripts",
-      "webworker.iterable"
-    ]
-  },
   "tasks": {
-    "go": "deno run --watch --allow-all app.ts"
+    "start":"deno task move && deno task go",
+    "go": "deno run --watch --allow-all app.ts",
+    "move": "cp -r ../components/components/dist/ ./public/components"
   }
 }

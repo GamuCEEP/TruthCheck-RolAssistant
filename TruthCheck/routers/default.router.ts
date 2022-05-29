@@ -1,27 +1,51 @@
 import { Context, Router, send } from "../deps.ts";
-import configs from "../config/config.ts";
+import { pageAuth } from "../middlewares/auth.middleware.ts";
 
 // deno-lint-ignore no-explicit-any
-const router = new Router();
+const router: any = new Router();
 
-const pages: Record<string, string> = {
-  home: 'pages/home.html',
-  login: 'pages/login.html',
-  register: 'pages/register.html',
-  playground: 'pages/playground.html',
-  workshop: 'pages/workshop.html',
-  marketplace: 'pages/marketplace.html'
-}
+const openPages = [
+  "/pages/login.html",
+  "/pages/register.html",
+  "/pages/home.html",
+];
 
 router.get("/(.*)", async (context: Context) => {
-  const resource = context.request.url.pathname;
+  let resource = getPath(context.request.url.pathname);
   const options = { root: `${Deno.cwd()}/public` };
-  console.log(resource)
-  try{
-    await send(context, pages[resource.substring(1)] ?? resource, options);
-  }catch(_e){
-    context.response.body = { error: `File '${resource}' was not found`}
+
+  const authorized = await pageAuth(context);
+
+  if (!(openPages.includes(resource) || authorized) && resource.endsWith('.html')) {
+    resource = openPages[0];
+  }
+
+  try {
+    await send(context, resource, options);
+  } catch (_e) {
+    context.response.body = { error: `File '${resource}' was not found` };
   }
 });
+
+router.post("/(.*)", async (context: Context)=>{
+  const body = await context.request.body().value
+  console.log(body)
+  context.response.body = body 
+})
+
+const redirects: Record<string, string> = {
+  "/": "/pages/home.html",
+};
+
+function getPath(resource: string) {
+  if (resource in redirects) {
+    return redirects[resource];
+  }
+  const pageRegex = /\.|\/{2,}/g;
+  if (!pageRegex.test(resource)) {
+    return `/pages${resource}.html`;
+  }
+  return resource
+}
 
 export default router;
