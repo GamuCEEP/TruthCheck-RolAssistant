@@ -9,7 +9,10 @@ const openPages = [
   "/pages/register.html",
   "/pages/home.html",
 ];
-
+router.get('/test', (context: Context)=>{
+  context.response.body = JSON.stringify({name: 'pepe'})
+  context.response.type = 'application/json'
+})
 router.get("/(.*)", async (context: Context) => {
   let resource = getPath(context.request.url.pathname);
   const options = { root: `${Deno.cwd()}/public` };

@@ -14,6 +14,8 @@ export class Frame extends Shadow {
 
   selectedPage = 0;
 
+  pepe = 'werrwe'
+
   static styles = css`
     #wrapper{
       width: 100%;

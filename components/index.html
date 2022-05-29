@@ -14,6 +14,27 @@
 <body>
 
   <h2>Test</h2>
+
+  <g-resource accept="name, description, imageURI, tags, docVersion">
+    {
+      "_id": "62867f1bf08701a650784492",
+      "author": "6283f46d1377d4f5ea321495",
+      "name": "MURCIA!!",
+      "description": "Hay quien dice que no existe",
+      "pasive": [
+        "62867ce3ea2f41a61c04ccc2"
+      ],
+      "imageURI": "murgia.jpeg",
+      "tags": [
+        "fire"
+      ],
+      "createdAt": "2022-05-19T17:32:11.384Z",
+      "isShared": false,
+      "docVersion": 2,
+      "updatedAt": "2022-05-19T17:32:45.921Z"
+    }
+  </g-resource>
+
   <g-selector options="juan, tu, zri">
   </g-selector>
   <button onclick="document.querySelector('#menu').toggle()">Desplegar menu</button>
@@ -25,10 +46,15 @@
   <g-menu id="menu" href="/test.html">
   </g-menu>
 
-  <!-- <g-account>
-  </g-account> -->
+  <g-data href="/dummy.json" ondata="test">
+  </g-data>
+  <script>
+    function test(data){
+      // console.warn(data.data)
+    }
+  </script>
   <style>
-    #caja{
+    #caja {
       width: 400px;
       height: 400px;
     }
@@ -37,7 +63,6 @@
     <g-frame>
       <page url="/test3.html" icon="../assets/icons/quill.png" />
       <page url="/test4.html" icon="../assets/icons/package-box.png" />
-    
     </g-frame>
 
   </div>

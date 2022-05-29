@@ -12,7 +12,6 @@ export class Panel extends Shadow {
   href = null;
 
   html = "";
-  onmodalready = new Event("modal-ready");
 
   async firstUpdated() {
     if (!this.href || !!this.innerHTML.trim()) return;
@@ -20,10 +19,20 @@ export class Panel extends Shadow {
     this.html = html;
 
     this.init([]);
-    this.dispatchEvent(this.onmodalready);
   }
 
   render() {
     return html`${this.html}`;
+  }
+  updated(){
+    const scripts = this.shadowRoot.querySelectorAll('script')
+    for(const script of scripts){
+      const final = document.createElement('script')
+      final.innerHTML = script.innerHTML
+      final.type = script.type
+      const parent = script.parentNode
+      parent.removeChild(script)
+      parent.appendChild(final)
+    }
   }
 }

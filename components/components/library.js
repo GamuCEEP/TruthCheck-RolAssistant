@@ -1,20 +1,21 @@
-
-
 //Enum carrousel
-import './dist/enumSelector.js'
+import "./dist/enumSelector.js";
 
 //Modal
-import './dist/modal.js'
-import './dist/modalCover.js'
+import "./dist/modal.js";
+import "./dist/modalCover.js";
 
 //Menu
-import './dist/menu.js'
+import "./dist/menu.js";
 
 //Generico
-import './dist/panel.js'
+import "./dist/panel.js";
 
-//account
-import './dist/accountHandler.js'
+//Frame
+import "./dist/frame.js";
 
-//frame
-import './dist/frame.js'
+//Data
+import "./dist/data.js";
+
+//Resource
+import "./dist/resourceCard.js";

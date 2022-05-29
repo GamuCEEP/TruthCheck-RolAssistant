@@ -9,9 +9,9 @@ function convertDashToCamel(str) {
 function convertCamelToDash(str) {
     return str.replace(/([a-zA-Z0-9])(?=[A-Z])/g, "$1-").toLowerCase();
 }
-function createTemplate(html) {
+function createTemplate(html1) {
     const template = document.createElement("template");
-    template.innerHTML = html;
+    template.innerHTML = html1;
     return template;
 }
 function stringify(input) {
@@ -83,29 +83,29 @@ class Shadow extends HTMLElement {
             this._actuallyRender();
         }
     }
-    _makePropertyAccessible = ({ property , reflect =true , render =true , wait =false , assert =false  })=>{
+    _makePropertyAccessible = ({ property: property1 , reflect =true , render =true , wait =false , assert =false  })=>{
         if (isTrue(wait)) {
-            this._waitingList.add(property);
-        } else if (isTrue(assert) && !this[property]) {
-            throw new ShadowError(`The property ${property} must have a truthy value.`);
+            this._waitingList.add(property1);
+        } else if (isTrue(assert) && !this[property1]) {
+            throw new ShadowError(`The property ${property1} must have a truthy value.`);
         }
-        this._accessorsStore.set(property, this[property]);
+        this._accessorsStore.set(property1, this[property1]);
         if (isTrue(reflect)) {
-            this._updateAttribute(property, this[property]);
+            this._updateAttribute(property1, this[property1]);
         }
-        Object.defineProperty(this, property, {
-            get: ()=>this._accessorsStore.get(property)
+        Object.defineProperty(this, property1, {
+            get: ()=>this._accessorsStore.get(property1)
             ,
             set: (value)=>{
                 if (isTrue(assert) && !value) {
-                    throw new ShadowError(`The property '${property}' must have a truthy value.`);
+                    throw new ShadowError(`The property '${property1}' must have a truthy value.`);
                 }
-                this._accessorsStore.set(property, value);
+                this._accessorsStore.set(property1, value);
                 if (isTrue(wait)) {
-                    this._waitingList.delete(property);
+                    this._waitingList.delete(property1);
                 }
                 if (isTrue(reflect)) {
-                    this._updateAttribute(property, value);
+                    this._updateAttribute(property1, value);
                 }
                 if (isTrue(render) && isTrue(this._isReady)) {
                     this._actuallyRender();
@@ -113,8 +113,8 @@ class Shadow extends HTMLElement {
             }
         });
     };
-    _updateAttribute(property, value) {
-        const attributeName = convertCamelToDash(property);
+    _updateAttribute(property2, value) {
+        const attributeName = convertCamelToDash(property2);
         const attributeValue = this.getAttribute(attributeName);
         if (attributeValue !== value) {
             if (isNull(value)) return this.removeAttribute(attributeName);
@@ -124,7 +124,7 @@ class Shadow extends HTMLElement {
                 } else {
                     const jsonValue = JSON.stringify(value);
                     if (jsonValue === undefined) {
-                        throw new ShadowError(`Only JSON values can be reflected in attributes but received ` + `the value '${value}' for '${property}'.`);
+                        throw new ShadowError(`Only JSON values can be reflected in attributes but received ` + `the value '${value}' for '${property2}'.`);
                     }
                     if (attributeValue !== jsonValue) {
                         this.setAttribute(attributeName, jsonValue);
@@ -152,7 +152,7 @@ class Shadow extends HTMLElement {
     _fetchJsonAndUpdate(urlOrPath) {
         return fetch(new URL(urlOrPath, location.href).href).then((res)=>{
             if (isTrue(res.ok)) {
-                return res.json().then((data)=>Object.entries(data).forEach(([property, value])=>this[property] = value
+                return res.json().then((data)=>Object.entries(data).forEach(([property3, value])=>this[property3] = value
                     )
                 );
             } else {
@@ -163,17 +163,17 @@ class Shadow extends HTMLElement {
         });
     }
     update(name, value) {
-        const property = convertDashToCamel(name);
-        if (property in this) {
-            if (this[property] !== value && JSON.stringify(this[property]) !== value) {
+        const property4 = convertDashToCamel(name);
+        if (property4 in this) {
+            if (this[property4] !== value && JSON.stringify(this[property4]) !== value) {
                 try {
-                    this[property] = isNull(value) ? value : JSON.parse(value);
+                    this[property4] = isNull(value) ? value : JSON.parse(value);
                 } catch  {
-                    this[property] = value;
+                    this[property4] = value;
                 }
             }
         } else {
-            throw new ShadowError(`The property '${property}' does not exist on '${this.constructor.name}'.`);
+            throw new ShadowError(`The property '${property4}' does not exist on '${this.constructor.name}'.`);
         }
     }
     addCss(ruleSet, render = false) {
@@ -316,7 +316,7 @@ function h(type, props, ...children) {
         collection
     };
 }
-__default.bind(h);
+const html = __default.bind(h);
 function customElement(tagName) {
     return (clazz)=>{
         Object.defineProperty(clazz, "is", {
@@ -326,14 +326,127 @@ function customElement(tagName) {
         return clazz;
     };
 }
-var _class;
-var _dec = customElement("g-account");
-let AccountHandler = _class = _dec((_class = class AccountHandler extends Shadow {
-    user = {};
-    async firstUpdated() {
-        await fetch('/api/auth/me', {
-            method: 'GET'
+function property({ reflect =true , render =true , wait =false , assert =false  } = {}) {
+    return (protoOrDescriptor, name)=>{
+        if (protoOrDescriptor.constructor.observedAttributes === undefined) {
+            protoOrDescriptor.constructor.observedAttributes = [];
+        }
+        if (reflect === true) {
+            protoOrDescriptor.constructor.observedAttributes.push(convertCamelToDash(name));
+        }
+        if (protoOrDescriptor.__propertiesAndOptions === undefined) {
+            Object.defineProperty(protoOrDescriptor, "__propertiesAndOptions", {
+                enumerable: false,
+                configurable: true,
+                writable: false,
+                value: []
+            });
+        }
+        protoOrDescriptor.__propertiesAndOptions.push({
+            property: name,
+            reflect,
+            render,
+            wait,
+            assert
         });
+    };
+}
+function _applyDecoratedDescriptor(target, property5, decorators, descriptor, context) {
+    var desc1 = {};
+    Object.keys(descriptor).forEach(function(key) {
+        desc1[key] = descriptor[key];
+    });
+    desc1.enumerable = !!desc1.enumerable;
+    desc1.configurable = !!desc1.configurable;
+    if ('value' in desc1 || desc1.initializer) {
+        desc1.writable = true;
     }
-}) || _class) || _class;
-export { AccountHandler as AccountHandler };
+    desc1 = decorators.slice().reverse().reduce(function(desc, decorator) {
+        return decorator ? decorator(target, property5, desc) || desc : desc;
+    }, desc1);
+    var hasAccessor = Object.prototype.hasOwnProperty.call(desc1, 'get') || Object.prototype.hasOwnProperty.call(desc1, 'set');
+    if (context && desc1.initializer !== void 0 && !hasAccessor) {
+        desc1.value = desc1.initializer ? desc1.initializer.call(context) : void 0;
+        desc1.initializer = undefined;
+    }
+    if (hasAccessor) {
+        delete desc1.writable;
+        delete desc1.initializer;
+        delete desc1.value;
+    }
+    if (desc1.initializer === void 0) {
+        Object.defineProperty(target, property5, desc1);
+        desc1 = null;
+    }
+    return desc1;
+}
+function _initializerDefineProperty(target, property6, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property6, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+var _class, _descriptor, _dec, _descriptor1, _dec1;
+var _dec2 = customElement("g-resource");
+let Panel = _class = _dec2(((_class = class Panel extends Shadow {
+    resource = null;
+    validkeys = [];
+    card = null;
+    render() {
+        this.getResource();
+        this.createCard();
+        return html`
+    ${this.card}
+    `;
+    }
+    getResource() {
+        try {
+            this.resource = JSON.parse(this.innerHTML);
+            this.validkeys = this.accept.split(",").map((v)=>v.trim()
+            );
+        } catch  {
+            this.resource = this.innerHTML;
+        }
+    }
+    createCard() {
+        if (!this.resource["_id"]) {
+            return;
+        }
+        for (const entry of Object.entries(this.resource)){
+            if (this.validkeys.includes(entry[0])) {
+                this.createPart(entry[0], entry[1]);
+            }
+        }
+    }
+    getType(val) {}
+    createPart(key, value) {
+        console.log(typeof value, key);
+    }
+    constructor(...args){
+        super(...args);
+        _initializerDefineProperty(this, "version", _descriptor, this);
+        _initializerDefineProperty(this, "accept", _descriptor1, this);
+    }
+}) || _class, _dec = property(), _dec1 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "version", [
+    _dec
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return 0;
+    }
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "accept", [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return "";
+    }
+}), _class)) || _class;
+export { Panel as Panel };

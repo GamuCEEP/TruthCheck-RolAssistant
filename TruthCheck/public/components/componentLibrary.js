@@ -13,3 +13,5 @@ import './dist/panel.js'
 
 //Frame
 import './dist/frame.js'
+//Data
+import './dist/data.js'

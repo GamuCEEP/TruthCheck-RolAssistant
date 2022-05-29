@@ -393,16 +393,25 @@ var _class, _descriptor, _dec;
 var _dec1 = customElement("g-panel");
 let Panel = _class = _dec1(((_class = class Panel extends Shadow {
     html = "";
-    onmodalready = new Event("modal-ready");
     async firstUpdated() {
         if (!this.href || !!this.innerHTML.trim()) return;
         const html1 = await (await fetch(new URL(this.baseURI).origin + this.href)).text();
         this.html = html1;
         this.init([]);
-        this.dispatchEvent(this.onmodalready);
     }
     render() {
         return html`${this.html}`;
+    }
+    updated() {
+        const scripts = this.shadowRoot.querySelectorAll('script');
+        for (const script of scripts){
+            const __final = document.createElement('script');
+            __final.innerHTML = script.innerHTML;
+            __final.type = script.type;
+            const parent = script.parentNode;
+            parent.removeChild(script);
+            parent.appendChild(__final);
+        }
     }
     constructor(...args){
         super(...args);

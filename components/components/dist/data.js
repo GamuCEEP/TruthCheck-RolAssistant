@@ -9,9 +9,9 @@ function convertDashToCamel(str) {
 function convertCamelToDash(str) {
     return str.replace(/([a-zA-Z0-9])(?=[A-Z])/g, "$1-").toLowerCase();
 }
-function createTemplate(html1) {
+function createTemplate(html) {
     const template = document.createElement("template");
-    template.innerHTML = html1;
+    template.innerHTML = html;
     return template;
 }
 function stringify(input) {
@@ -316,7 +316,7 @@ function h(type, props, ...children) {
         collection
     };
 }
-const html = __default.bind(h);
+__default.bind(h);
 function customElement(tagName) {
     return (clazz)=>{
         Object.defineProperty(clazz, "is", {
@@ -389,35 +389,27 @@ function _initializerDefineProperty(target, property6, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class, _descriptor, _dec;
-var _dec1 = customElement("g-panel");
-let Panel = _class = _dec1(((_class = class Panel extends Shadow {
-    html = "";
+var _class, _descriptor, _dec, _descriptor1, _dec1;
+var _dec2 = customElement("g-data");
+let DataGetter = _class = _dec2(((_class = class DataGetter extends Shadow {
+    data = null;
     async firstUpdated() {
         if (!this.href || !!this.innerHTML.trim()) return;
-        const html1 = await (await fetch(new URL(this.baseURI).origin + this.href)).text();
-        this.html = html1;
-        this.init([]);
-    }
-    render() {
-        return html`${this.html}`;
-    }
-    updated() {
-        const scripts = this.shadowRoot.querySelectorAll('script');
-        for (const script of scripts){
-            const __final = document.createElement('script');
-            __final.innerHTML = script.innerHTML;
-            __final.type = script.type;
-            const parent = script.parentNode;
-            parent.removeChild(script);
-            parent.appendChild(__final);
+        const data = await (await fetch(new URL(this.baseURI).origin + this.href)).text();
+        try {
+            this.data = JSON.parse(data);
+        } catch  {
+            this.data = data;
         }
+        this.ondata && eval(this.ondata)(this);
+        this.init([]);
     }
     constructor(...args){
         super(...args);
         _initializerDefineProperty(this, "href", _descriptor, this);
+        _initializerDefineProperty(this, "ondata", _descriptor1, this);
     }
-}) || _class, _dec = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "href", [
+}) || _class, _dec = property(), _dec1 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "href", [
     _dec
 ], {
     configurable: true,
@@ -426,5 +418,14 @@ let Panel = _class = _dec1(((_class = class Panel extends Shadow {
     initializer: function() {
         return null;
     }
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "ondata", [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return null;
+    }
 }), _class)) || _class;
-export { Panel as Panel };
+export { DataGetter as DataGetter };

@@ -1,0 +1,26 @@
+<div id="account">
+  <h1>Cuenta</h1>
+  <div id="profile">
+
+  </div>
+
+  <g-data ondata="listen" href="/api/auth/me">
+  </g-data>
+  <script>
+    function listen(element) {
+      const context = element.parentElement
+      const profile = context.querySelector('#profile')
+      const data = context.querySelector('g-data')
+
+      profile.innerHTML = element.data;
+
+    }
+
+  </script>
+</div>
+
+<style>
+  #account{
+    color: #fff
+  }
+</style>

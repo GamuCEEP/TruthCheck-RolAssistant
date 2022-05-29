@@ -4,28 +4,45 @@
       <img src="assets/android-chrome-512x512.png" alt="">
     </a>
   </div>
-  <div id="nav">
-    <a href="">Playground</a>
-    <a href="">Workshop</a>
-    <a href="">Marketplace</a>
+  <div id="links">
+    <a href="playground">Playground</a>
+    <a href="workshop">Workshop</a>
+    <a href="marketplace">Marketplace</a>
   </div>
-  <div>
-    <button>Account</button>
+  <div id="account">
+    <a href="account">Account</a>
   </div>
 </nav>
 
 <style>
-  nav{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  nav {
+    display: grid;
+    grid-template-columns: 120px 1fr 100px;
+    background-color: var(--frame-color);
   }
+
   #logo {
-    padding: 5px;
+    padding: 10px;
+    padding-left: 40px;
   }
 
   #logo img {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+  }
+
+  #links {
+    padding-top: 40px;
+  }
+
+  a {
+    color: var(--light-color);
+    text-decoration: none;
+    font-weight: 600;
+    margin: 5px;
+  }
+
+  #account {
+    padding-top: 40px;
   }
 </style>
