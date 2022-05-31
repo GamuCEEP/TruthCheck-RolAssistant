@@ -83,29 +83,29 @@ class Shadow extends HTMLElement {
             this._actuallyRender();
         }
     }
-    _makePropertyAccessible = ({ property , reflect =true , render =true , wait =false , assert =false  })=>{
+    _makePropertyAccessible = ({ property: property1 , reflect =true , render =true , wait =false , assert =false  })=>{
         if (isTrue(wait)) {
-            this._waitingList.add(property);
-        } else if (isTrue(assert) && !this[property]) {
-            throw new ShadowError(`The property ${property} must have a truthy value.`);
+            this._waitingList.add(property1);
+        } else if (isTrue(assert) && !this[property1]) {
+            throw new ShadowError(`The property ${property1} must have a truthy value.`);
         }
-        this._accessorsStore.set(property, this[property]);
+        this._accessorsStore.set(property1, this[property1]);
         if (isTrue(reflect)) {
-            this._updateAttribute(property, this[property]);
+            this._updateAttribute(property1, this[property1]);
         }
-        Object.defineProperty(this, property, {
-            get: ()=>this._accessorsStore.get(property)
+        Object.defineProperty(this, property1, {
+            get: ()=>this._accessorsStore.get(property1)
             ,
             set: (value)=>{
                 if (isTrue(assert) && !value) {
-                    throw new ShadowError(`The property '${property}' must have a truthy value.`);
+                    throw new ShadowError(`The property '${property1}' must have a truthy value.`);
                 }
-                this._accessorsStore.set(property, value);
+                this._accessorsStore.set(property1, value);
                 if (isTrue(wait)) {
-                    this._waitingList.delete(property);
+                    this._waitingList.delete(property1);
                 }
                 if (isTrue(reflect)) {
-                    this._updateAttribute(property, value);
+                    this._updateAttribute(property1, value);
                 }
                 if (isTrue(render) && isTrue(this._isReady)) {
                     this._actuallyRender();
@@ -113,8 +113,8 @@ class Shadow extends HTMLElement {
             }
         });
     };
-    _updateAttribute(property, value) {
-        const attributeName = convertCamelToDash(property);
+    _updateAttribute(property2, value) {
+        const attributeName = convertCamelToDash(property2);
         const attributeValue = this.getAttribute(attributeName);
         if (attributeValue !== value) {
             if (isNull(value)) return this.removeAttribute(attributeName);
@@ -124,7 +124,7 @@ class Shadow extends HTMLElement {
                 } else {
                     const jsonValue = JSON.stringify(value);
                     if (jsonValue === undefined) {
-                        throw new ShadowError(`Only JSON values can be reflected in attributes but received ` + `the value '${value}' for '${property}'.`);
+                        throw new ShadowError(`Only JSON values can be reflected in attributes but received ` + `the value '${value}' for '${property2}'.`);
                     }
                     if (attributeValue !== jsonValue) {
                         this.setAttribute(attributeName, jsonValue);
@@ -152,7 +152,7 @@ class Shadow extends HTMLElement {
     _fetchJsonAndUpdate(urlOrPath) {
         return fetch(new URL(urlOrPath, location.href).href).then((res)=>{
             if (isTrue(res.ok)) {
-                return res.json().then((data)=>Object.entries(data).forEach(([property, value])=>this[property] = value
+                return res.json().then((data)=>Object.entries(data).forEach(([property3, value])=>this[property3] = value
                     )
                 );
             } else {
@@ -163,17 +163,17 @@ class Shadow extends HTMLElement {
         });
     }
     update(name, value) {
-        const property = convertDashToCamel(name);
-        if (property in this) {
-            if (this[property] !== value && JSON.stringify(this[property]) !== value) {
+        const property4 = convertDashToCamel(name);
+        if (property4 in this) {
+            if (this[property4] !== value && JSON.stringify(this[property4]) !== value) {
                 try {
-                    this[property] = isNull(value) ? value : JSON.parse(value);
+                    this[property4] = isNull(value) ? value : JSON.parse(value);
                 } catch  {
-                    this[property] = value;
+                    this[property4] = value;
                 }
             }
         } else {
-            throw new ShadowError(`The property '${property}' does not exist on '${this.constructor.name}'.`);
+            throw new ShadowError(`The property '${property4}' does not exist on '${this.constructor.name}'.`);
         }
     }
     addCss(ruleSet, render = false) {
@@ -317,22 +317,6 @@ function h(type, props, ...children) {
     };
 }
 const html = __default.bind(h);
-function css(strings, ...values) {
-    const cssTemplates = [];
-    cssTemplates.push(createTemplate(`<style>${values.reduce((acc, value, i)=>{
-        if (value instanceof HTMLTemplateElement) {
-            cssTemplates.push(value);
-            return acc + strings[i + 1];
-        } else if (Array.isArray(value)) {
-            value.forEach((el)=>cssTemplates.push(el)
-            );
-            return acc + strings[i + 1];
-        } else {
-            return acc + value + strings[i + 1];
-        }
-    }, strings[0])}</style>`));
-    return cssTemplates;
-}
 function customElement(tagName) {
     return (clazz)=>{
         Object.defineProperty(clazz, "is", {
@@ -342,109 +326,104 @@ function customElement(tagName) {
         return clazz;
     };
 }
-var _class;
-var _dec = customElement("g-frame");
-let Frame = _class = _dec((_class = class Frame extends Shadow {
-    pagesHTML;
-    selectedPage = 0;
-    pepe = 'werrwe';
-    static styles = css`
-    #wrapper{
-      width: 100%;
-      height: 100%;
-      display: grid;
-      grid-template-rows: 1fr 50px;
-    }
-    #pages{
-      width: 100%;
-      height: 100%;
-    }
-    #pages > *{
-      display: none;
-    }
-    #pages .selected{
-      display: block;
-    }
-    img{
-      width: 40px;
-      height: 40px;
-    }
-    #controls{
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      background-color: var(--frame-color);
-      z-index: 0;
-    }
-    #controls button{
-      position: relative;
-      border: none;
-      padding: 0;
-      background-color: transparent;
-      width: 40%;
-    }
-    /* #controls button::before{
-      content: '';
-      display: block;
-      width: 10px;
-      height: 10px;
-      background-color: var(--frame-color);
-      position: absolute;
-      left: 50%;
-      top: 13px;
-      transform: translateY(5px) rotate(45deg);
-      transition: transform 200ms ease;
-      z-index: -2;
-    }
-    #controls button.selected::before{
-      content: '';
-      border-top: 4px var(--detail-color) solid;
-      border-left: 4px var(--detail-color) solid;
-      transform: translateY(-20px) rotate(45deg)
-    } */
-    #controls button.selected img{
-      filter: invert(1) opacity(.5) drop-shadow(0 0 0 var(--detail-color))
-    }
-    
-  `;
-    render() {
-        const pages = [];
-        for (const page of this.querySelectorAll("page")){
-            const url = page.attributes.getNamedItem("url").value;
-            const icon = page.attributes.getNamedItem("icon").value;
-            pages.push({
-                url: url,
-                icon: icon
+function property({ reflect =true , render =true , wait =false , assert =false  } = {}) {
+    return (protoOrDescriptor, name)=>{
+        if (protoOrDescriptor.constructor.observedAttributes === undefined) {
+            protoOrDescriptor.constructor.observedAttributes = [];
+        }
+        if (reflect === true) {
+            protoOrDescriptor.constructor.observedAttributes.push(convertCamelToDash(name));
+        }
+        if (protoOrDescriptor.__propertiesAndOptions === undefined) {
+            Object.defineProperty(protoOrDescriptor, "__propertiesAndOptions", {
+                enumerable: false,
+                configurable: true,
+                writable: false,
+                value: []
             });
         }
-        return html`
-    <div id="wrapper">
-      <div @id="pages">
-        <g-panel class="selected" href="${pages[0].url}"></g-panel>
-        <g-panel href="${pages[1].url}"></g-panel>
-      </div>
-      <div @id="controls">
-        <button class="selected" click="${()=>this.setPage(0)
-        }">
-          <img src="${pages[0].icon}"/>
-        </button>
-        <button click="${()=>this.setPage(1)
-        }">
-          <img src="${pages[1].icon}"/>
-        </button>
-      </div>
-  </div>
-    `;
+        protoOrDescriptor.__propertiesAndOptions.push({
+            property: name,
+            reflect,
+            render,
+            wait,
+            assert
+        });
+    };
+}
+function _applyDecoratedDescriptor(target, property5, decorators, descriptor, context) {
+    var desc1 = {};
+    Object.keys(descriptor).forEach(function(key) {
+        desc1[key] = descriptor[key];
+    });
+    desc1.enumerable = !!desc1.enumerable;
+    desc1.configurable = !!desc1.configurable;
+    if ('value' in desc1 || desc1.initializer) {
+        desc1.writable = true;
     }
-    setPage(index) {
-        if (index == this.selectedPage) return;
-        const pages = this.dom.id["pages"].children;
-        const buttons = this.dom.id["controls"].querySelectorAll("button");
-        pages.item(this.selectedPage).removeAttribute("class");
-        pages.item(index).setAttribute("class", "selected");
-        buttons.item(this.selectedPage).removeAttribute("class");
-        buttons.item(index).setAttribute("class", "selected");
-        this.selectedPage = index;
+    desc1 = decorators.slice().reverse().reduce(function(desc, decorator) {
+        return decorator ? decorator(target, property5, desc) || desc : desc;
+    }, desc1);
+    var hasAccessor = Object.prototype.hasOwnProperty.call(desc1, 'get') || Object.prototype.hasOwnProperty.call(desc1, 'set');
+    if (context && desc1.initializer !== void 0 && !hasAccessor) {
+        desc1.value = desc1.initializer ? desc1.initializer.call(context) : void 0;
+        desc1.initializer = undefined;
     }
-}) || _class) || _class;
-export { Frame as Frame };
+    if (hasAccessor) {
+        delete desc1.writable;
+        delete desc1.initializer;
+        delete desc1.value;
+    }
+    if (desc1.initializer === void 0) {
+        Object.defineProperty(target, property5, desc1);
+        desc1 = null;
+    }
+    return desc1;
+}
+function _initializerDefineProperty(target, property6, descriptor, context) {
+    if (!descriptor) return;
+    Object.defineProperty(target, property6, {
+        enumerable: descriptor.enumerable,
+        configurable: descriptor.configurable,
+        writable: descriptor.writable,
+        value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+    });
+}
+var _class, _descriptor, _dec;
+var _dec1 = customElement("g-account");
+let AccountChecker = _class = _dec1(((_class = class AccountChecker extends Shadow {
+    api = "/api/auth/me";
+    render() {
+        this.style.display = 'none';
+        return html``;
+    }
+    async firstUpdated() {
+        const origin = new URL(window.location.href).origin;
+        let me;
+        try {
+            me = await (await fetch(origin + this.api)).json();
+        } catch  {
+            me = {
+                status: 1
+            };
+        }
+        if (me?.status) {
+            window.history.replaceState({}, "", origin + this.href);
+            window.location.replace(origin + this.href);
+        }
+    }
+    constructor(...args){
+        super(...args);
+        _initializerDefineProperty(this, "href", _descriptor, this);
+    }
+}) || _class, _dec = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "href", [
+    _dec
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return "";
+    }
+}), _class)) || _class;
+export { AccountChecker as AccountChecker };

@@ -23,7 +23,7 @@ async function main(ev) {
 const authPaths = [
   "/api/auth/login",
   "/api/auth/refresh",
-  "/api/auth/register"
+  "/api/auth/me",
 ];
 
 /**
@@ -33,7 +33,7 @@ async function handleRequest(ev) {
   if (ev.request.method == "GET") {
     return fetch(ev.request.url, {
       headers: {
-        ... await createAuthHeader(),
+        ...await createAuthHeader(),
       },
     });
   }
@@ -61,14 +61,32 @@ async function auth(ev) {
   const form = await request.formData();
 
   if (form) {
-    const user = await (await fetch(request.url, await form2JSON(form))).json();
+    const response = await (await fetch(request.url, await form2Request(form)))
+      .json();
+    if (response.status) {
+      const origin = new URL(request.url).origin;
+      return Response.redirect("/login?error");
+    }
+
+    const loginData = {
+      method: "POST",
+      body: JSON.stringify({
+        email: form.get("email"),
+        password: form.get("password"),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const user = await (await fetch("/api/auth/login", loginData)).json();
+    console.log("Logueando despues del registro", user, loginData);
+
     if (user.tokens && user.user) {
       dataToCache("tokens", user.tokens);
       dataToCache("user", user.user);
       return Response.redirect("/home");
     }
-    const origin = new URL(request.url).origin;
-    return Response.redirect("/login?error");
   }
 }
 
@@ -86,28 +104,33 @@ function fromLocalStorage(key) {
   return globalThis.localStorage.getItem(key);
 }
 async function deleteCache(request) {
+  if (!TCCache) return;
   await TCCache.delete(request);
 }
 async function fromCache(request) {
+  if (!TCCache) return null;
   return await TCCache.match(request);
 }
 async function toCache(request) {
-    await TCCache.add(request);
+  if (!TCCache) return;
+  await TCCache.add(request);
 }
-async function dataToCache(key, data){
+async function dataToCache(key, data) {
+  if (!TCCache) return;
   await TCCache.put(key, new Response(JSON.stringify(data)));
 }
-async function dataFromCache(key){
-  const entry = await TCCache.match(key)
-  if(!entry) return null
-  try{
+async function dataFromCache(key) {
+  if (!TCCache) return null;
+  const entry = await TCCache.match(key);
+  if (!entry) return null;
+  try {
     return await entry.json();
-  }catch{
+  } catch {
     return await entry.text();
   }
 }
 
-async function form2JSON(formData) {
+async function form2Request(formData) {
   const json = {};
   formData.forEach((val, key) => {
     json[key] = val;
@@ -124,7 +147,7 @@ async function form2JSON(formData) {
 
 async function createAuthHeader() {
   const tokens = await dataFromCache("tokens");
-  if (!tokens || !tokens['access']) {
+  if (!tokens || !tokens["access"]) {
     return {};
   }
   const accesToken = tokens["access"]["token"];

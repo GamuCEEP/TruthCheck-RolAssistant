@@ -19,3 +19,6 @@ import "./dist/data.js";
 
 //Resource
 import "./dist/resourceCard.js";
+
+//Account
+import './dist/account.js'

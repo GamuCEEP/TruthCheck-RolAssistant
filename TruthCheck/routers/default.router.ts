@@ -32,7 +32,6 @@ router.get("/(.*)", async (context: Context) => {
 
 router.post("/(.*)", async (context: Context)=>{
   const body = await context.request.body().value
-  console.log(body)
   context.response.body = body 
 })
 

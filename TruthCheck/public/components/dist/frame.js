@@ -347,6 +347,7 @@ var _dec = customElement("g-frame");
 let Frame = _class = _dec((_class = class Frame extends Shadow {
     pagesHTML;
     selectedPage = 0;
+    pepe = 'werrwe';
     static styles = css`
     #wrapper{
       width: 100%;
@@ -382,7 +383,7 @@ let Frame = _class = _dec((_class = class Frame extends Shadow {
       background-color: transparent;
       width: 40%;
     }
-    #controls button::before{
+    /* #controls button::before{
       content: '';
       display: block;
       width: 10px;
@@ -400,7 +401,7 @@ let Frame = _class = _dec((_class = class Frame extends Shadow {
       border-top: 4px var(--detail-color) solid;
       border-left: 4px var(--detail-color) solid;
       transform: translateY(-20px) rotate(45deg)
-    }
+    } */
     #controls button.selected img{
       filter: invert(1) opacity(.5) drop-shadow(0 0 0 var(--detail-color))
     }

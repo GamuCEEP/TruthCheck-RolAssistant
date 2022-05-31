@@ -34,54 +34,76 @@ Make open info selectable on the json
 */
 
 import { css, customElement, html, property, Shadow } from "../../deps.ts";
-
+import * as JSONEditor from 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/nonmin/jsoneditor.js'
 @customElement("g-resource")
-export class Panel extends Shadow {
+export class ResourceCard extends Shadow {
   @property()
-  version = 0;
-  @property()
-  accept = "";
-
-  resource = null;
-  validkeys = [];
-  card = null;
-
-  render() {
-    this.getResource();
-    this.createCard();
-    return html`
-    ${this.card}
-    `;
-  }
-  getResource() {
-    try {
-      this.resource = JSON.parse(this.innerHTML);
-      this.validkeys = this.accept.split(",").map(v=>v.trim());
-    } catch {
-      this.resource = this.innerHTML;
-    }
-  }
-  createCard() {
-    if (!this.resource["_id"]) { //Comprobación peligrosa
-      return;
-    }
-    for (const entry of Object.entries(this.resource)) {
-      if (this.validkeys.includes(entry[0])) {
-        this.createPart(entry[0], entry[1]);
+  model = `
+  {
+    schema: {
+      type: "object",
+      title: "Car",
+      properties: {
+        make: {
+          type: "string",
+          enum: [
+            "Toyota",
+            "BMW",
+            "Honda",
+            "Ford",
+            "Chevy",
+            "VW"
+          ]
+        },
+        model: {
+          type: "string"
+        },
+        year: {
+          type: "integer",
+          enum: [
+            1995,1996,1997,1998,1999,
+            2000,2001,2002,2003,2004,
+            2005,2006,2007,2008,2009,
+            2010,2011,2012,2013,2014
+          ],
+          default: 2008
+        },
+        safety: {
+          type: "integer",
+          format: "rating",
+          maximum: "5",
+          exclusiveMaximum: false,
+          readonly: false
+        }
       }
     }
   }
-  getType(val){
-    /*de momento para diferenciar si los string son imagenes o no
-      los numeros se mustran igual que los string
-      para los object se vuelve a llamar a si misma y añade un field set
-      para arrays se hace una lista
-      para las imagenes se crea el img con href
-      la colocación se hará por css(si quieres empezar por ahí)
-      
-    */
+  `;
+  @property()
+  resourceId = null;
+
+  href = "api/resources";
+
+  async firstUpdated() {
+    const resource =
+      await (await fetch(new URL(this.baseURI).origin + this.href))
+        .text();
+        
   }
-  createPart(key: string, value: any) {
-    console.log(typeof value, key);
+  render() {
+    return html`
+  <div @id="test"></div>
+  `;
   }
+
+  /*
+
+  El service worker despues de cargar la pagina:
+    pide todos los recursos y los cachea
+  El sw tiene un endpoint resources
+    puede recibir un parametro para el tipo
+    una id para un recurso especifico
+    si no hay id devuelve el siguiente recurso hasta que se acaben
+
+   */
 }

@@ -20,6 +20,10 @@ body{
   overflow: hidden;
   margin: 0;
 }
+*:disabled{
+  filter: grayscale();
+  cursor: not-allowed;
+}
 
 a{
   color: var(--accent-color);

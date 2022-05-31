@@ -12,7 +12,7 @@
       const profile = context.querySelector('#profile')
       const data = context.querySelector('g-data')
 
-      profile.innerHTML = element.data;
+      profile.innerHTML = JSON.stringify(data.data);
 
     }
 

@@ -10,20 +10,33 @@
   <link rel="stylesheet" href="../styles/form.css">
 
   <script src="../scripts/library.js" type="module"></script>
-
+  <script>
+    function checkPassword() {
+      const password = document.querySelector('input[name="password"]')
+      const passwordCheck = document.querySelector('input[placeholder^="Con"]')
+      const submit = document.querySelector('input[type="submit"]')
+      if (password.value === passwordCheck.value) {
+        submit.removeAttribute('disabled')
+        submit.title = ''
+      } else {
+        submit.setAttribute('disabled', 'true')
+        submit.title = 'Passwords must coincide'
+      }
+    }
+  </script>
 </head>
 
 <body>
   <div>
-    <form action="api/auth/register" method="POST">
+    <form action="api/auth/me" method="POST">
       <h2>Create an account</h2>
-      <input type="email" placeholder="Email">
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <input type="password" placeholder="Confirm password">
+      <input type="email" placeholder="Email" name="email">
+      <input type="text" placeholder="Username" name="name">
+      <input type="password" placeholder="Password" name="password" oninput="checkPassword()">
+      <input type="password" placeholder="Confirm password" oninput="checkPassword()">
       <div>
         <a href="/login">Log in</a>
-        <input type="submit" value="Register">
+        <input type="submit" value="Register" disabled title="Passwords must coincide">
       </div>
     </form>
   </div>
