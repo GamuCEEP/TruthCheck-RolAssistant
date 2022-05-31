@@ -9,79 +9,63 @@
   <link rel="stylesheet" href="variables.css">
   <script src="components/library.js" type="module"></script>
   <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+  <script src="src-noconflict/ace.js"></script>
 </head>
 
 <body>
 
+  <h2>Test</h2>
+  <g-resource>
+
+  </g-resource>
+
+
   <div id="test"></div>
   <button id="submit"></button>
-  <script>
-    
-      // Initialize the editor with a JSON schema
-      var editor = new JSONEditor(document.getElementById('test'),{
-        schema: {
-          type: "object",
-          title: "Car",
-          properties: {
-            make: {
-              type: "string",
-              enum: [
-                "Toyota",
-                "BMW",
-                "Honda",
-                "Ford",
-                "Chevy",
-                "VW"
-              ]
-            },
-            model: {
-              type: "string"
-            },
-            year: {
-              type: "integer",
-              enum: [
-                1995,1996,1997,1998,1999,
-                2000,2001,2002,2003,2004,
-                2005,2006,2007,2008,2009,
-                2010,2011,2012,2013,2014
-              ],
-              default: 2008
-            },
-            safety: {
-              type: "integer",
-              format: "rating",
-              maximum: "5",
-              exclusiveMaximum: false,
-              readonly: false
-            }
-          }
-        },
-        theme: 'barebones'
-      
-      });
 
-      // Hook up the submit button to log to the console
-      document.getElementById('submit').addEventListener('click',function() {
-        // Get the value from the editor
-        console.log(editor.getValue());
-      });
-    
+  <script>
+    // window["ace"]?.config.set(
+    //   "basePath",
+    //   "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/",
+    // );
+
+    // Initialize the editor with a JSON schema
+    const editor = new JSONEditor(document.querySelector('#test'), {
+      compact: true,
+      schema: {
+        "title": "Actor",
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "Code": {
+            "type": "string",
+            "format": "javascript",
+            "options": {
+              "ace": {
+                "theme": "ace/theme/monokai",
+                "tabSize": 2,
+                "useSoftTabs": true,
+                "wrap": true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Hook up the submit button to log to the console
+    document.getElementById('submit').addEventListener('click', function () {
+      // Get the value from the editor
+      console.log(editor.getValue());
+    });
   </script>
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-  <h2>Test</h2>
 
   <g-account href="/test.html"></g-account>
 

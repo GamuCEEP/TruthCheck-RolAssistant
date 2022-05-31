@@ -28321,6 +28321,7 @@ function property({ reflect =true , render =true , wait =false , assert =false  
         }
     });
 });
+const mod = {};
 function _applyDecoratedDescriptor(target, property87, decorators, descriptor, context) {
     var desc1 = {};
     Object.keys(descriptor).forEach(function(key) {
@@ -28368,8 +28369,37 @@ let ResourceCard = _class = _dec2(((_class = class ResourceCard extends Shadow {
     }
     render() {
         return html`
-  <div @id="test"></div>
-  `;
+      <div @id="test"></div>
+    `;
+    }
+    updated() {
+        window["ace"]?.config.set("basePath", "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/");
+        new mod(this.dom.id["test"], {
+            schema: {
+                "title": "SQL Editor",
+                "type": "object",
+                "required": [
+                    "query", 
+                ],
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "format": "sql",
+                        "options": {
+                            "ace": {
+                                "theme": "ace/theme/vibrant_ink",
+                                "tabSize": 2,
+                                "useSoftTabs": true,
+                                "wrap": true
+                            }
+                        }
+                    }
+                }
+            },
+            startval: {
+                "query": "SELECT f.animal_id AS animal_id, \n       f.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       f.animal_name AS animal_name, \n       'Farm' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.farm f \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON f.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON f.animal_description = d.animal_description_id \n  \nUNION ALL \n  \nSELECT w.animal_id AS animal_id, \n       w.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       w.animal_name AS animal_name, \n       'Wild' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.wild w \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON w.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON w.animal_description = d.animal_description_id \n  \nWHERE w.animal_id IN (SELECT animal_id FROM wild WHERE animal_id <= 3)"
+            }
+        });
     }
     constructor(...args){
         super(...args);

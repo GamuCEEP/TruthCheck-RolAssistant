@@ -34,7 +34,8 @@ Make open info selectable on the json
 */
 
 import { css, customElement, html, property, Shadow } from "../../deps.ts";
-import * as JSONEditor from 'https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/nonmin/jsoneditor.js'
+import * as JSONEditor from "https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/nonmin/jsoneditor.js";
+
 @customElement("g-resource")
 export class ResourceCard extends Shadow {
   @property()
@@ -88,12 +89,54 @@ export class ResourceCard extends Shadow {
     const resource =
       await (await fetch(new URL(this.baseURI).origin + this.href))
         .text();
-        
   }
   render() {
     return html`
-  <div @id="test"></div>
-  `;
+      <div @id="test"></div>
+    `;
+  }
+  updated() {
+    // Set ACE Editor basePath to same path as CDN Library.
+    window["ace"]?.config.set(
+      "basePath",
+      "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/",
+    );
+
+    // Initialize the editor with a JSON schema
+    //deno-lint-ignore 
+    const editor = new JSONEditor(this.dom.id["test"], {
+      schema: {
+        "title": "SQL Editor",
+        "type": "object",
+        "required": [
+          "query",
+        ],
+        "properties": {
+          "query": {
+            "type": "string",
+            "format": "sql",
+            "options": {
+              "ace": {
+                "theme": "ace/theme/vibrant_ink",
+                "tabSize": 2,
+                "useSoftTabs": true,
+                "wrap": true,
+              },
+            },
+          },
+        },
+      },
+      startval: {
+        "query":
+          "SELECT f.animal_id AS animal_id, \n       f.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       f.animal_name AS animal_name, \n       'Farm' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.farm f \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON f.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON f.animal_description = d.animal_description_id \n  \nUNION ALL \n  \nSELECT w.animal_id AS animal_id, \n       w.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       w.animal_name AS animal_name, \n       'Wild' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.wild w \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON w.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON w.animal_description = d.animal_description_id \n  \nWHERE w.animal_id IN (SELECT animal_id FROM wild WHERE animal_id <= 3)",
+      },
+    });
+
+    // Hook up the submit button to log to the console
+    // document.getElementById('submit').addEventListener('click',function() {
+    // Get the value from the editor
+    // console.log(editor.getValue());
+    // });
   }
 
   /*
