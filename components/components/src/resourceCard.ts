@@ -7,30 +7,6 @@ Accept a json for structure
 Make closed info selectable on the json
 Make open info selectable on the json
 
-{
-  resource:{}
-  openInfo:{}
-  closedInfo:{}
-}
-
-{
-    "_id": "62867f1bf08701a650784492",
-    "author": "6283f46d1377d4f5ea321495",
-    "name": "MURCIA!!",
-    "description": "Hay quien dice que no existe",
-    "pasive": [
-      "62867ce3ea2f41a61c04ccc2"
-    ],
-    "imageURI": "murgia.jpeg",
-    "tags": [
-      "fire"
-    ],
-    "createdAt": "2022-05-19T17:32:11.384Z",
-    "isShared": false,
-    "docVersion": 2,
-    "updatedAt": "2022-05-19T17:32:45.921Z"
-  }
-
 */
 
 import { css, customElement, html, property, Shadow } from "../../deps.ts";
@@ -41,6 +17,8 @@ export class ResourceCard extends Shadow {
   model = "";
   @property()
   resourceId = null;
+  @property()
+  action = null;
 
   resource = null;
   schema = null;
@@ -49,13 +27,13 @@ export class ResourceCard extends Shadow {
   href = "/api/resources/";
 
   static styles = css`
-    /* #card{
+    #card{
       display: block;
       width: var(--card-width);
       height: var(--card-height);
     }
-     h3{
-      margin: 10px 0 0 10px;
+    h3{
+      margin: 10px 0 0 10px !important;
     } 
     div.je-tabholder--top{
       display: flex;
@@ -71,37 +49,84 @@ export class ResourceCard extends Shadow {
     div[style*="1"]{
       background-color: var(--main-color) !important;
     }
-    button, input:checked{
+    button{
       border: none;
       color: white;
       background-color: var(--detail-color) !important;
       padding: 5px 15px !important;
       border-radius: 3px;
     }
+    button:disabled{
+      filter: grayscale();
+      cursor: not-allowed;
+    }
      textarea{
       height: 100px !important;
       resize: none;
-    }  */
+    }
+    h3{
+      margin:0;
+    }
+    .je-object__controls{
+      display: block;
+      margin: 0 !important;
+      height: 0 !important;
+    }
+    .je-indented-panel{
+      border: none !important;
+    }
+    *:disabled{
+      background-color: var(--light-color);
+      color: black;
+      border: initial;
+    }
   `;
 
-  async firstUpdated() {
+  async loadResources() {
     const origin = new URL(this.baseURI).origin;
     const modelUrl = origin + "/models/" + this.model + ".json";
-    let resourceUrl = origin + this.href + this.model;
+    let resourceUrl = origin + this.href + this.model + 's';
     if (this.resourceId) resourceUrl += `/${this.resourceId}`;
     try {
       this.schema = await (await fetch(modelUrl))?.json();
       this.resource = await (await fetch(resourceUrl))?.json();
     } catch {}
+  }
+  modifySchema() {
+    switch (this.action) {
+      case "edit":
+        break;
+      case "create":
+        break;
+      default:
+        this.editor.on("ready", () => {
+          for (
+            const e of this.shadowRoot.querySelectorAll(
+              "input, textarea, button, select",
+            )
+          ) {
+            e.setAttribute("disabled", "true");
+          }
+        });
+        break;
+    }
+  }
+
+  async firstUpdated() {
+    await this.loadResources();
     const options = {
       schema: this.schema,
-      use_default_values: true,
     };
-    if (this.resource) options["startval"] = this.resource;
+    if (this.resource){
+      options["startval"] = this.resource;
+      console.log(this.resource, 'se encontró')
+    } 
+
     this.editor = new window["JSONEditor"](
       this.shadowRoot.querySelector("#card"),
       options,
     );
+    this.modifySchema();
   }
   render() {
     return html`

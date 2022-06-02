@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "compile": "FILE=resourceCard && deno bundle --watch ./components/src/$FILE.ts ./components/dist/$FILE.js"
+    "compile": "FILE=account && deno bundle --watch ./components/src/$FILE.ts ./components/dist/$FILE.js"
   },
   "compilerOptions": {
     "removeComments": true,

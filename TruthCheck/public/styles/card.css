@@ -1,0 +1,10 @@
+#card{
+  --card-width: 400px;
+  --card-height: 400px;
+  display: block;
+  border-radius: 5px;
+  background-color: var(--dark-color);
+  color: white;
+  box-shadow: 1px 4px 3px 0 #0004, inset 1px 1px 5px 0 #fff1;
+  overflow-y: auto;
+}

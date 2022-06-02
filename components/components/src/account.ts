@@ -19,6 +19,7 @@ export class AccountChecker extends Shadow {
     } catch {
       me = { status: 1 };
     }
+    console.log('Logged as',me)
 
     if (me?.status) {
       window.history.replaceState({}, "", origin + this.href);

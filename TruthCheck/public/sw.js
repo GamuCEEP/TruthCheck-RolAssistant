@@ -20,28 +20,26 @@ async function main(ev) {
   );
 }
 
-const authPaths = [
-  "/api/auth/login",
-  "/api/auth/refresh",
-  "/api/auth/me",
-];
-
+const authPath = "/api/auth";
+const resourcePath = "/api/resources";
 /**
  * @param { FetchEvent } ev
  */
 async function handleRequest(ev) {
-  if (ev.request.method == "GET") {
-    return fetch(ev.request.url, {
-      headers: {
-        ...await createAuthHeader(),
-      },
-    });
+  const request = ev.request.clone();
+  const pathName = new URL(request.url).pathname;
+  //if its an auth call
+  if (pathName.startsWith(authPath)) {
+    return handleAuthenticationRequests(ev);
   }
 
-  const pathName = new URL(ev.request.url).pathname;
-  if (authPaths.includes(pathName)) {
-    console.info("Authentication");
-    return auth(ev);
+  if (pathName.startsWith(resourcePath)) {
+    return handleResourceRequests(ev);
+  }
+
+  //if its a page resource call
+  if (request.method == "GET") {
+    handleDefaultRequests(ev);
   }
 
   return updateRequest(ev);
@@ -51,42 +49,80 @@ async function handleRequest(ev) {
  * @param { FetchEvent } ev
  */
 async function updateRequest(ev) {
-  const request = ev.request;
+  const request = ev.request.clone();
 
-  return fetch(ev.request.url);
+  return fetch(request.url);
 }
 
-async function auth(ev) {
-  const request = ev.request;
+async function handleDefaultRequests(ev) {
+  return fetch(ev.request.url, {
+    headers: {
+      ...await createAuthHeader(),
+    },
+  });
+}
+/**
+ * @param { FetchEvent } ev
+ */
+async function handleAuthenticationRequests(ev) {
+  const request = ev.request.clone();
+  console.log("Handled by AuthHandler");
+
+  if (request.method != "POST") {
+    console.log("Method distinct from POST");
+    return handleDefaultRequests(request);
+  }
+
+  const authServices = {
+    "/api/auth/login": login, // login
+    "/api/auth/me": register, // register
+    "/api/auth/refresh": "", // extend session
+  };
+
   const form = await request.formData();
 
-  if (form) {
-    const response = await (await fetch(request.url, await form2Request(form)))
-      .json();
-    if (response.status) {
-      const origin = new URL(request.url).origin;
-      return Response.redirect("/login?error");
+  console.log("Doing", pathname(request.url));
+
+  return authServices[pathname(request.url)]();
+
+  async function login() {
+    const email = form.get("email");
+    const password = form.get("password");
+    const authResponse = await auth({ email, password }, "/api/auth/login");
+    if(authResponse) return authResponse
+    await saveLogin(login);
+    return Response.redirect("/home");
+  }
+  async function register() {
+    const email = form.get("email");
+    const password = form.get("password");
+    const name = form.get("name");
+    await auth({ email, password, name }, "/api/auth/me");
+    console.log("Login after registration");
+    return await login();
+  }
+
+  async function auth(credentials, url) {
+    console.log("Auth with", credentials);
+    if (Object.entries(credentials).some((_, v) => v == null)) {
+      console.log("Falta data");
+      return Response.redirect(request.referrer + "?missingData");
     }
-
-    const loginData = {
-      method: "POST",
-      body: JSON.stringify({
-        email: form.get("email"),
-        password: form.get("password"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    const user = await (await fetch("/api/auth/login", loginData)).json();
-    console.log("Logueando despues del registro", user, loginData);
-
-    if (user.tokens && user.user) {
-      dataToCache("tokens", user.tokens);
-      dataToCache("user", user.user);
-      return Response.redirect("/home");
+    const response = await getJson(url, credentials);
+    if (response.status) { // only errors have status
+      console.log("Response has status", response);
+      return Response.redirect(`${request.referrer}?error`);
     }
+  }
+}
+
+async function handleResourceRequests(ev) {
+}
+
+async function saveLogin(response) {
+  if (response.tokens && response.user) {
+    dataToCache("tokens", response.tokens);
+    dataToCache("user", response.user);
   }
 }
 
@@ -129,12 +165,12 @@ async function dataFromCache(key) {
     return await entry.text();
   }
 }
-
-async function form2Request(formData) {
+async function createRequest(data) {
   const json = {};
-  formData.forEach((val, key) => {
-    json[key] = val;
+  Object.entries(data).forEach((entry) => {
+    json[entry[0]] = entry[1];
   });
+  console.log('Data to send:', json, JSON.stringify(json))
   return {
     method: "POST",
     body: JSON.stringify(json),
@@ -152,4 +188,11 @@ async function createAuthHeader() {
   }
   const accesToken = tokens["access"]["token"];
   return { "Authorization": `Bearer ${accesToken}` };
+}
+
+async function getJson(url, initData) {
+  return await (await fetch(await url, await createRequest(initData))).json();
+}
+function pathname(url) {
+  return new URL(url).pathname;
 }

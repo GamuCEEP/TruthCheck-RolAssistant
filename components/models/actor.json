@@ -5,16 +5,31 @@
   "options": {
     "use_name_attributes": true
   },
+  "required": [
+    "name",
+    "description",
+    "stats",
+    "active",
+    "pasive",
+    "inventory",
+    "equipment",
+    "tags",
+    "isShared"
+  ],
   "properties": {
     "name": {
       "type": "string",
-      "title": "Name"
+      "title": "Name",
+      "options": {
+      }
     },
     "description": {
       "type": "string",
       "title": "Description",
       "format": "textarea",
-      "maxLength": 512
+      "maxLength": 512,
+      "options": {
+      }
     },
     "stats": {
       "type": "array",
@@ -47,9 +62,6 @@
       "items": {
         "type": "string",
         "enum": "#effect"
-      },
-      "options": {
-        "grid_columns": 4
       }
     },
     "pasive": {
@@ -60,15 +72,13 @@
       "items": {
         "type": "string",
         "enum": "#effect"
-      },
-      "options": {
-        "grid_columns": 4
       }
     },
     "inventory": {
       "type": "array",
       "title": "Inventory",
       "format": "tabs-top",
+      "uniqueItems": false,
       "items": {
         "type": "string",
         "enum": "#item"
@@ -97,6 +107,7 @@
       }
     },
     "isShared": {
+      "title": "Shared",
       "type": "boolean",
       "format": "checkbox"
     }

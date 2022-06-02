@@ -24,7 +24,6 @@ body{
   filter: grayscale();
   cursor: not-allowed;
 }
-
 a{
   color: var(--accent-color);
   text-decoration: underline 2px;

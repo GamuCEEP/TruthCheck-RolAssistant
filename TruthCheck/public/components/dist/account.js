@@ -407,6 +407,7 @@ let AccountChecker = _class = _dec1(((_class = class AccountChecker extends Shad
                 status: 1
             };
         }
+        console.log('Logged as', me);
         if (me?.status) {
             window.history.replaceState({}, "", origin + this.href);
             window.location.replace(origin + this.href);

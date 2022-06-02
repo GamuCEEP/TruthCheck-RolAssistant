@@ -405,38 +405,104 @@ function _initializerDefineProperty(target, property6, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class, _descriptor, _dec, _descriptor1, _dec1;
-var _dec2 = customElement("g-resource");
-let ResourceCard = _class = _dec2(((_class = class ResourceCard extends Shadow {
+var _class, _descriptor, _dec, _descriptor1, _dec1, _descriptor2, _dec2;
+var _dec3 = customElement("g-resource");
+let ResourceCard = _class = _dec3(((_class = class ResourceCard extends Shadow {
     resource = null;
     schema = null;
     editor = null;
     href = "/api/resources/";
     static styles = css`
     #card{
-      /* display: block;
+      display: block;
       width: var(--card-width);
-      height: var(--card-height); */
+      height: var(--card-height);
+    }
+    h3{
+      margin: 10px 0 0 10px !important;
+    } 
+    div.je-tabholder--top{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 0;
+    }
+    div.je-tab--top{
+      border-radius: 0;
+      flex-grow: 100;
+      border-bottom: 1px solid white;
+    }
+    div[style*="1"]{
+      background-color: var(--main-color) !important;
+    }
+    button{
+      border: none;
+      color: white;
+      background-color: var(--detail-color) !important;
+      padding: 5px 15px !important;
+      border-radius: 3px;
+    }
+    button:disabled{
+      filter: grayscale();
+      cursor: not-allowed;
+    }
+     textarea{
+      height: 100px !important;
+      resize: none;
+    }
+    h3{
+      margin:0;
+    }
+    .je-object__controls{
+      display: block;
+      margin: 0 !important;
+      height: 0 !important;
+    }
+    .je-indented-panel{
+      border: none !important;
+    }
+    *:disabled{
+      background-color: var(--light-color);
+      color: black;
+      border: initial;
     }
   `;
-    async firstUpdated() {
+    async loadResources() {
         const origin = new URL(this.baseURI).origin;
         const modelUrl = origin + "/models/" + this.model + ".json";
-        let resourceUrl = origin + this.href + this.model;
+        let resourceUrl = origin + this.href + this.model + 's';
         if (this.resourceId) resourceUrl += `/${this.resourceId}`;
         try {
             this.schema = await (await fetch(modelUrl))?.json();
             this.resource = await (await fetch(resourceUrl))?.json();
-        } catch  {
-            console.log("He fallado pero da igual");
+        } catch  {}
+    }
+    modifySchema() {
+        switch(this.action){
+            case "edit":
+                break;
+            case "create":
+                break;
+            default:
+                this.editor.on("ready", ()=>{
+                    for (const e of this.shadowRoot.querySelectorAll("input, textarea, button, select")){
+                        e.setAttribute("disabled", "true");
+                    }
+                });
+                break;
         }
+    }
+    async firstUpdated() {
+        await this.loadResources();
         const options = {
-            schema: this.schema,
-            use_default_values: true
+            schema: this.schema
         };
-        if (this.resource) options["startval"] = this.resource;
+        if (this.resource) {
+            options["startval"] = this.resource;
+            console.log(this.resource, 'se encontró');
+        }
         this.editor = new window["JSONEditor"](this.shadowRoot.querySelector("#card"), options);
-        window["JSONEditor"].defaults.options.compact = true;
+        this.modifySchema();
     }
     render() {
         return html`
@@ -448,8 +514,9 @@ let ResourceCard = _class = _dec2(((_class = class ResourceCard extends Shadow {
         super(...args);
         _initializerDefineProperty(this, "model", _descriptor, this);
         _initializerDefineProperty(this, "resourceId", _descriptor1, this);
+        _initializerDefineProperty(this, "action", _descriptor2, this);
     }
-}) || _class, _dec = property(), _dec1 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "model", [
+}) || _class, _dec = property(), _dec1 = property(), _dec2 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "model", [
     _dec
 ], {
     configurable: true,
@@ -460,6 +527,15 @@ let ResourceCard = _class = _dec2(((_class = class ResourceCard extends Shadow {
     }
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "resourceId", [
     _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return null;
+    }
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, "action", [
+    _dec2
 ], {
     configurable: true,
     enumerable: true,
