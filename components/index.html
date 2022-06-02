@@ -7,87 +7,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="styles/card.css">
   <script src="components/library.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/"></script>
   <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
-  <script src="src-noconflict/ace.js"></script>
+
+
 </head>
 
 <body>
 
   <h2>Test</h2>
-  <g-resource>
-
+  <g-resource model="actor">
+  </g-resource>
+  <g-resource model="item">
+  </g-resource>
+  <g-resource model="stage">
+  </g-resource>
+  <g-resource model="effect">
   </g-resource>
 
 
   <div id="test"></div>
   <button id="submit"></button>
 
-  <script>
-    // window["ace"]?.config.set(
-    //   "basePath",
-    //   "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/",
-    // );
-
-    // Initialize the editor with a JSON schema
-    const editor = new JSONEditor(document.querySelector('#test'), {
-      compact: true,
-      schema: {
-        "title": "Actor",
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "Code": {
-            "type": "string",
-            "format": "javascript",
-            "options": {
-              "ace": {
-                "theme": "ace/theme/monokai",
-                "tabSize": 2,
-                "useSoftTabs": true,
-                "wrap": true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    // Hook up the submit button to log to the console
-    document.getElementById('submit').addEventListener('click', function () {
-      // Get the value from the editor
-      console.log(editor.getValue());
-    });
-  </script>
-
-
-
-
-
-
   <g-account href="/test.html"></g-account>
-
-  <!-- <g-resource accept="name, description, imageURI, tags, docVersion">
-    {
-      "_id": "62867f1bf08701a650784492",
-      "author": "6283f46d1377d4f5ea321495",
-      "name": "MURCIA!!",
-      "description": "Hay quien dice que no existe",
-      "pasive": [
-        "62867ce3ea2f41a61c04ccc2"
-      ],
-      "imageURI": "murgia.jpeg",
-      "tags": [
-        "fire"
-      ],
-      "createdAt": "2022-05-19T17:32:11.384Z",
-      "isShared": false,
-      "docVersion": 2,
-      "updatedAt": "2022-05-19T17:32:45.921Z"
-    }
-  </g-resource> -->
 
   <g-selector options="juan, tu, zri">
   </g-selector>

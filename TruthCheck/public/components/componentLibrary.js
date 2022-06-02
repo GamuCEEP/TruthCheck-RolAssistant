@@ -18,3 +18,6 @@ import './dist/data.js'
 
 //Account
 import './dist/account.js'
+
+//Resource
+import './dist/resourceCard.js'

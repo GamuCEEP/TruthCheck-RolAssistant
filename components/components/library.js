@@ -19,6 +19,17 @@ import "./dist/data.js";
 
 //Resource
 import "./dist/resourceCard.js";
-
+window.ace.config.set("basePath", "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/");
+window["JSONEditor"].defaults.options = {
+  disable_array_reorder: true,
+  disable_edit_json: true,
+  disable_properties: true,
+  use_default_values: true,
+  disable_collapse: true,
+  disable_array_delete_all_rows: true,
+  disable_array_delete_last_row: true,
+  expand_height: true
+  // theme: 'barebones',
+}
 //Account
 import './dist/account.js'

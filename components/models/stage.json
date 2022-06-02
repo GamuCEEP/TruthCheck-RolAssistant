@@ -1,0 +1,50 @@
+{
+  "title": "Stage",
+  "type": "object",
+  "format": "categories",
+  "options": {
+    "use_name_attributes": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "format": "textarea",
+      "maxLength": 512
+    },
+    "pasive": {
+      "type": "array",
+      "title": "Pasive",
+      "format": "tabs-top",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": "#effect"
+      },
+      "options": {
+        "grid_columns": 4
+      }
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "format": "",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "options": {
+          "compact": true
+        },
+        "enum": ["Fire", "Water", "Nature"]
+      }
+    },
+    "isShared": {
+      "type": "boolean",
+      "format": "checkbox"
+    }
+  }
+}

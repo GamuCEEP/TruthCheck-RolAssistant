@@ -5,14 +5,16 @@
   --detail-color: #1FAD9A;
   --dark-color: #483C32;
   --light-color: #EBFAFF;
-  --frame-color: var(--dark-color)
+  --frame-color: var(--dark-color);
+  --card-width: 300px;
+  --card-height: min-height;
 }
-*{
+/* *{
   box-sizing: border-box;
-}
+} */
 
 body{
-  background-color: #272727;
+  background-color: var(--bg-color);
   color: aliceblue;
   margin: 0;
 }

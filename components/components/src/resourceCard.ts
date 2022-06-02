@@ -34,109 +34,80 @@ Make open info selectable on the json
 */
 
 import { css, customElement, html, property, Shadow } from "../../deps.ts";
-import * as JSONEditor from "https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/nonmin/jsoneditor.js";
 
 @customElement("g-resource")
 export class ResourceCard extends Shadow {
   @property()
-  model = `
-  {
-    schema: {
-      type: "object",
-      title: "Car",
-      properties: {
-        make: {
-          type: "string",
-          enum: [
-            "Toyota",
-            "BMW",
-            "Honda",
-            "Ford",
-            "Chevy",
-            "VW"
-          ]
-        },
-        model: {
-          type: "string"
-        },
-        year: {
-          type: "integer",
-          enum: [
-            1995,1996,1997,1998,1999,
-            2000,2001,2002,2003,2004,
-            2005,2006,2007,2008,2009,
-            2010,2011,2012,2013,2014
-          ],
-          default: 2008
-        },
-        safety: {
-          type: "integer",
-          format: "rating",
-          maximum: "5",
-          exclusiveMaximum: false,
-          readonly: false
-        }
-      }
-    }
-  }
-  `;
+  model = "";
   @property()
   resourceId = null;
 
-  href = "api/resources";
+  resource = null;
+  schema = null;
+  editor = null;
+
+  href = "/api/resources/";
+
+  static styles = css`
+    /* #card{
+      display: block;
+      width: var(--card-width);
+      height: var(--card-height);
+    }
+     h3{
+      margin: 10px 0 0 10px;
+    } 
+    div.je-tabholder--top{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 0;
+    }
+    div.je-tab--top{
+      border-radius: 0;
+      flex-grow: 100;
+      border-bottom: 1px solid white;
+    }
+    div[style*="1"]{
+      background-color: var(--main-color) !important;
+    }
+    button, input:checked{
+      border: none;
+      color: white;
+      background-color: var(--detail-color) !important;
+      padding: 5px 15px !important;
+      border-radius: 3px;
+    }
+     textarea{
+      height: 100px !important;
+      resize: none;
+    }  */
+  `;
 
   async firstUpdated() {
-    const resource =
-      await (await fetch(new URL(this.baseURI).origin + this.href))
-        .text();
+    const origin = new URL(this.baseURI).origin;
+    const modelUrl = origin + "/models/" + this.model + ".json";
+    let resourceUrl = origin + this.href + this.model;
+    if (this.resourceId) resourceUrl += `/${this.resourceId}`;
+    try {
+      this.schema = await (await fetch(modelUrl))?.json();
+      this.resource = await (await fetch(resourceUrl))?.json();
+    } catch {}
+    const options = {
+      schema: this.schema,
+      use_default_values: true,
+    };
+    if (this.resource) options["startval"] = this.resource;
+    this.editor = new window["JSONEditor"](
+      this.shadowRoot.querySelector("#card"),
+      options,
+    );
   }
   render() {
     return html`
-      <div @id="test"></div>
+      ${'<link rel="stylesheet" href="/styles/card.css">'}
+      <div id="card"></div>
     `;
-  }
-  updated() {
-    // Set ACE Editor basePath to same path as CDN Library.
-    window["ace"]?.config.set(
-      "basePath",
-      "https://cdn.jsdelivr.net/npm/ace-builds@latest/src-noconflict/",
-    );
-
-    // Initialize the editor with a JSON schema
-    //deno-lint-ignore 
-    const editor = new JSONEditor(this.dom.id["test"], {
-      schema: {
-        "title": "SQL Editor",
-        "type": "object",
-        "required": [
-          "query",
-        ],
-        "properties": {
-          "query": {
-            "type": "string",
-            "format": "sql",
-            "options": {
-              "ace": {
-                "theme": "ace/theme/vibrant_ink",
-                "tabSize": 2,
-                "useSoftTabs": true,
-                "wrap": true,
-              },
-            },
-          },
-        },
-      },
-      startval: {
-        "query":
-          "SELECT f.animal_id AS animal_id, \n       f.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       f.animal_name AS animal_name, \n       'Farm' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.farm f \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON f.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON f.animal_description = d.animal_description_id \n  \nUNION ALL \n  \nSELECT w.animal_id AS animal_id, \n       w.animal_type AS animal_type, \n       d.animal_description AS animal_description, \n       w.animal_name AS animal_name, \n       'Wild' AS domain, \n       att.animal_type_description AS description \n  \nFROM tutorial.wild w \n  \nLEFT OUTER JOIN tutorial.animal_types att \nON w.animal_type = att.animal_type_id \n  \nLEFT OUTER JOIN tutorial.animal_descriptions d \nON w.animal_description = d.animal_description_id \n  \nWHERE w.animal_id IN (SELECT animal_id FROM wild WHERE animal_id <= 3)",
-      },
-    });
-
-    // Hook up the submit button to log to the console
-    // document.getElementById('submit').addEventListener('click',function() {
-    // Get the value from the editor
-    // console.log(editor.getValue());
-    // });
   }
 
   /*

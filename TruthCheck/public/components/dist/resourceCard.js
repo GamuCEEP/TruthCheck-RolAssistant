@@ -317,6 +317,22 @@ function h(type, props, ...children) {
     };
 }
 const html = __default.bind(h);
+function css(strings, ...values) {
+    const cssTemplates = [];
+    cssTemplates.push(createTemplate(`<style>${values.reduce((acc, value, i)=>{
+        if (value instanceof HTMLTemplateElement) {
+            cssTemplates.push(value);
+            return acc + strings[i + 1];
+        } else if (Array.isArray(value)) {
+            value.forEach((el)=>cssTemplates.push(el)
+            );
+            return acc + strings[i + 1];
+        } else {
+            return acc + value + strings[i + 1];
+        }
+    }, strings[0])}</style>`));
+    return cssTemplates;
+}
 function customElement(tagName) {
     return (clazz)=>{
         Object.defineProperty(clazz, "is", {
@@ -391,56 +407,50 @@ function _initializerDefineProperty(target, property6, descriptor, context) {
 }
 var _class, _descriptor, _dec, _descriptor1, _dec1;
 var _dec2 = customElement("g-resource");
-let Panel = _class = _dec2(((_class = class Panel extends Shadow {
+let ResourceCard = _class = _dec2(((_class = class ResourceCard extends Shadow {
     resource = null;
-    validkeys = [];
-    card = null;
-    render() {
-        this.getResource();
-        this.createCard();
-        return html`
-    ${this.card}
-    `;
+    schema = null;
+    editor = null;
+    href = "/api/resources/";
+    static styles = css`
+    #card{
+      /* display: block;
+      width: var(--card-width);
+      height: var(--card-height); */
     }
-    getResource() {
+  `;
+    async firstUpdated() {
+        const origin = new URL(this.baseURI).origin;
+        const modelUrl = origin + "/models/" + this.model + ".json";
+        let resourceUrl = origin + this.href + this.model;
+        if (this.resourceId) resourceUrl += `/${this.resourceId}`;
         try {
-            this.resource = JSON.parse(this.innerHTML);
-            this.validkeys = this.accept.split(",").map((v)=>v.trim()
-            );
+            this.schema = await (await fetch(modelUrl))?.json();
+            this.resource = await (await fetch(resourceUrl))?.json();
         } catch  {
-            this.resource = this.innerHTML;
+            console.log("He fallado pero da igual");
         }
+        const options = {
+            schema: this.schema,
+            use_default_values: true
+        };
+        if (this.resource) options["startval"] = this.resource;
+        this.editor = new window["JSONEditor"](this.shadowRoot.querySelector("#card"), options);
+        window["JSONEditor"].defaults.options.compact = true;
     }
-    createCard() {
-        if (!this.resource["_id"]) {
-            return;
-        }
-        for (const entry of Object.entries(this.resource)){
-            if (this.validkeys.includes(entry[0])) {
-                this.createPart(entry[0], entry[1]);
-            }
-        }
-    }
-    getType(val) {}
-    createPart(key, value) {
-        console.log(typeof value, key);
+    render() {
+        return html`
+      ${'<link rel="stylesheet" href="/styles/card.css">'}
+      <div id="card"></div>
+    `;
     }
     constructor(...args){
         super(...args);
-        _initializerDefineProperty(this, "version", _descriptor, this);
-        _initializerDefineProperty(this, "accept", _descriptor1, this);
+        _initializerDefineProperty(this, "model", _descriptor, this);
+        _initializerDefineProperty(this, "resourceId", _descriptor1, this);
     }
-}) || _class, _dec = property(), _dec1 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "version", [
+}) || _class, _dec = property(), _dec1 = property(), _descriptor = _applyDecoratedDescriptor(_class.prototype, "model", [
     _dec
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: function() {
-        return 0;
-    }
-}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "accept", [
-    _dec1
 ], {
     configurable: true,
     enumerable: true,
@@ -448,5 +458,14 @@ let Panel = _class = _dec2(((_class = class Panel extends Shadow {
     initializer: function() {
         return "";
     }
+}), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "resourceId", [
+    _dec1
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return null;
+    }
 }), _class)) || _class;
-export { Panel as Panel };
+export { ResourceCard as ResourceCard };

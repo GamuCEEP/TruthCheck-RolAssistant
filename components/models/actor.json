@@ -1,0 +1,104 @@
+{
+  "title": "Actor",
+  "type": "object",
+  "format": "categories",
+  "options": {
+    "use_name_attributes": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description",
+      "format": "textarea",
+      "maxLength": 512
+    },
+    "stats": {
+      "type": "array",
+      "title": "Statistics",
+      "format": "tabs-top",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "headerTemplate": "{{self.key}}",
+        "options": {
+          "compact": true
+        },
+        "properties": {
+          "key": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 20
+          }
+        }
+      }
+    },
+    "active": {
+      "type": "array",
+      "title": "Active",
+      "format": "tabs-top",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": "#effect"
+      },
+      "options": {
+        "grid_columns": 4
+      }
+    },
+    "pasive": {
+      "type": "array",
+      "title": "Pasive",
+      "format": "tabs-top",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": "#effect"
+      },
+      "options": {
+        "grid_columns": 4
+      }
+    },
+    "inventory": {
+      "type": "array",
+      "title": "Inventory",
+      "format": "tabs-top",
+      "items": {
+        "type": "string",
+        "enum": "#item"
+      }
+    },
+    "equipment": {
+      "type": "array",
+      "title": "Equipment",
+      "format": "tabs-top",
+      "items": {
+        "type": "string",
+        "enum": "#item"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "title": "Tags",
+      "format": "",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "options": {
+          "compact": true
+        },
+        "enum": ["Fire", "Water", "Nature"]
+      }
+    },
+    "isShared": {
+      "type": "boolean",
+      "format": "checkbox"
+    }
+  }
+}
