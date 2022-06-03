@@ -52,10 +52,10 @@
       "type": "array",
       "title": "Active",
       "format": "tabs-top",
-      "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": "#effect"
+        "headerTemplate": "{{self}}",
+        "enum": ["#effect", "#effect", "#effect", "#effect"]
       },
       "options": {
         "grid_columns": 4
@@ -65,10 +65,10 @@
       "type": "array",
       "title": "Pasive",
       "format": "tabs-top",
-      "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": "#effect"
+        "headerTemplate": "{{self}}",
+        "enum": ["#effect", "#effect", "#effect", "#effect"]
       },
       "options": {
         "grid_columns": 4

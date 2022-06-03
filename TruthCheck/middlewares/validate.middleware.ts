@@ -77,7 +77,6 @@ export const validate = (schema: any) =>
         _schema: _query,
       },
     ];
-
     for (const _q of allQueries) {
       if (_q._schema && _q._schema.fields && _q._data) {
         await checkValidation(_q._schema, _q._data);

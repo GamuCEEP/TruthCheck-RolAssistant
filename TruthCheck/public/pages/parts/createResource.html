@@ -1,0 +1,46 @@
+<div>
+  <img src onerror="main(this)">
+
+  <div id="selector">
+    <button>Actor</button>
+    <button>Item</button>
+    <button>Stage</button>
+    <button>Effect</button>
+  </div>
+  <g-resource model="item" action="create">
+  </g-resource>
+  <button id="create">Create</button>
+
+</div>
+
+<script>
+  function main(ctx) {
+    const local = ctx.parentNode
+    const buttons = local.querySelectorAll('#selector button')
+    const gResource = local.querySelector('g-resource')
+    for(const button of buttons){
+      button.addEventListener('click', ()=>{
+        gResource.setAttribute('model', button.innerText.toLowerCase())
+      })
+    }
+    const createButton = local.querySelector('#create')
+    createButton.addEventListener('click', ()=>{
+      console.log(gResource.editor.getValue())
+    })
+  }
+  const buttons = document.querySelector('#selector')
+</script>
+<style>
+  g-resource {
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    /* --card-width: 100 */
+  }
+
+  #selector {
+    margin: 20px auto;
+    width: max-content;
+    color: aliceblue !important;
+  }
+</style>

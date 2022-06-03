@@ -26,6 +26,7 @@ export class Frame extends Shadow {
     #pages{
       width: 100%;
       height: 100%;
+      overflow: auto;
     }
     #pages > *{
       display: none;
@@ -51,25 +52,6 @@ export class Frame extends Shadow {
       background-color: transparent;
       width: 40%;
     }
-    /* #controls button::before{
-      content: '';
-      display: block;
-      width: 10px;
-      height: 10px;
-      background-color: var(--frame-color);
-      position: absolute;
-      left: 50%;
-      top: 13px;
-      transform: translateY(5px) rotate(45deg);
-      transition: transform 200ms ease;
-      z-index: -2;
-    }
-    #controls button.selected::before{
-      content: '';
-      border-top: 4px var(--detail-color) solid;
-      border-left: 4px var(--detail-color) solid;
-      transform: translateY(-20px) rotate(45deg)
-    } */
     #controls button.selected img{
       filter: invert(1) opacity(.5) drop-shadow(0 0 0 var(--detail-color))
     }

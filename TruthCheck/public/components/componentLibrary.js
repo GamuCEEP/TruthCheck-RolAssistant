@@ -1,5 +1,5 @@
 //Enum carrousel
-import './dist/enumSelector.js'
+// import './dist/selector.js'
 
 //Modal
 import './dist/modal.js'

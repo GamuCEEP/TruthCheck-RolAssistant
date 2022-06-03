@@ -26,6 +26,7 @@ export class EnumSelector extends Shadow {
       </button>
     `;
   selected = () => this.dom.class["option"][Math.floor(this.shown / 2)];
+
   static styles = css`
     div{
       display:flex;
@@ -34,23 +35,18 @@ export class EnumSelector extends Shadow {
       border: none;
       background-color: transparent;
     }
-    .option{
-      color: red;
-    }
-    .selected{
-      color: green;
-    }
   `;
 
   render() {
     this.optionArray = this.options?.split(",");
     return html`
-    <div>
-      <button id="previous" click=${this.previous}> ${"<"} </button>
-      <div>
+    ${'<link rel="stylesheet" href="/styles/selector.css">'}
+    <div id="base">
+      <button id="previous" click=${this.previous}></button>
+      <div id="options">
         ${this.shownOptions().map((a) => a)}
       </div>
-      <button id="next" click="${this.next}"> ${">"} </button>
+      <button id="next" click="${this.next}"></button>
     </div>
     `;
   }

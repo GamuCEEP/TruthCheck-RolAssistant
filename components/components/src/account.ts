@@ -21,7 +21,8 @@ export class AccountChecker extends Shadow {
     }
     console.log('Logged as',me)
 
-    if (me?.status) {
+    if (!me.email) {
+      console.log('Redirected for not being authenticated', me)
       window.history.replaceState({}, "", origin + this.href);
       window.location.replace(origin + this.href);
     }

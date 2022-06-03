@@ -470,11 +470,13 @@ let ResourceCard = _class = _dec3(((_class = class ResourceCard extends Shadow {
     async loadResources() {
         const origin = new URL(this.baseURI).origin;
         const modelUrl = origin + "/models/" + this.model + ".json";
-        let resourceUrl = origin + this.href + this.model + 's';
+        let resourceUrl = origin + this.href + this.model + "s";
         if (this.resourceId) resourceUrl += `/${this.resourceId}`;
         try {
             this.schema = await (await fetch(modelUrl))?.json();
-            this.resource = await (await fetch(resourceUrl))?.json();
+            if (this.action != "show") {
+                this.resource = await (await fetch(resourceUrl))?.json();
+            }
         } catch  {}
     }
     modifySchema() {
@@ -492,14 +494,14 @@ let ResourceCard = _class = _dec3(((_class = class ResourceCard extends Shadow {
                 break;
         }
     }
-    async firstUpdated() {
+    async updated() {
         await this.loadResources();
         const options = {
             schema: this.schema
         };
         if (this.resource) {
             options["startval"] = this.resource;
-            console.log(this.resource, 'se encontró');
+            console.log(this.resource, "se encontró");
         }
         this.editor = new window["JSONEditor"](this.shadowRoot.querySelector("#card"), options);
         this.modifySchema();

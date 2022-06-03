@@ -428,23 +428,18 @@ let EnumSelector = _class = _dec3(((_class = class EnumSelector extends Shadow {
       border: none;
       background-color: transparent;
     }
-    .option{
-      color: red;
-    }
-    .selected{
-      color: green;
-    }
   `;
     render() {
-        this.optionArray = this.options?.split(',');
+        this.optionArray = this.options?.split(",");
         return html`
-    <div>
-      <button id="previous" click=${this.previous}> ${"<"} </button>
-      <div>
+    ${'<link rel="stylesheet" href="/styles/selector.css">'}
+    <div id="base">
+      <button id="previous" click=${this.previous}></button>
+      <div id="options">
         ${this.shownOptions().map((a)=>a
         )}
       </div>
-      <button id="next" click="${this.next}"> ${">"} </button>
+      <button id="next" click="${this.next}"></button>
     </div>
     `;
     }
@@ -480,7 +475,7 @@ let EnumSelector = _class = _dec3(((_class = class EnumSelector extends Shadow {
     enumerable: true,
     writable: true,
     initializer: function() {
-        return '';
+        return "";
     }
 }), _descriptor1 = _applyDecoratedDescriptor(_class.prototype, "selectedIndex", [
     _dec1
