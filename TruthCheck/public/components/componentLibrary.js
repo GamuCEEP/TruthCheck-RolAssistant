@@ -31,5 +31,6 @@ try{
     disable_array_delete_all_rows: true,
     disable_array_delete_last_row: true,
     expand_height: true,
+    show_errors: 'never'
   }
 }catch{}

@@ -43,7 +43,7 @@ const checkValidation = async (
   },
   payload: any,
 ): Promise<void> => {
-  checkInvalidParams(schema.fields, payload);
+  //checkInvalidParams(schema.fields, payload);
   try {
     await schema.validate(payload, { stripUnknown: true, abortEarly: true });
   } catch (validationErrors) {

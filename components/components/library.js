@@ -19,16 +19,20 @@ import "./dist/data.js";
 
 //Resource
 import "./dist/resourceCard.js";
-window["JSONEditor"].defaults.options = {
-  disable_array_reorder: true,
-  disable_edit_json: true,
-  disable_properties: true,
-  use_default_values: true,
-  disable_collapse: true,
-  disable_array_delete_all_rows: true,
-  disable_array_delete_last_row: true,
-  expand_height: true
-  // theme: 'barebones',
+try{
+  window["JSONEditor"].defaults.options = {
+    disable_array_reorder: true,
+    disable_edit_json: true,
+    disable_properties: true,
+    use_default_values: true,
+    disable_collapse: true,
+    disable_array_delete_all_rows: true,
+    disable_array_delete_last_row: true,
+    expand_height: true,
+    show_errors: 'never'
+  }
+}catch{
+  console.warn('JSONEditor did not load correctly')
 }
 //Account
 import './dist/account.js'

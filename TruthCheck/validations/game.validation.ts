@@ -40,7 +40,7 @@ export const createGameValidation = {
         condition: yup.string(),
       }).required(),
     }).required(),
-  }),
+  }).noUnknown(false),
 };
 
 export const updateGameValidation = {
@@ -81,5 +81,5 @@ export const updateGameValidation = {
         condition: yup.string(),
       }),
     }),
-  }),
+  }).noUnknown(false),
 };

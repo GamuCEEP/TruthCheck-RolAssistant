@@ -19,17 +19,13 @@
   "properties": {
     "name": {
       "type": "string",
-      "title": "Name",
-      "options": {
-      }
+      "title": "Name"
     },
     "description": {
       "type": "string",
       "title": "Description",
       "format": "textarea",
-      "maxLength": 512,
-      "options": {
-      }
+      "maxLength": 512
     },
     "stats": {
       "type": "array",
@@ -60,8 +56,12 @@
       "format": "tabs-top",
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect"
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
+        "options": {
+          "enum_titles": "$effect"
+        }
       }
     },
     "pasive": {
@@ -70,8 +70,12 @@
       "format": "tabs-top",
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect"
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
+        "options":{
+          "enum_titles": "$effect"
+        }
       }
     },
     "inventory": {
@@ -80,17 +84,26 @@
       "format": "tabs-top",
       "uniqueItems": false,
       "items": {
-        "type": "string",
-        "enum": "#item"
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#item",
+        "options":{
+          "enum_titles": "$item"
+        }
       }
     },
     "equipment": {
       "type": "array",
       "title": "Equipment",
       "format": "tabs-top",
+      "uniqueItems": false,
       "items": {
-        "type": "string",
-        "enum": "#item"
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#item",
+        "options":{
+          "enum_titles": "$item"
+        }
       }
     },
     "tags": {
@@ -107,7 +120,6 @@
       }
     },
     "isShared": {
-      "title": "Shared",
       "type": "boolean",
       "format": "checkbox"
     }

@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="variables.css">
   <link rel="stylesheet" href="styles/card.css">
   <script src="components/library.js" type="module"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+  <script src="./jsoneditor.js"></script>
 
 
 </head>
@@ -18,15 +18,22 @@
 
   <h2>Test</h2>
 
-  <g-resource model="actor" action="edit">
+  <g-resource model="actor" action="edit" onsend="a" resourceId="1">
   </g-resource>
-  <g-resource model="item" action="show">
+   <g-resource model="item" action="show">
   </g-resource>
+  <script>
+    function a(a){
+      console.log(a)
+    }
+  </script>
+  
   <g-resource model="stage" action="create">
   </g-resource>
-  <g-resource model="effect">
+  <g-resource model="effect" action="">
   </g-resource>
 
+<!-- 
   <div id="test"></div>
   <button id="submit"></button>
 
@@ -62,7 +69,7 @@
       <page url="/test4.html" icon="../assets/icons/package-box.png" />
     </g-frame>
 
-  </div>
+  </div> -->
 </body>
 
 </html>

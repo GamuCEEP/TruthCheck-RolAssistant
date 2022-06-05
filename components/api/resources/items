@@ -1,0 +1,27 @@
+[
+  {
+    "id": 234234234,
+    "name": "palo",
+    "description": "es un palo"
+  },
+  {
+    "id": 234234234,
+    "name": "pala",
+    "description": "es una pala"
+  },
+  {
+    "id": 234234234,
+    "name": "pelo",
+    "description": "es pelo"
+  },
+  {
+    "id": 234234234,
+    "name": "opalo",
+    "description": "es un opalo"
+  },
+  {
+    "id": 234234234,
+    "name": "pato",
+    "description": "es un pato"
+  }
+]

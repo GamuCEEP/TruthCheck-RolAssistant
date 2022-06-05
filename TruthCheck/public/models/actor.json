@@ -58,30 +58,40 @@
       "type": "array",
       "title": "Active",
       "format": "tabs-top",
-      "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": "#effect"
+        "enum": "#effect",
+        "headerTemplate": "{{self.name}}",
+        "options": {
+          "compact": true,
+          "enum_titles": "$effect"
+        }
       }
     },
     "pasive": {
       "type": "array",
       "title": "Pasive",
       "format": "tabs-top",
-      "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": "#effect"
+        "enum": "#effect",
+        "headerTemplate": "{{self.name}}",
+        "options": {
+          "enum_titles": "$effect"
+        }
       }
     },
     "inventory": {
       "type": "array",
       "title": "Inventory",
       "format": "tabs-top",
-      "uniqueItems": false,
       "items": {
         "type": "string",
-        "enum": "#item"
+        "enum": "#item",
+        "headerTemplate": "{{self.name}}",
+        "options": {
+          "enum_titles": "$item"
+        }
       }
     },
     "equipment": {
@@ -90,7 +100,11 @@
       "format": "tabs-top",
       "items": {
         "type": "string",
-        "enum": "#item"
+        "enum": "#item",
+        "headerTemplate": "{{self.name}}",
+        "options": {
+          "enum_titles": "$item"
+        }
       }
     },
     "tags": {

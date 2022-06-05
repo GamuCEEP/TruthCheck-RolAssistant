@@ -1,0 +1,26 @@
+[
+  {
+    "id": "345345345345345",
+    "name": "lamarada",
+    "description": "Lanza una llamarada de fuego de sus manos",
+    "code": "fire + air"
+  },
+  {
+    "id": "345345345345345",
+    "name": "soplacion",
+    "description": "Lanza un soplido fuerte",
+    "code": "air"
+  },
+  {
+    "id": "345345345345345",
+    "name": "dardo venenoso",
+    "description": "Teemo??!!",
+    "code": "poison"
+  },
+  {
+    "id": "345345345345345",
+    "name": "boom",
+    "description": "BOOOOOM",
+    "code": "fire + air"
+  }
+]

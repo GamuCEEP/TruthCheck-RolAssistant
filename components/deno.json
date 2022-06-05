@@ -9,5 +9,12 @@
     "strict": false,
     "strictPropertyInitialization": false,
     "importsNotUsedAsValues": "preserve"
+  },
+  "lint": {
+    "files": {
+      "exclude": [
+        "jsoneditor.js"
+      ]
+    }
   }
 }

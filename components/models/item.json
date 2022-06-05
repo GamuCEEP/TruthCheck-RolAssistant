@@ -54,21 +54,26 @@
       "format": "tabs-top",
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect"
-      },
-      "options": {
-        "grid_columns": 4
+        "headerTemplate": "{{title}}",
+        "type": "object",
+        "enum": [
+          "#effect"
+        ],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "id": { "type": "string", "options": { "hidden": true } }
+        }
       }
     },
     "pasive": {
       "type": "array",
       "title": "Pasive",
       "format": "tabs-top",
-      "uniqueItems": true,
       "items": {
         "type": "string",
-        "enum": "#effect"
+        "headerTemplate": "{{self}}",
+        "enum": ["#effect", "#effect", "#effect", "#effect"]
       },
       "options": {
         "grid_columns": 4
@@ -77,7 +82,7 @@
     "tags": {
       "type": "array",
       "title": "Tags",
-      "format": "",
+      "format": "checkbox",
       "uniqueItems": true,
       "items": {
         "type": "string",

@@ -1,5 +1,5 @@
 <div>
-  <img src onerror="main(this)">
+  <img src onerror="init(this)" style="display:none">
 
   <div id="selector">
     <button>Actor</button>
@@ -7,14 +7,14 @@
     <button>Stage</button>
     <button>Effect</button>
   </div>
-  <g-resource model="item" action="create">
+  <g-resource model="actor" action="create" onsend="create">
   </g-resource>
   <button id="create">Create</button>
 
 </div>
 
 <script>
-  function main(ctx) {
+  function init(ctx) {
     const local = ctx.parentNode
     const buttons = local.querySelectorAll('#selector button')
     const gResource = local.querySelector('g-resource')
@@ -28,14 +28,14 @@
       console.log(gResource.editor.getValue())
     })
   }
-  const buttons = document.querySelector('#selector')
+  function create(resource){
+  }
 </script>
 <style>
   g-resource {
     display: block;
     margin: 0 auto;
     width: 80%;
-    /* --card-width: 100 */
   }
 
   #selector {
