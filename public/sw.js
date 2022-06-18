@@ -33,7 +33,7 @@
       const cache = await fromCache(url, cacheTypes.util);
       if (cache) return cache;
       const response = await self.fetch(url, requestInit);
-      if (response.status != 302) {
+      if (response.status != 302 || !url.includes('auth')) {
         toCache(url, (await response).clone(), cacheTypes.util);
       }
       return response;
