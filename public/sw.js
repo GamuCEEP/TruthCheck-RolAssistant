@@ -285,6 +285,8 @@
 
   async function saveLogin(response) {
     if (response.tokens && response.user) {
+      await deleteCache(new Request('tokens'),cacheTypes.private)
+      await deleteCache(new Request('user'),cacheTypes.private)
       dataToCache("tokens", response.tokens, cacheTypes.private);
       dataToCache("user", response.user, cacheTypes.shared);
     }
