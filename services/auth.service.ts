@@ -12,7 +12,6 @@ import TokenService from "./token.service.ts";
 import UserService from "./user.service.ts";
 import log from "../middlewares/logger.middleware.ts";
 
-
 class AuthService {
   /**
    * Login service
@@ -26,16 +25,27 @@ class AuthService {
     const user: UserSchema | undefined = await User.findOne(
       { email, isDisabled: false },
     );
-    log.debug('Patata')
-    log.debug('Son iguales ',await HashHelper.compare(password, (user as UserSchema).password))
+
+    log.debug("Son iguales ");
+    log.debug(
+      await HashHelper.compare(password, (user as UserSchema).password),
+    );
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
-      const { _id, name, email, role, isDisabled, createdAt, updatedAt, likedResources }:
-        UserSchema = user;
+      const {
+        _id,
+        name,
+        email,
+        role,
+        isDisabled,
+        createdAt,
+        updatedAt,
+        likedResources,
+      }: UserSchema = user;
       const tokens: TokenStructure | Error = await TokenService
         .generateAuthTokensService(_id.toString());
-        console.log('Come in :)')
+      console.log("Come in :)");
       return ({
         tokens,
         user: {
@@ -46,7 +56,7 @@ class AuthService {
           isDisabled,
           createdAt,
           updatedAt,
-          likedResources
+          likedResources,
         },
       });
     }
