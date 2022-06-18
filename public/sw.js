@@ -255,7 +255,7 @@
   async function getIdList(request) {
     const resourceType = request.url.split("/").pop();
     const url = `${origin}/api/resources/${resourceType}s`;
-    const response = await fetch(url, await authInit({}));
+    const response = await fetch(url, await authInit({}), false);
 
     if (status(response) != "ok") return new Response("[]");
 

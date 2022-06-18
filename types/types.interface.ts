@@ -52,7 +52,6 @@ export interface CreateUserStructure {
   name: string;
   email: string;
   password: string;
-  isDisabled: boolean;
 }
 export interface UpdateUserStructure {
   name?: string;

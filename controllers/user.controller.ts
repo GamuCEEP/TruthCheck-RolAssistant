@@ -13,14 +13,12 @@ class UserController {
       name,
       email,
       password,
-      isDisabled,
     } = await body.value;
     log.debug("Creating user");
     response.body = await UserService.createOne({
       name,
       email,
       password,
-      isDisabled: typeof isDisabled === "boolean" ? isDisabled : false,
     });
     response.status = Status.Created;
   }

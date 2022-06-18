@@ -16,7 +16,7 @@ class UserService {
   public static async createOne(
     options: CreateUserStructure,
   ) {
-    const { name, email, password, isDisabled } = options;
+    const { name, email, password } = options;
     const userExists: (UserSchema | undefined) = await User.findOne({ email });
     if (userExists) {
       log.error("User already exists");
@@ -38,7 +38,7 @@ class UserService {
         email,
         password: hashedPassword,
         role: "user",
-        isDisabled,
+        isDisabled: false,
         createdAt,
         docVersion: 1,
         likedResources: [],
