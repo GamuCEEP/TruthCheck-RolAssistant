@@ -10,6 +10,8 @@ import type {
 } from "../types/types.interface.ts";
 import TokenService from "./token.service.ts";
 import UserService from "./user.service.ts";
+import log from "../middlewares/logger.middleware.ts";
+
 
 class AuthService {
   /**
@@ -24,7 +26,7 @@ class AuthService {
     const user: UserSchema | undefined = await User.findOne(
       { email, isDisabled: false },
     );
-    console.log('Son iguales; ',await HashHelper.compare(password, (user as UserSchema).password))
+    log.debug('Son iguales; ',await HashHelper.compare(password, (user as UserSchema).password))
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
