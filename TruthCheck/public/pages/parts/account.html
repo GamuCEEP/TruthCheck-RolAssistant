@@ -1,26 +1,53 @@
 <div id="account">
-  <h1>Cuenta</h1>
-  <div id="profile">
+  <img src onerror="init(this)" style="display:none">
 
-  </div>
-
-  <g-data ondata="listen" href="/api/auth/me">
-  </g-data>
-  <script>
-    function listen(element) {
-      const context = element.parentElement
-      const profile = context.querySelector('#profile')
-      const data = context.querySelector('g-data')
-
-      profile.innerHTML = JSON.stringify(data.data);
-
-    }
-
-  </script>
+  <g-resource model="user" action="show" resource-id="me" href="/api/auth/me" onsend="">
+  </g-resource>
+  <button id="swapper">Edit</button>
 </div>
+
+<script>
+  function init(ctx){
+    const local = ctx.parentElement
+    const swapper = local.querySelector('#swapper')
+    const card = local.querySelector('g-resource')
+    const states = [
+      {
+        name: 'Cancel',
+        action: 'edit'
+      },
+      {
+        name: 'Edit',
+        action: 'show'
+      }
+    ]
+    let state = 0
+    nextState()
+    swapper.addEventListener('click',nextState)
+
+    function nextState(){
+      state = ++state % states.length
+      card.setAttribute('action', states[state].action)
+      swapper.innerText = states[state].name
+    }
+  }
+
+</script>
 
 <style>
   #account{
-    color: #fff
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 40px;
+  }
+  g-resource{
+    display: block;
+    width: 400px;
+  }
+  #swapper{
+    width: 300px;
   }
 </style>

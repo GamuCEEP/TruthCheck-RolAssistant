@@ -15,35 +15,35 @@ import {
 const router: any = new Router();
 
 router.post(
-  "/api/game",
+  "/api/resources/games",
   auth(["manageResources"]),
   validate(createGameValidation),
   GameController.create,
 );
 
 router.get(
-  "/api/game",
+  "/api/resources/games",
   auth(["manageResources"]),
   validate(getResourcesValidation),
   GameController.fetch
 );
 
 router.get(
-  "/api/game/:id",
+  "/api/resources/games/:id",
   auth(["manageResources"]),
   validate(getResourceValidation),
   GameController.show
 );
 
 router.put(
-  "/api/game/:id",
+  "/api/resources/games/:id",
   auth(["manageResources"]),
   validate(updateGameValidation),
   GameController.update
 );
 
 router.delete(
-  "/api/game/:id",
+  "/api/resources/games/:id",
   auth(["manageResources"]),
   validate(deleteResourceValidation),
   GameController.delete

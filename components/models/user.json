@@ -1,0 +1,27 @@
+{
+  "title": "User",
+  "type": "object",
+  "format": "categories",
+  "options": {
+    "use_name_attributes": true
+  },
+  "required": [
+    "name",
+    "email",
+    "role"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    }
+  }
+}

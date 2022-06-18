@@ -2,9 +2,6 @@
   "title": "Actor",
   "type": "object",
   "format": "categories",
-  "options": {
-    "use_name_attributes": true
-  },
   "required": [
     "name",
     "description",
@@ -13,15 +10,12 @@
     "pasive",
     "inventory",
     "equipment",
-    "tags",
-    "isShared"
+    "tags"
   ],
   "properties": {
     "name": {
       "type": "string",
-      "title": "Name",
-      "options": {
-      }
+      "title": "Name"
     },
     "description": {
       "type": "string",
@@ -45,11 +39,13 @@
         "properties": {
           "key": {
             "type": "string",
-            "maxLength": 20
+            "maxLength": 20,
+            "title": "Key"
           },
           "value": {
             "type": "string",
-            "maxLength": 20
+            "maxLength": 20,
+            "title": "Value"
           }
         }
       }
@@ -58,12 +54,12 @@
       "type": "array",
       "title": "Active",
       "format": "tabs-top",
+      "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect",
+        "type": "object",
         "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
         "options": {
-          "compact": true,
           "enum_titles": "$effect"
         }
       }
@@ -72,10 +68,11 @@
       "type": "array",
       "title": "Pasive",
       "format": "tabs-top",
+      "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect",
+        "type": "object",
         "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
         "options": {
           "enum_titles": "$effect"
         }
@@ -85,10 +82,11 @@
       "type": "array",
       "title": "Inventory",
       "format": "tabs-top",
+      "uniqueItems": false,
       "items": {
-        "type": "string",
-        "enum": "#item",
+        "type": "object",
         "headerTemplate": "{{self.name}}",
+        "enum": "#item",
         "options": {
           "enum_titles": "$item"
         }
@@ -98,10 +96,11 @@
       "type": "array",
       "title": "Equipment",
       "format": "tabs-top",
+      "uniqueItems": false,
       "items": {
-        "type": "string",
-        "enum": "#item",
+        "type": "object",
         "headerTemplate": "{{self.name}}",
+        "enum": "#item",
         "options": {
           "enum_titles": "$item"
         }
@@ -110,7 +109,7 @@
     "tags": {
       "type": "array",
       "title": "Tags",
-      "format": "",
+      "format": "checkbox",
       "uniqueItems": true,
       "items": {
         "type": "string",
@@ -119,10 +118,6 @@
         },
         "enum": ["Fire", "Water", "Nature"]
       }
-    },
-    "isShared": {
-      "type": "boolean",
-      "format": "checkbox"
     }
   }
 }

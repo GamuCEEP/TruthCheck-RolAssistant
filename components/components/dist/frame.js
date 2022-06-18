@@ -347,7 +347,6 @@ var _dec = customElement("g-frame");
 let Frame = _class = _dec((_class = class Frame extends Shadow {
     pagesHTML;
     selectedPage = 0;
-    pepe = 'werrwe';
     static styles = css`
     #wrapper{
       width: 100%;
@@ -359,7 +358,6 @@ let Frame = _class = _dec((_class = class Frame extends Shadow {
       width: 100%;
       height: 100%;
       overflow: auto;
-
     }
     #pages > *{
       display: none;
@@ -395,16 +393,18 @@ let Frame = _class = _dec((_class = class Frame extends Shadow {
         for (const page of this.querySelectorAll("page")){
             const url = page.attributes.getNamedItem("url").value;
             const icon = page.attributes.getNamedItem("icon").value;
+            const reloadable = page.attributes.getNamedItem("reloadable")?.value;
             pages.push({
                 url: url,
-                icon: icon
+                icon: icon,
+                reloadable: reloadable
             });
         }
         return html`
     <div id="wrapper">
       <div @id="pages">
-        <g-panel class="selected" href="${pages[0].url}"></g-panel>
-        <g-panel href="${pages[1].url}"></g-panel>
+        <g-panel class="selected" href="${pages[0].url}" reloadable="${pages[0].reloadable}"></g-panel>
+        <g-panel href="${pages[1].url}" reloadable="${pages[1].reloadable}"></g-panel>
       </div>
       <div @id="controls">
         <button class="selected" click="${()=>this.setPage(0)
@@ -420,9 +420,12 @@ let Frame = _class = _dec((_class = class Frame extends Shadow {
     `;
     }
     setPage(index) {
-        if (index == this.selectedPage) return;
         const pages = this.dom.id["pages"].children;
         const buttons = this.dom.id["controls"].querySelectorAll("button");
+        if (pages.item(index).getAttribute('reloadable')) {
+            pages.item(index)['reload']();
+        }
+        if (index == this.selectedPage) return;
         pages.item(this.selectedPage).removeAttribute("class");
         pages.item(index).setAttribute("class", "selected");
         buttons.item(this.selectedPage).removeAttribute("class");

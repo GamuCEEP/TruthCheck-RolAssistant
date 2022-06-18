@@ -1,0 +1,105 @@
+[
+  {
+    "_id": "62867ce3ea2f41a61c04ccc2",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "fireball",
+    "description": "Bola de fuego",
+    "code": "aaaaaaaaaaaaaahhhhh",
+    "imageURI": "fuego.png",
+    "tags": [
+      "fire"
+    ],
+    "createdAt": "2022-05-19T17:22:43.556Z",
+    "isShared": false,
+    "docVersion": 2,
+    "updatedAt": "2022-05-19T17:23:04.276Z"
+  },
+  {
+    "_id": "62a115fe8bbcf6f65334714f",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "ice cone",
+    "description": "Cono helado",
+    "code": "Ice Ice baby",
+    "imageURI": "ice.png",
+    "tags": [
+      "water"
+    ],
+    "createdAt": "2022-06-08T21:34:54.545Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a249a1390c08a5818ffd32",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "asd",
+    "description": "asd",
+    "code": "asd",
+    "tags": [
+      "water",
+      "nature"
+    ],
+    "createdAt": "2022-06-09T19:27:29.445Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a249cb390c08a5818ffd33",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "Funciona tremendo",
+    "description": "Patata",
+    "code": "asd",
+    "tags": [
+      "fire",
+      "water"
+    ],
+    "createdAt": "2022-06-09T19:28:11.034Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a24a7f390c08a5818ffd34",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "Patatas voladoras",
+    "description": "123",
+    "code": "123",
+    "tags": [],
+    "createdAt": "2022-06-09T19:31:11.217Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a24aae390c08a5818ffd35",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "test2",
+    "description": "qwe",
+    "code": "qwe",
+    "tags": [],
+    "createdAt": "2022-06-09T19:31:58.902Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a24ae5390c08a5818ffd36",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "tes3",
+    "description": "qwe",
+    "code": "qwe",
+    "tags": [],
+    "createdAt": "2022-06-09T19:32:53.682Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a24b8f390c08a5818ffd37",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "test34",
+    "description": "123",
+    "code": "123",
+    "tags": [
+      "nature"
+    ],
+    "createdAt": "2022-06-09T19:35:43.273Z",
+    "isShared": false,
+    "docVersion": 1
+  }
+]

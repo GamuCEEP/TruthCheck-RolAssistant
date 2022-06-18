@@ -32,11 +32,11 @@ export const createItemValidation = {
       .array(idValidation())
       .max(50)
       .required(),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128)
-      .required(),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128)
+    //   .required(),
     tags: yup
       .array(yup.string().oneOf(tags))
       .max(50)
@@ -72,10 +72,10 @@ export const updateItemValidation = {
     active: yup
       .array(idValidation())
       .max(50),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128),
     tags: yup
       .array(yup.string().oneOf(tags))
       .max(50),

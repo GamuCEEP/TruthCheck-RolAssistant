@@ -9,37 +9,33 @@ export const createGameValidation = {
     description: yup
       .string()
       .required(),
-    imgaeURI: yup
-      .string()
-      .required(),
     actors: yup
       .array(
         yup.string(),
       )
       .max(10)
       .required(),
-    stages: yup.object({
-      phase: yup
-        .array(
-          yup.number()
-            .integer(),
+    stages: yup.array(
+      yup.object({
+        stage: idValidation(),
+        deck: yup.array(
+          yup.object({
+            odds: yup
+              .number()
+              .integer()
+              .required(),
+            resource: foreignKeyValidation([
+              "items",
+              "stages",
+              "actors",
+              "effects",
+            ])
+              .required(),
+            condition: yup.string(),
+          }),
         ).required(),
-      stage: idValidation(),
-      deck: yup.object({
-        odds: yup
-          .number()
-          .integer()
-          .required(),
-        resource: foreignKeyValidation([
-          "items",
-          "stages",
-          "actors",
-          "effects",
-        ])
-          .required(),
-        condition: yup.string(),
-      }).required(),
-    }).required(),
+      }),
+    ).required(),
   }).noUnknown(false),
 };
 
@@ -52,8 +48,6 @@ export const updateGameValidation = {
       .string(),
     description: yup
       .string(),
-    imgaeURI: yup
-      .string(),
     isShared: yup
       .boolean(),
     actors: yup
@@ -62,11 +56,6 @@ export const updateGameValidation = {
       )
       .max(10),
     stages: yup.object({
-      phase: yup
-        .array(
-          yup.number()
-            .integer(),
-        ),
       stage: idValidation(),
       deck: yup.object({
         odds: yup

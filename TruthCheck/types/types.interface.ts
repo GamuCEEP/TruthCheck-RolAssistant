@@ -56,9 +56,8 @@ export interface CreateUserStructure {
 }
 export interface UpdateUserStructure {
   name?: string;
-  email?: string;
   isDisabled?: boolean;
-  likedResources?: { add: ForeignKey[]; remove: ForeignKey[] };
+  likedResources?: { add?: ForeignKey[]; remove?: ForeignKey[] };
 }
 //#endregion
 
@@ -171,13 +170,11 @@ export interface GameStructure {
   author: string;
   name: string;
   description: string;
-  imageURI: string;
   isShared: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   actors: ForeignKey[];
   stages: {
-    phase: number[];
     stage: ForeignKey;
     deck: {
       odds: number;
@@ -189,11 +186,9 @@ export interface GameStructure {
 export interface UpdateGameStructure {
   name?: string;
   description?: string;
-  imageURI?: string;
   isShared?: boolean;
   actors?: string[];
   stages?: {
-    phase?: number[];
     stage: string;
     deck?: {
       odds?: number;
@@ -206,10 +201,8 @@ export interface CreateGameStructure {
   author: string;
   name: string;
   description: string;
-  imageURI: string;
   actors: string[];
   stages: {
-    phase: number[];
     stage: string;
     deck: {
       odds: number;

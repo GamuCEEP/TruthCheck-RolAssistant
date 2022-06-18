@@ -9,8 +9,7 @@
     "name",
     "description",
     "code",
-    "tags",
-    "isShared"
+    "tags"
   ],
   "properties": {
     "name": {
@@ -51,10 +50,6 @@
         },
         "enum": ["Fire", "Water", "Nature"]
       }
-    },
-    "isShared": {
-      "type": "boolean",
-      "format": "checkbox"
     }
   }
 }

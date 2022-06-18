@@ -21,11 +21,11 @@ export const createEffectValidation = {
       .max(2048)
       .trim()
       .required(),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128)
-      .required(),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128)
+    //   .required(),
     tags: yup
       .array(yup.string().oneOf(tags))
       .max(50)
@@ -51,10 +51,10 @@ export const updateEffectValidation = {
       .string()
       .max(2048)
       .trim(),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128),
     // tags: yup
     //   .array(yup.string().oneOf(tags))
     //   .max(50),

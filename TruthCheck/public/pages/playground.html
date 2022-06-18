@@ -16,6 +16,7 @@
 
 
   <script src="../scripts/library.js" type="module"></script>
+  <script src="../scripts/util.js"></script>
   <g-account href="/login"></g-account>
 </head>
 
@@ -24,8 +25,9 @@
     <g-panel href="/pages/parts/header.html"></g-panel>
   </header>
   <g-frame>
+    <!-- Fix the nextPage method of g-frame -->
     <page url="/pages/parts/createGame.html" icon="/assets/icons/build.png" />
-    <page url="/pages/parts/gameLibrary.html" icon="/assets/icons/dice.png" />
+    <page url="/pages/parts/gameLibrary.html" icon="/assets/icons/dice.png" reloadable="true"/>
   </g-frame>
 </body>
 

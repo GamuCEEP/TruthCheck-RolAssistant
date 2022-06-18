@@ -1,0 +1,43 @@
+{
+  "name": "asd",
+  "description": "asd",
+  "stats": [
+      {
+          "key": "Fuerza",
+          "value": "123"
+      }
+  ],
+  "active": [
+      {
+          "id": "1",
+          "name": "fireball",
+          "description": "Bola de fuego"
+      }
+  ],
+  "pasive": [
+      {
+          "id": "1",
+          "name": "fireball",
+          "description": "Bola de fuego"
+      }
+  ],
+  "inventory": [
+      {
+          "id": "1",
+          "name": "Varita de fuego",
+          "description": "¡Lanza bolas de fuego!"
+      }
+  ],
+  "equipment": [
+      {
+          "id": "1",
+          "name": "Varita de fuego",
+          "description": "¡Lanza bolas de fuego!"
+      }
+  ],
+  "tags": [
+      "Fire",
+      "Water",
+      "Nature"
+  ]
+}

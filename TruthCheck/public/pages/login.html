@@ -7,26 +7,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta url="login">
   <title>TruthCheck - Login</title>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search)
+  </script>
   <link rel="stylesheet" href="../styles/form.css">
   <!-- <link rel="stylesheet" href="../styles/main.css"> -->
   <script src="../scripts/library.js" type="module"></script>
 
 </head>
 
-<body>
+<body onload="init()">
 
   <form action="api/auth/login" method="POST">
     <h2>Welcome back!</h2>
-    <input type="text" placeholder="Email" name="email">
-    <input type="password" placeholder="Password" name="password">
+    <input type="text" placeholder="Email" name="email" value="yo@yo.com">
+    <input type="password" placeholder="Password" name="password" value="123456">
     <div>
       <a href="register">Register</a>
       <input type="submit" value="Log in &rarr;">
     </div>
-    <!-- Hacer componente que lea la url y muestre una notificación de error
-    recibe el mensaje y el parametro que buscar
-    -->
+    
   </form>
+  <g-notification></g-notification>
+
+  <script>
+    function init(){
+      // document.querySelector('form div input').click()
+      const notifications = {
+        missingData: {
+          message: 'All fields are mandatory',
+          type: 'critical'
+        },
+        error: {
+          message: 'User or password incorrect',
+          type: 'error'
+        }
+      }
+      const notif = document.querySelector('g-notification')
+      
+      urlParams.forEach((value,key)=>{
+        console.log(urlParams.toString(), {key})
+        const data = notifications[key]
+        notif.notify(data.message, data.type)
+      })
+    }
+  </script>
 
 </body>
 

@@ -13,10 +13,12 @@
     );
     console.log(`Updated: ${await r.update()}`);
   }
-  registerSW("sw.js");
+  const activeSW = (await registerSW("sw.js")).active;
+  activeSW.postMessage('autoLoggin')
 })();
 
 async function registerSW(src) {
   const registration = await navigator.serviceWorker.register(src);
   console.log("Registrado correctamente", registration.scope);
+  return registration 
 }

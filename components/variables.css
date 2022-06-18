@@ -8,6 +8,11 @@
   --frame-color: var(--dark-color);
   --card-width: 300px;
   --card-height: min-height;
+  
+  --notification-info:aquamarine ;
+  --notification-critical:gold;
+  --notification-error: #f44;
+  
 }
 /* *{
   box-sizing: border-box;

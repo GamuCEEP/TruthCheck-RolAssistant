@@ -21,7 +21,7 @@ router.get(
 
 router.get(
   "/api/users/:id",
-  auth(["getUsers"]),
+  auth(["seeUsers"]),
   validate(getUserValidation),
   UserController.show,
 );

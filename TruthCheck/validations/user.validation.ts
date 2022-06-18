@@ -48,10 +48,6 @@ export const updateMeValidation = {
       .min(1)
       .max(255)
       .trim(),
-    email: yup
-      .string()
-      .email()
-      .trim(),
     isDisabled: yup
       .bool(),
     likedResources: yup
@@ -76,10 +72,6 @@ export const updateUserValidation = {
       .string()
       .min(1)
       .max(255)
-      .trim(),
-    email: yup
-      .string()
-      .email()
       .trim(),
     isDisabled: yup
       .bool(),

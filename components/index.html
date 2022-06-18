@@ -15,25 +15,52 @@
 </head>
 
 <body>
+  <!-- <script>
+    const $ = e => document.querySelector(e)
+  </script>
 
   <h2>Test</h2>
+  <g-notification></g-notification>
 
-  <g-resource model="actor" action="edit" onsend="a" resourceId="1">
-  </g-resource>
-   <g-resource model="item" action="show">
+  <button onclick="info()">info</button>
+  <button onclick="critical()">critical</button>
+  <button onclick="error()">error</button>
+  <button onclick="closeNotif()">close</button>
+
+  <script>
+    const notif = $('g-notification')
+    const ntypes = notif.NotificationType
+    function info() {
+      notif.notify('info, infoinfoinfoinfo', 'info')
+    }
+    function critical() {
+      notif.notify('critical, criticalcriticalcriticalcritical', 'critical')
+    }
+    function error() {
+      notif.notify('error, errorerrorerrorerror', 'error')
+    }
+    function closeNotif(){
+      console.log('closing :=')
+      notif.close()
+    }
+  </script>
+
+
+  
+  <g-resource model="item" action="show">
   </g-resource>
   <script>
-    function a(a){
+    function a(a) {
       console.log(a)
     }
   </script>
-  
+
   <g-resource model="stage" action="create">
   </g-resource>
   <g-resource model="effect" action="">
   </g-resource>
 
-<!-- 
+  
   <div id="test"></div>
   <button id="submit"></button>
 
@@ -62,14 +89,41 @@
       width: 400px;
       height: 400px;
     }
-  </style>
+  </style> -->
   <div id="caja">
+    <!-- <g-resource model="actor" href="/api/resources/" action="edit" onsend="a" resource-id="1">
+    </g-resource> -->
+    <g-resource model="game" href="/api/resources/" action="edit" resource-id="1" onsend="a" onsend="create"
+      filter="filter">
+    </g-resource>
+    <script>
+      function filter(e, type) {
+        // console.log('Filtrando:',{id:e.id,_id:e._id, key: e.key?.id}, e )
+        const key = {
+          id: e.id ?? e._id ?? e.key?.id,
+          type: type + 's'
+        }
+        return {
+          key: key,
+          name: e.name,
+          description: e.description,
+        }
+      }
+    </script>
+    <!-- <button onclick="reload()">Reload page</button>
     <g-frame>
       <page url="/test3.html" icon="../assets/icons/quill.png" />
-      <page url="/test4.html" icon="../assets/icons/package-box.png" />
+      <page url="/test4.html" icon="../assets/icons/package-box.png" reloadable="true"/>
     </g-frame>
-
-  </div> -->
+    <script>
+      const $ = (e, parent=document)=> parent.querySelector(e)
+      const $$ = (e, parent=document)=> parent.querySelectorAll(e)
+      function reload(){
+        const gframe = $('g-frame').shadowRoot 
+        console.log($$('g-panel', gframe))
+      }
+    </script> -->
+  </div>
 </body>
 
 </html>

@@ -18,7 +18,6 @@ class GameService {
       author,
       name,
       description,
-      imageURI,
       actors,
       stages,
     } = options;
@@ -39,7 +38,6 @@ class GameService {
       author,
       name,
       description,
-      imageURI,
       docVersion: 1,
       isShared: false,
       createdAt,
@@ -78,7 +76,6 @@ class GameService {
       author,
       name,
       description,
-      imageURI,
       isShared,
       createdAt,
       updatedAt,
@@ -91,14 +88,12 @@ class GameService {
       author,
       name,
       description,
-      imageURI,
       isShared,
       createdAt,
       updatedAt,
       actors: toForeignKeys("actors", actors),
       stages: stages.map((stage) => {
         return {
-          phase: stage.phase,
           stage: toForeignKeys("stages", [stage.stage])[0],
           deck: stage.deck.map((card) => {
             return {
@@ -131,7 +126,6 @@ class GameService {
     const {
       name,
       description,
-      imageURI,
       isShared,
       actors,
       stages
@@ -172,7 +166,6 @@ class GameService {
         author: state.id,
         name: name ?? game.name,
         description: description ?? game.description,
-        imageURI: imageURI ?? game.imageURI,
         actors: actors ?? game.actors,
         stages: defineStage(stages) ?? game.stages
       });
@@ -190,7 +183,6 @@ class GameService {
       $set: {
         name,
         description,
-        imageURI,
         docVersion: newDocVersion,
         isShared,
         updatedAt,
@@ -252,7 +244,6 @@ class GameService {
 function defineStage(stages: UpdateGameStructure['stages']){
   return stages?.map(stage=>{
     return {
-      phase: stage.phase!,
       stage: stage.stage,
       deck: stage.deck?.map(deck=>{
         return {

@@ -11,7 +11,6 @@ class GameController {
     const {
       name,
       description,
-      imageURI,
       actors,
       stages,
     } = await body.value;
@@ -20,7 +19,6 @@ class GameController {
       author: state.id,
       name,
       description,
-      imageURI,
       actors,
       stages,
     });
@@ -47,7 +45,6 @@ class GameController {
     const {
       name,
       description,
-      imageURI,
       isShared,
       actors,
       stages,
@@ -56,7 +53,6 @@ class GameController {
     await GameService.updateOne(id as string, state, {
       name,
       description,
-      imageURI,
       isShared,
       actors,
       stages,

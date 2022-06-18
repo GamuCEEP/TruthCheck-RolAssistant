@@ -11,6 +11,7 @@
  * * @example see README.md and docs/ for requirements, examples and usage info
  * * /
  */
+//@ts-nocheck
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -13825,11 +13826,16 @@ var EnumEditor = /*#__PURE__*/function (_AbstractEditor) {
 
 
           if (!Array.isArray(el)) {
-            /* TODO: use theme */
-            html = "<div><em>".concat(i, "</em>: ").concat(html, "</div>");
+            const val = html
+            html = `<div><label>${capitalize(i)}</label><p>${val}</p></div>`;
+            
+            if(i == 'description')
+            html = `<div><label>${capitalize(i)}</label><p>${val}</p></div>`;
+          }
+          function  capitalize(word){
+            return word.charAt(0).toUpperCase() + word.slice(1)
           }
           /* TODO: use theme */
-
 
           ret += "<li>".concat(html, "</li>");
         };

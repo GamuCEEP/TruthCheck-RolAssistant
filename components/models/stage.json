@@ -9,8 +9,7 @@
     "name",
     "description",
     "pasive",
-    "tags",
-    "isShared"
+    "tags"
   ],
   "properties": {
     "name": {
@@ -29,11 +28,12 @@
       "format": "tabs-top",
       "uniqueItems": true,
       "items": {
-        "type": "string",
-        "enum": "#effect"
-      },
-      "options": {
-        "grid_columns": 4
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
+        "options": {
+          "enum_titles": "$effect"
+        }
       }
     },
     "tags": {
@@ -48,10 +48,6 @@
         },
         "enum": ["Fire", "Water", "Nature"]
       }
-    },
-    "isShared": {
-      "type": "boolean",
-      "format": "checkbox"
     }
   }
 }

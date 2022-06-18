@@ -1,0 +1,22 @@
+{
+  "name": "Hellfire",
+  "description": "Partidazaa",
+  "actors": [
+    "id",
+    "id",
+    "id"
+  ],
+  "stages": {
+    "stage": "id",
+    "deck": [
+      {
+        "odds": 34,
+        "resource": {
+          "referencedCollection": "actor|item|stage|effect",
+          "referencedResource": "id.length=24"
+        },
+        "condition": "codigo cualquiera"
+      }
+    ]
+  }
+}

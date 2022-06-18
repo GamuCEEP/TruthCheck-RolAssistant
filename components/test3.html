@@ -1,9 +1,24 @@
 <h1>Hola holita</h1>
-<g-resource model="actor" action="edit">
+<g-resource model="user" action="show" resource-id="me" href="/api/auth/me" onsend="">
 </g-resource>
-<g-resource model="item">
+<g-resource model="actor" onsend="send" action="edit" href="/api/" filter="filter" resource-id="1" filter="">
 </g-resource>
-<g-resource model="stage">
+<g-resource model="actor" onsend="send" action="show" href="/api/" filter="filter" resource-id="1" filter="">
 </g-resource>
-<g-resource model="effect">
-</g-resource>
+
+
+<script>
+
+function filter(e){
+  const result =  {
+    id: e._id ?? e.id,
+    name: e.name,
+    description: e.description
+  }
+  return result
+}
+
+function send(e){
+  console.log(e)
+}
+</script>

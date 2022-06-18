@@ -1,0 +1,28 @@
+
+  {
+    "_id": "628682f5b5a5300e7df485fc",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "Antonio",
+    "description": "Una valiente piedrita",
+    "stats": {
+      "vida": 200,
+      "ataque": 4,
+      "novia": "la escoba y la banana"
+    },
+    "active": [
+      "1"
+    ],
+    "pasive": [],
+    "inventory": [],
+    "equipment": [
+      "1"
+    ],
+    "imageURI": "AntonioMago.png",
+    "tags": [
+      "fire"
+    ],
+    "createdAt": "2022-05-19T17:48:37.061Z",
+    "isShared": false,
+    "docVersion": 2,
+    "updatedAt": "2022-05-19T17:50:25.440Z"
+  }

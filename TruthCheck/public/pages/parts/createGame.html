@@ -1,15 +1,62 @@
 <div>
+  <img src onerror="init(this)" style="display:none">
+  <g-resource model="game" action="create" onsend="create" filter="filter">
+  </g-resource>
+  <g-notification></g-notification>
 
 </div>
+<script>
 
+  let local;
+  function init(ctx) {
+    local = ctx.parentNode
+  }
+
+  function filter(e, type) {
+    const key = {
+      id: e.id ?? e._id ?? e.key.id,
+      type: type+'s'
+    }
+    return {
+      key: key,
+      name: e.name,
+      description: e.description,
+    }
+  }
+  async function create(resource) {
+    formatGame(resource)
+    const gResource = local.querySelector('g-resource')
+    const url = `/api/resources/${gResource.model}s`
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(formatGame(resource))
+    })
+    const notif = local.querySelector('g-notification')
+    if (response.status >= 200 && response.status < 300) {
+      notif.notify(`${gResource.model} created succesfully`, 'info')
+    } else {
+      notif.notify(`${gResource.model} could not be created`, 'error')
+    }
+  }
+</script>
+<!-- 
+  TODO: 
+    -make a formatResource function for game
+    -make play game option
+    -make play game page
+    -make game
+ -->
 <style>
-  div{
+  div {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 10px;
   }
-  g-resource{
-    margin: 10px;
+
+  g-resource {
+    display: block;
+    margin: 10px auto;
+    width: 600px;
   }
 </style>

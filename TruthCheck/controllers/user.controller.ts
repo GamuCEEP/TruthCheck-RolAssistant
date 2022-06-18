@@ -53,11 +53,10 @@ class UserController {
   ) {
     const { id } = params;
     const body = request.body();
-    const { name, email, isDisabled, likedResources } = await body.value;
+    const { name, isDisabled, likedResources } = await body.value;
     log.debug("Updating user");
     await UserService.updateOne(id as string, state, {
       name,
-      email,
       isDisabled,
       likedResources,
     });
@@ -68,11 +67,10 @@ class UserController {
   ) {
     const { id } = state;
     const body = request.body();
-    const { name, email, isDisabled, likedResources } = await body.value;
+    const { name, isDisabled, likedResources } = await body.value;
     log.debug("Updating me");
     await UserService.updateOne(id as string, state, {
       name,
-      email,
       isDisabled,
       likedResources,
     });

@@ -13,8 +13,7 @@
     "pasive",
     "inventory",
     "equipment",
-    "tags",
-    "isShared"
+    "tags"
   ],
   "properties": {
     "name": {
@@ -25,7 +24,9 @@
       "type": "string",
       "title": "Description",
       "format": "textarea",
-      "maxLength": 512
+      "maxLength": 512,
+      "options": {
+      }
     },
     "stats": {
       "type": "array",
@@ -41,11 +42,13 @@
         "properties": {
           "key": {
             "type": "string",
-            "maxLength": 20
+            "maxLength": 20,
+            "title": "Key"
           },
           "value": {
             "type": "string",
-            "maxLength": 20
+            "maxLength": 20,
+            "title": "Value"
           }
         }
       }
@@ -73,7 +76,7 @@
         "type": "object",
         "headerTemplate": "{{self.name}}",
         "enum": "#effect",
-        "options":{
+        "options": {
           "enum_titles": "$effect"
         }
       }
@@ -87,7 +90,7 @@
         "type": "object",
         "headerTemplate": "{{self.name}}",
         "enum": "#item",
-        "options":{
+        "options": {
           "enum_titles": "$item"
         }
       }
@@ -101,7 +104,7 @@
         "type": "object",
         "headerTemplate": "{{self.name}}",
         "enum": "#item",
-        "options":{
+        "options": {
           "enum_titles": "$item"
         }
       }
@@ -118,10 +121,6 @@
         },
         "enum": ["Fire", "Water", "Nature"]
       }
-    },
-    "isShared": {
-      "type": "boolean",
-      "format": "checkbox"
     }
   }
 }

@@ -36,3 +36,5 @@ try{
 }
 //Account
 import './dist/account.js'
+
+import './dist/notification.js'

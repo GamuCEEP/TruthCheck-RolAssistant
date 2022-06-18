@@ -20,11 +20,11 @@ export const createStageValidation = {
       .array(idValidation())
       .max(50)
       .required(),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128)
-      .required(),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128)
+    //   .required(),
     tags: yup
       .array(yup.string().oneOf(tags))
       .max(50)
@@ -50,10 +50,10 @@ export const updateStageValidation = {
       .array(idValidation())
       .max(50)
       .length(50),
-    imageURI: yup
-      .string()
-      .min(1)
-      .max(128),
+    // imageURI: yup
+    //   .string()
+    //   .min(1)
+    //   .max(128),
     tags: yup
       .array(yup.string().oneOf(tags))
       .max(50),

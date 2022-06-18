@@ -1,0 +1,15 @@
+{
+    "_id": "1",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "fireball",
+    "description": "Bola de fuego",
+    "code": "aaaaaaaaaaaaaahhhhh",
+    "imageURI": "fuego.png",
+    "tags": [
+      "fire"
+    ],
+    "createdAt": "2022-05-19T17:22:43.556Z",
+    "isShared": false,
+    "docVersion": 2,
+    "updatedAt": "2022-05-19T17:23:04.276Z"
+  }

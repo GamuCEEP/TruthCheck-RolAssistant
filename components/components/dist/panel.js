@@ -396,22 +396,25 @@ let Panel = _class = _dec1(((_class = class Panel extends Shadow {
     async firstUpdated() {
         if (!this.href || !!this.innerHTML.trim()) return;
         const html1 = await (await fetch(new URL(this.baseURI).origin + this.href)).text();
-        this.html = html1;
+        this.html = `${html1}`;
         this.init([]);
     }
     render() {
         return html`${this.html}`;
     }
     updated() {
-        const scripts = this.shadowRoot.querySelectorAll('script');
+        const scripts = this.shadowRoot.querySelectorAll("script");
         for (const script of scripts){
-            const __final = document.createElement('script');
+            const __final = document.createElement("script");
             __final.innerHTML = script.innerHTML;
             __final.type = script.type;
             const parent = script.parentNode;
             parent.removeChild(script);
             parent.appendChild(__final);
         }
+    }
+    reload() {
+        this.init([]);
     }
     constructor(...args){
         super(...args);

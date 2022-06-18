@@ -1,0 +1,63 @@
+{
+  "name": "werwer",
+  "description": "werwer",
+  "players": [
+    {
+      "key": {
+        "id": "628682f5b5a5300e7df485fc",
+        "type": "actor"
+      },
+      "name": "Antonio",
+      "description": "Una valiente piedrita"
+    }
+  ],
+  "stages": [
+    {
+      "stage": {
+        "key": {
+          "id": "62867f1bf08701a650784492",
+          "type": "stage"
+        },
+        "name": "MURCIA!!",
+        "description": "Hay quien dice que no existe"
+      },
+      "deck": [
+        {
+          "odds": 0,
+          "resource": {
+            "key": {
+              "id": "628682f5b5a5300e7df485fc",
+              "type": "actor"
+            },
+            "name": "Antonio",
+            "description": "Una valiente piedrita"
+          },
+          "condition": ""
+        },
+        {
+          "odds": 0,
+          "resource": {
+            "key": {
+              "id": "62867ce3ea2f41a61c04ccc2",
+              "type": "effect"
+            },
+            "name": "fireball",
+            "description": "Bola de fuego"
+          },
+          "condition": ""
+        }
+      ]
+    },
+    {
+      "stage": {
+        "key": {
+          "id": "62867f1bf08701a650784492",
+          "type": "stage"
+        },
+        "name": "MURCIA!!",
+        "description": "Hay quien dice que no existe"
+      },
+      "deck": []
+    }
+  ]
+}

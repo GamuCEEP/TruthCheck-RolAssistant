@@ -1,0 +1,31 @@
+{
+  "title": "My account",
+  "type": "object",
+  "options": {
+    "use_name_attributes": true
+  },
+  "required": [
+    "name",
+    "email",
+    "role",
+    "createdAt"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    },
+    "createdAt": {
+      "type": "string",
+      "title": "Creation Date"
+    }
+  }
+}

@@ -6,14 +6,12 @@ export interface GameSchema {
   author: string;
   name: string;
   description: string;
-  imageURI: string;
   docVersion: number;
   isShared: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   actors: string[];
   stages: {
-    phase: number[];
     stage: string;
     deck: {
       odds: number;

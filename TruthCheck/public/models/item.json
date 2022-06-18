@@ -11,8 +11,7 @@
     "stats",
     "active",
     "pasive",
-    "tags",
-    "isShared"
+    "tags"
   ],
   "properties": {
     "name": {
@@ -54,15 +53,11 @@
       "format": "tabs-top",
       "uniqueItems": true,
       "items": {
-        "headerTemplate": "{{title}}",
         "type": "object",
-        "enum": [
-          "#effect"
-        ],
-        "properties": {
-          "name": { "type": "string" },
-          "description": { "type": "string" },
-          "id": { "type": "string", "options": { "hidden": true } }
+        "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
+        "options": {
+          "enum_titles": "$effect"
         }
       }
     },
@@ -70,13 +65,14 @@
       "type": "array",
       "title": "Pasive",
       "format": "tabs-top",
+      "uniqueItems": true,
       "items": {
-        "type": "string",
-        "headerTemplate": "{{self}}",
-        "enum": ["#effect", "#effect", "#effect", "#effect"]
-      },
-      "options": {
-        "grid_columns": 4
+        "type": "object",
+        "headerTemplate": "{{self.name}}",
+        "enum": "#effect",
+        "options": {
+          "enum_titles": "$effect"
+        }
       }
     },
     "tags": {
@@ -91,10 +87,6 @@
         },
         "enum": ["Fire", "Water", "Nature"]
       }
-    },
-    "isShared": {
-      "type": "boolean",
-      "format": "checkbox"
     }
   }
 }

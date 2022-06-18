@@ -115,7 +115,7 @@ class UserService {
         type: "NotFound",
       });
     }
-    const { isDisabled, name, email, likedResources } = options;
+    const { isDisabled, name, likedResources } = options;
     const userRights: string[] = roleRights.get(state.role);
     if (state.id !== id && !userRights.includes("manageUsers")) {
       return throwError({
@@ -128,23 +128,6 @@ class UserService {
       });
     }
 
-    if (email) {
-      const userExists: (UserSchema | undefined) = await User.findOne({
-        email,
-        _id: { $ne: id },
-      });
-      if (userExists) {
-        log.error("User already exists");
-        return throwError({
-          status: Status.Conflict,
-          name: "Conflict",
-          path: "user",
-          param: "user",
-          message: `User already exists`,
-          type: "Conflict",
-        });
-      }
-    }
     if (likedResources) {
       if (likedResources.add) {
         for (const foreignKey of likedResources.add) {
@@ -175,7 +158,6 @@ class UserService {
     }) = await User.updateOne({ _id: new Bson.ObjectId(id) }, {
       $set: {
         name,
-        email,
         isDisabled,
         updatedAt,
         docVersion: newDocVersion,

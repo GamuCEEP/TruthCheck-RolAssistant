@@ -1,1 +1,1 @@
-export const tags = ['fire', 'water']
+export const tags = ['fire', 'water', 'nature']

@@ -21,6 +21,10 @@ export class ResourceCard extends Shadow {
   action = null;
   @property()
   onsend = null;
+  @property()
+  href = "/api/resources/";
+  @property()
+  filter = "e=>e";
 
   resource = null;
   schema = null;
@@ -33,8 +37,6 @@ export class ResourceCard extends Shadow {
   };
 
   oneditorready = null;
-
-  href = "/api/resources/";
 
   static styles = css`
     h3{
@@ -100,68 +102,77 @@ export class ResourceCard extends Shadow {
     this.schema = await this.getResources(schemaUrl);
   }
 
-  async populateResources() {
-    let text = JSON.stringify(this.schema);
-    const resoruceRgx = /"#(\w+)"/g;
-    const nameRgx = /"\$(\w+)"/g;
+  async populateResources(target) {
+    if (!target) return;
+    let text = JSON.stringify(target);
+    const resoruceRgx = /"?#(\w+)"?/g;
+    const nameRgx = /"?\$(\w+)"?/g;
     const resourceLists = {};
     //Substitute resource lists
     for (const match of text.matchAll(resoruceRgx)) {
       const rawlist = resourceLists[match[1]] ??
         await this.getResources(`${this.href}${match[1]}s`);
-      const list = rawlist.map((r) => {
-        return { //Get only the properties we want
-          id: r.id,
-          name: r.name,
-          description: r.description,
-        };
-      });
+      const list = rawlist.map((e) => eval(this.filter)(e, match[1]));
       resourceLists[match[1]] = list;
-      text = text.replace(match[0], JSON.stringify(list));
+
+      text = text.replace(/"(#.+?)"/g, `[$1]`);
+      const listToAdd = JSON.stringify(list).replace(/^\[(.*?)\]$/g, "$1");
+      text = text.replace("#" + match[1], listToAdd);
+      text = text.replace(/}{/g, "},{");
     }
     //Substitute resource names
     for (const match of text.matchAll(nameRgx)) {
-      const nameList = resourceLists[match[1]].map((r) => r.name);
-      text = text.replace(match[0], JSON.stringify(nameList));
+      const nameList = resourceLists[match[1]].map((r) => r?.name);
+      text = text.replace(/"(\$[a-zA-Z\$]+?)"/g, `[$1]`);
+      const listToAdd = JSON.stringify(nameList).replace(/^\[(.*?)\]$/g, "$1");
+      text = text.replace("$" + match[1], listToAdd);
+      text = text.replace(/""/g, '","');
     }
-    this.schema = JSON.parse(text);
+    return JSON.parse(text);
   }
 
   async loadResource() {
     if (!this.resourceId) return;
-    const resourceUrl =
-      `${origin}${this.href}${this.model}s/${this.resourceId}`;
+
+    let resourceUrl = `${origin}${this.href}${this.model}s/${this.resourceId}`;
+    if (this.resourceId == "me") {
+      resourceUrl = `${origin}${this.href}`;
+    }
     this.resource = await this.getResources(resourceUrl);
   }
-  reflectAction() {
+  async reflectAction() {
+    this.oneditorready = ()=>this.editor.enable();
     switch (this.action) {
       case "create":
         break;
       case "show":
-        this.loadResource();
-        this.oneditorready = () => {
-          this.editor.disable();
-        };
+        await this.generateResource();
+        this.oneditorready = ()=>this.editor.disable();
         break;
       case "edit":
-        this.loadResource();
+        await this.generateResource();
         break;
       default:
         console.warn("Action", this.action, "not supported");
         break;
     }
   }
+  async generateResource() {
+    await this.loadResource();
+    this.resource = await this.formatResource(this.resource);
+    // this.resource = await this.populateResources(this.resource);
+  }
 
   async updated() {
     await this.loadSchema();
-    await this.populateResources();
+    this.schema = await this.populateResources(this.schema);
     await this.reflectAction();
 
     const options = {
       schema: this.schema,
     };
     if (this.resource) {
-      options["startval"] = this.resource;
+      options["startval"] = JSON.parse(JSON.stringify(this.resource));
     }
 
     this.editor = new window["JSONEditor"](
@@ -190,17 +201,112 @@ export class ResourceCard extends Shadow {
   }
 
   async getResources(url) {
-    try{
-
-      const response = await fetch(url);
+    try {
+      var response = await fetch(url);
       if (response.status >= 200 && response.status < 300) {
-        return response.json();
+        const resource = await response.json();
+        return resource;
       }
       console.warn("Resource is not a valid json", url);
-    }catch{
-      console.warn('Resource coul not load')
+    } catch {
+      console.warn("Resource could not load", { url }, response);
     }
     return [];
+  }
+
+  async formatResource(resource) {
+    if (!resource) {
+      return;
+    }
+    //if its a game
+    if (resource?.actors) {
+      const newActors = [];
+      for (const id of resource["actors"]) {
+        const url = `${this.href}actors/${id.referencedResource}`;
+        let data = await this.getResources(url);
+        data = eval(this.filter)(data, this.model);
+        newActors.push(data);
+      }
+      resource["players"] = newActors;
+      for (const stage of resource["stages"]) {
+        const url = `${this.href}stages/${stage.stage.referencedResource ?? stage.stage }`;
+        let data = await this.getResources(url);
+        data = eval(this.filter)(data, this.model);
+        stage.stage = data;
+      }
+      for (const stage of resource["stages"]) {
+        for (const deck of stage["deck"]) {
+          const url = `${this.href}${deck.resource.referencedCollection}/${deck.resource.referencedResource}`;
+          let data = await this.getResources(url);
+          data = eval(this.filter)(data, this.model);
+          deck.resource = data;
+        }
+      }
+      delete resource.actors;
+      delete resource._id;
+      delete resource.id;
+      delete resource.author;
+      delete resource.docVersion;
+      delete resource.isShared;
+      delete resource.createdAt;
+      return resource;
+    }
+    //If its a resource or a user
+    //Id to resource
+    return this.cleanResource(resource);
+  }
+  async cleanResource(resource) {
+    for (const prop of ["pasive", "active", "inventory", "equipment"]) {
+      if (!resource[prop]) continue;
+      let resourceType;
+      if (["pasive", "active"].includes(prop)) {
+        resourceType = "effects";
+      }
+      if (["inventory", "equipment"].includes(prop)) {
+        resourceType = "items";
+      }
+      const newProp = [];
+      for (const id of resource[prop]) {
+        const url = `${this.href}${resourceType}/${id.referencedResource}`;
+        let data = await this.getResources(url);
+        data = eval(this.filter)(data);
+        newProp.push(data);
+      }
+      resource[prop] = newProp;
+    }
+    //Code for effects
+    if (resource.code) {
+      resource.code = { code: resource.code };
+    }
+    //Tags
+    if (resource.tags) {
+      resource.tags = resource.tags.map((tag: string) =>
+        tag.charAt(0).toUpperCase() + tag.slice(1).toLowerCase()
+      );
+    }
+    //Stats
+    if (resource.stats) {
+      const stats = [];
+      for (const key in resource.stats) {
+        stats.push({ key: key, value: resource.stats[key] });
+      }
+      resource.stats = stats;
+    }
+
+    delete resource.id;
+    delete resource._id;
+    delete resource.author;
+    delete resource.imageURI;
+
+    delete resource.createdAt;
+    delete resource.isShared;
+    delete resource.docVersion;
+
+    delete resource.isDisabled;
+    delete resource.updatedAt;
+    delete resource.likedResources;
+
+    return resource;
   }
   /*
 

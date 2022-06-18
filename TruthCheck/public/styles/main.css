@@ -5,7 +5,11 @@
   --detail-color: #1FAD9A;
   --dark-color: #483C32;
   --light-color: #EBFAFF;
-  --frame-color: var(--dark-color)
+  --frame-color: var(--dark-color);
+
+  --notification-info:aquamarine ;
+  --notification-critical:gold;
+  --notification-error: #f44;
 }
 
 *{

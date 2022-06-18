@@ -1,4 +1,84 @@
-{
-  "name": "pepe",
-  "description": "Le gusta la marcha"
-}
+[
+  {
+    "_id": "628682f5b5a5300e7df485fc",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "Antonio",
+    "description": "Una valiente piedrita",
+    "stats": {
+      "vida": 200,
+      "ataque": 4,
+      "novia": "la escoba y la banana"
+    },
+    "active": [
+      "62867ce3ea2f41a61c04ccc2"
+    ],
+    "pasive": [],
+    "inventory": [],
+    "equipment": [
+      "62867db1ea2f41a61c04ccc3"
+    ],
+    "imageURI": "AntonioMago.png",
+    "tags": [
+      "fire"
+    ],
+    "createdAt": "2022-05-19T17:48:37.061Z",
+    "isShared": false,
+    "docVersion": 2,
+    "updatedAt": "2022-05-19T17:50:25.440Z"
+  },
+  {
+    "_id": "629cf00c7a76bf4e6ffe3d41",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "Oscar",
+    "description": "Le gustan los cubos de basura y el verde",
+    "stats": {
+      "vida": 200,
+      "ataque": 4,
+      "novia": "la escoba"
+    },
+    "active": [
+      "62867ce3ea2f41a61c04ccc2"
+    ],
+    "pasive": [],
+    "inventory": [],
+    "equipment": [
+      "62867db1ea2f41a61c04ccc3"
+    ],
+    "imageURI": "AntonioMago.png",
+    "tags": [
+      "fire"
+    ],
+    "createdAt": "2022-06-05T18:03:56.954Z",
+    "isShared": false,
+    "docVersion": 1
+  },
+  {
+    "_id": "62a36491fd17dd5704f12009",
+    "author": "6283f46d1377d4f5ea321495",
+    "name": "asd",
+    "description": "asd",
+    "stats": {
+      "Fuerza": "123"
+    },
+    "active": [
+      "62867ce3ea2f41a61c04ccc2"
+    ],
+    "pasive": [
+      "62867ce3ea2f41a61c04ccc2"
+    ],
+    "inventory": [
+      "62867db1ea2f41a61c04ccc3"
+    ],
+    "equipment": [
+      "62867db1ea2f41a61c04ccc3"
+    ],
+    "tags": [
+      "fire",
+      "water",
+      "nature"
+    ],
+    "createdAt": "2022-06-10T15:34:41.340Z",
+    "isShared": false,
+    "docVersion": 1
+  }
+]

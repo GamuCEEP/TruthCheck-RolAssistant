@@ -4,7 +4,7 @@ Un panel donde se muestra un documento externo
 
 */
 
-import { customElement, html, property, Shadow } from "../../deps.ts";
+import { css, customElement, html, property, Shadow } from "../../deps.ts";
 
 @customElement("g-panel")
 export class Panel extends Shadow {
@@ -15,8 +15,9 @@ export class Panel extends Shadow {
 
   async firstUpdated() {
     if (!this.href || !!this.innerHTML.trim()) return;
-    const html = await (await fetch(new URL(this.baseURI).origin + this.href)).text();
-    this.html = html;
+    const html = await (await fetch(new URL(this.baseURI).origin + this.href))
+      .text();
+    this.html = `${html}`;
 
     this.init([]);
   }
@@ -24,15 +25,19 @@ export class Panel extends Shadow {
   render() {
     return html`${this.html}`;
   }
-  updated(){
-    const scripts = this.shadowRoot.querySelectorAll('script')
-    for(const script of scripts){
-      const final = document.createElement('script')
-      final.innerHTML = script.innerHTML
-      final.type = script.type
-      const parent = script.parentNode
-      parent.removeChild(script)
-      parent.appendChild(final)
+  updated() {
+    const scripts = this.shadowRoot.querySelectorAll("script");
+    for (const script of scripts) {
+      const final = document.createElement("script");
+      final.innerHTML = script.innerHTML;
+      final.type = script.type;
+      const parent = script.parentNode;
+      parent.removeChild(script);
+      parent.appendChild(final);
     }
+  }
+
+  reload(){
+    this.init([])
   }
 }

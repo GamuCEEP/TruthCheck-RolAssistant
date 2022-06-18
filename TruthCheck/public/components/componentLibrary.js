@@ -34,3 +34,6 @@ try{
     show_errors: 'never'
   }
 }catch{}
+
+//Notifications
+import './dist/notification.js'

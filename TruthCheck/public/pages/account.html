@@ -10,8 +10,10 @@
   <link rel="manifest" href="../site.webmanifest">
   <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="../styles/default.css">
+  <script src="../scripts/jsoneditor.js"></script>
 
   <script src="../scripts/library.js" type="module"></script>
+  <script src="../scripts/util.js"></script>
   <g-account href="/login"></g-account>
 </head>
 
@@ -20,10 +22,11 @@
     <g-panel href="/pages/parts/header.html"></g-panel>
   </header>
   <main>
-    <g-frame>
+    <g-panel href="/pages/parts/account.html"></g-panel>
+    <!-- <g-frame>
       <page url="/pages/parts/account.html" icon="/assets/icons/account.png" />
       <page url="/pages/parts/stats.html" icon="/assets/icons/stats.png" />
-    </g-frame>
+    </g-frame> -->
   </main>
 </body>
 
