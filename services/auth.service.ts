@@ -24,7 +24,6 @@ class AuthService {
     const user: UserSchema | undefined = await User.findOne(
       { email, isDisabled: false },
     );
-    console.log(user)
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
@@ -32,6 +31,7 @@ class AuthService {
         UserSchema = user;
       const tokens: TokenStructure | Error = await TokenService
         .generateAuthTokensService(_id.toString());
+        console.log('Come in :)')
       return ({
         tokens,
         user: {
