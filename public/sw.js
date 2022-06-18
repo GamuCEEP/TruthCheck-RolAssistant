@@ -81,7 +81,7 @@
         headers: {
           ...await createAuthHeader(),
         },
-      });
+      }, false);
     }
     //Me update is divided in 2 endpoints,
     // 'api/auth/me' for name change
