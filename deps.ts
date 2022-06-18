@@ -4,7 +4,7 @@ export {
   compare,
   genSalt,
   hash,
-} from "https://deno.land/x/bcrypt@v0.3.0/mod.ts";
+} from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 export {
   Application,
   Context,
