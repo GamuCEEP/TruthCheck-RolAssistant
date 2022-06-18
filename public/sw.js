@@ -33,7 +33,7 @@
       const cache = await fromCache(url, cacheTypes.util) 
       if(cache) return cache
       const response = self.fetch(url, requestInit)
-      toCache(response, cacheTypes.util)
+      toCache(url, response, cacheTypes.util)
       return response
     }
 
@@ -341,9 +341,9 @@
     const cache = await getCache(cacheName);
     return cache.match(request);
   }
-  async function toCache(request, cacheName) {
+  async function toCache(url, response, cacheName) {
     const cache = await getCache(cacheName);
-    await cache.add(request);
+    await cache.put(url, response);
   }
   async function dataToCache(key, data, cacheName) {
     const cache = await getCache(cacheName);
