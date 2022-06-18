@@ -24,6 +24,7 @@ class AuthService {
     const user: UserSchema | undefined = await User.findOne(
       { email, isDisabled: false },
     );
+    console.log(user)
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
@@ -48,8 +49,8 @@ class AuthService {
     return throwError({
       status: Status.Unauthorized,
       name: "Unauthorized",
-      path: "password",
-      param: "password",
+      path: "login",
+      param: "login",
       message: `email or password is not correct`,
       type: "Unauthorized",
     });
