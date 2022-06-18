@@ -20,7 +20,7 @@ router.get("/(.*)", async (context: Context) => {
   const authorized = await pageAuth(context);
 
   if (!(openPages.includes(resource) || authorized) && resource.endsWith('.html')) {
-    resource = openPages[0];
+    context.response.redirect(openPages[0])
   }
 
   try {
