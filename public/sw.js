@@ -343,7 +343,7 @@
   }
   async function toCache(url, response, cacheName) {
     const cache = await getCache(cacheName);
-    await cache.put(url, response);
+    await cache.put(url, await response);
   }
   async function dataToCache(key, data, cacheName) {
     const cache = await getCache(cacheName);
