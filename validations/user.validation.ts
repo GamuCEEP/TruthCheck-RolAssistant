@@ -19,9 +19,6 @@ export const createUserValidation = {
       .required()
       .min(6)
       .max(255),
-    isDisabled: yup
-      .bool()
-      .default(false),
   }),
 };
 
