@@ -14,7 +14,7 @@ class AuthController {
   ): Promise<void> {
     const body = request.body();
     const { email, password } = await body.value;
-    log.debug("Trying Login user", email, password);
+    log.debug("Trying Login user");
     response.body = await AuthService.login({ email, password });
   }
 

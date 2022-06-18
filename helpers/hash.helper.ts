@@ -1,4 +1,4 @@
-import { compare, genSalt, hash } from "../deps.ts";
+import { compareSync, genSalt, hash } from "../deps.ts";
 
 class HashHelper {
   /**
@@ -21,7 +21,7 @@ class HashHelper {
     plain: string,
     _hash: string,
   ): Promise<boolean> {
-    return await compare(plain, _hash);
+    return await compareSync(plain, _hash);
   }
 }
 
