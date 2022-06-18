@@ -33,7 +33,7 @@
       const cache = await fromCache(url, cacheTypes.util) 
       if(cache) return cache
       const response = self.fetch(url, requestInit)
-      toCache(url, response, cacheTypes.util)
+      toCache(url, (await response).clone(), cacheTypes.util)
       return response
     }
 
