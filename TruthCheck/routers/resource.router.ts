@@ -6,7 +6,7 @@ import { ItemController } from "../controllers/resource.controller.ts";
 import { EffectController } from "../controllers/resource.controller.ts";
 import { auth } from "../middlewares/auth.middleware.ts";
 import { validate } from "../middlewares/validate.middleware.ts";
-import { preUploadValidate, upload } from "../deps.ts";
+// import { preUploadValidate, upload } from "../deps.ts";
 import {
   createActorValidation,
   createEffectValidation,
@@ -30,28 +30,28 @@ router.post(
   validate(fetchResourcesValidation),
   ResourceController.fetch,
 );
-router.post(
-  "/api/image",
-  upload("public/images", {
-    extensions: ["jpg", "png"],
-    maxSizeBytes: 20000000,
-    maxFileSizeBytes: 10000000,
-  }),
-  (context: any) => {
-    context.response.body = context.uploadedFiles;
-  },
-);
-router.post(
-  "/api/image-test",
-  preUploadValidate(
-    ["jpg", "png"],
-    20000000,
-    10000000,
-  ),
-  ({ response }: RouterContext<string>) => {
-    response.body = { validUpload: true };
-  },
-);
+// router.post(
+//   "/api/image",
+//   upload("public/images", {
+//     extensions: ["jpg", "png"],
+//     maxSizeBytes: 20000000,
+//     maxFileSizeBytes: 10000000,
+//   }),
+//   (context: any) => {
+//     context.response.body = context.uploadedFiles;
+//   },
+// );
+// router.post(
+//   "/api/image-test",
+//   preUploadValidate(
+//     ["jpg", "png"],
+//     20000000,
+//     10000000,
+//   ),
+//   ({ response }: RouterContext<string>) => {
+//     response.body = { validUpload: true };
+//   },
+// );
 
 /*
  To edit a resource:
