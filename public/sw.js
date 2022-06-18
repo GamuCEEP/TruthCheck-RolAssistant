@@ -8,15 +8,15 @@
     console.log("Instalado");
   });
 
-  self.addEventListener('message', async e=>{
+  self.addEventListener('message', e=>{
     if(e.data == 'autoLoggin') autoLoggin()
   })
 
-  self.addEventListener("activate", async () => {
+  self.addEventListener("activate", () => {
     console.log("Activo");
   });
 
-  async function main(ev) {
+  function main(ev) {
     ev.respondWith(
       requestManager(ev),
     );
@@ -28,9 +28,16 @@
    * @param {boolean} cache
    * @returns {Promise<Response>}
    */
-  function fetch(url, requestInit, cache = false) {
-    // Add cache logic
-    return self.fetch(url, requestInit);
+  async function fetch(url, requestInit, cache = true) {
+    if(cache){
+      const cache = await fromCache(url, cacheTypes.util) 
+      if(cache) return cache
+      const response = self.fetch(url, requestInit)
+      toCache(response, cacheTypes.util)
+      return response
+    }
+
+    return self.fetch(url, requestInit)
   }
 
   const handlers = {
@@ -53,7 +60,7 @@
   /**
    * @param { FetchEvent } ev
    */
-  async function requestManager(ev) {
+  function requestManager(ev) {
     const request = ev.request.clone();
     const pathname = new URL(request.url).pathname;
 
@@ -321,6 +328,7 @@
   const cacheTypes = {
     "private": "TruthCheckPrivate",
     "shared": "TruthCheckPublic",
+    "util": "TruthCheckUtil"
   };
   function getCache(cache = cacheTypes.shared) {
     return caches.open(cache);
