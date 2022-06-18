@@ -20,8 +20,7 @@ router.get("/(.*)", async (context: Context) => {
   const authorized = await pageAuth(context);
 
   if (!(openPages.includes(resource) || authorized) && resource.endsWith('.html')) {
-    context.response.redirect('/login')
-    context.response.status = 301
+    context.response.body = `<head><meta http-equiv="Refresh" content="0; URL=https://example.com/"></head>`
     return;
   }
 

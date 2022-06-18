@@ -29,15 +29,15 @@
    * @returns {Promise<Response>}
    */
   async function fetch(url, requestInit, cache = true) {
-    // if (cache) {
-    //   const cache = await fromCache(url, cacheTypes.util);
-    //   if (cache) return cache;
-    //   const response = await self.fetch(url, requestInit);
-    //   if (!response.redirected) {
-    //     toCache(url, (await response).clone(), cacheTypes.util);
-    //   }
-    //   return response;
-    // }
+    if (cache) {
+      const cache = await fromCache(url, cacheTypes.util);
+      if (cache) return cache;
+      const response = await self.fetch(url, requestInit);
+      if (!response.redirected) {
+        toCache(url, (await response).clone(), cacheTypes.util);
+      }
+      return response;
+    }
 
     return self.fetch(url, requestInit);
   }
