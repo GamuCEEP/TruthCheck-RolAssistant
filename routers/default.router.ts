@@ -21,6 +21,7 @@ router.get("/(.*)", async (context: Context) => {
 
   if (!(openPages.includes(resource) || authorized) && resource.endsWith('.html')) {
     context.response.redirect('/login')
+    return;
   }
 
   try {

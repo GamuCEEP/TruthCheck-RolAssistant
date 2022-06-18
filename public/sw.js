@@ -364,7 +364,6 @@
   /*                       *\
   | ### Request helpers ### |
   \*                       */
-
   function getParams(requestURL) {
     const params = new URL(requestURL).searchParams;
     if (params.toString() == "") return [];
