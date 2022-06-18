@@ -8,9 +8,9 @@
     console.log("Instalado");
   });
 
-  self.addEventListener('message', e=>{
-    if(e.data == 'autoLoggin') autoLoggin()
-  })
+  self.addEventListener("message", (e) => {
+    if (e.data == "autoLoggin") autoLoggin();
+  });
 
   self.addEventListener("activate", () => {
     console.log("Activo");
@@ -29,15 +29,17 @@
    * @returns {Promise<Response>}
    */
   async function fetch(url, requestInit, cache = true) {
-    if(cache){
-      const cache = await fromCache(url, cacheTypes.util) 
-      if(cache) return cache
-      const response = self.fetch(url, requestInit)
-      toCache(url, (await response).clone(), cacheTypes.util)
-      return response
+    if (cache) {
+      const cache = await fromCache(url, cacheTypes.util);
+      if (cache) return cache;
+      const response = await self.fetch(url, requestInit);
+      if (!response.redirected) {
+        toCache(url, (await response).clone(), cacheTypes.util);
+      }
+      return response;
     }
 
-    return self.fetch(url, requestInit)
+    return self.fetch(url, requestInit);
   }
 
   const handlers = {
@@ -95,23 +97,25 @@
       );
     }
   }
-  async function autoLoggin(){
-    const userCredentials = await dataFromCache('credentials', cacheTypes.private)
-    if(!userCredentials) return;
+  async function autoLoggin() {
+    const userCredentials = await dataFromCache(
+      "credentials",
+      cacheTypes.private,
+    );
+    if (!userCredentials) return;
     const data = {
       email: userCredentials.email,
-      password: userCredentials.password
-    }
+      password: userCredentials.password,
+    };
     const authResponse = await authHelper(
       data,
-      {referrer: '/home'},
+      { referrer: "/home" },
       "/api/auth/login",
     );
     if (status(authResponse) != "ok") {
       return authResponse;
     }
     await saveLogin(await authResponse.json());
-
   }
   /**
    * @param { Request } request
@@ -129,9 +133,10 @@
       "/api/auth/login",
     );
     //save credentials for auto login next time
-    dataToCache('credentials', {
-      email: form.get("email"), password: form.get("password")
-    }, cacheTypes.private)
+    dataToCache("credentials", {
+      email: form.get("email"),
+      password: form.get("password"),
+    }, cacheTypes.private);
 
     if (status(authResponse) != "ok") {
       return authResponse;
@@ -168,7 +173,8 @@
     if (request.method != "POST") return returnToReferer(request);
     const authResponse = await authHelper(
       {
-        refreshToken: (await dataFromCache("tokens", cacheTypes.private)).refresh.token,
+        refreshToken:
+          (await dataFromCache("tokens", cacheTypes.private)).refresh.token,
       },
       request,
       "/api/auth/refresh",
@@ -251,11 +257,11 @@
 
     if (status(response) != "ok") return new Response("[]");
 
-    const result = [];//maybe it falis if resource is only one or null
-    for(const resource of await response.clone().json()){
-      result.push(resource.id ?? resource._id)
+    const result = []; //maybe it falis if resource is only one or null
+    for (const resource of await response.clone().json()) {
+      result.push(resource.id ?? resource._id);
     }
-    
+
     return new Response(JSON.stringify(result));
   }
   //#endregion
@@ -296,7 +302,9 @@
       handler = handler["default"];
       break;
     }
-    if(typeof handler != 'function') console.log('OHHHHH NOOOOOO', {handler, pathname})
+    if (typeof handler != "function") {
+      console.log("OHHHHH NOOOOOO", { handler, pathname });
+    }
     return handler;
   }
 
@@ -329,7 +337,7 @@
   const cacheTypes = {
     "private": "TruthCheckPrivate",
     "shared": "TruthCheckPublic",
-    "util": "TruthCheckUtil"
+    "util": "TruthCheckUtil",
   };
   function getCache(cache = cacheTypes.shared) {
     return caches.open(cache);
