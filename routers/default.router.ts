@@ -20,7 +20,7 @@ router.get("/(.*)", async (context: Context) => {
   const authorized = await pageAuth(context);
 
   if (!(openPages.includes(resource) || authorized) && resource.endsWith('.html')) {
-    context.response.body = `<head><meta http-equiv="Refresh" content="0; URL=https://example.com/"></head>`
+    context.response.body = `<head><meta http-equiv="Refresh" content="0; URL=/login"></head>`
     context.response.type = 'text/html'
     return;
   }
