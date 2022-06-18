@@ -296,6 +296,7 @@
       handler = handler["default"];
       break;
     }
+    if(typeof handler != 'function') console.log('OHHHHH NOOOOOO', {handler, pathname})
     return handler;
   }
 
