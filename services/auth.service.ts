@@ -27,9 +27,8 @@ class AuthService {
     );
 
     log.debug("Son iguales ");
-    log.debug(
-      await HashHelper.compare(password, (user as UserSchema).password),
-    );
+    const a = await HashHelper.compare(password, (user as UserSchema).password);
+    log.debug(`${a} patata`);
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
