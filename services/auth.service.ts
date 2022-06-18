@@ -24,7 +24,7 @@ class AuthService {
     const user: UserSchema | undefined = await User.findOne(
       { email, isDisabled: false },
     );
-    console.log(await HashHelper.compare(password, (user as UserSchema).password))
+    console.log('Son iguales; ',await HashHelper.compare(password, (user as UserSchema).password))
     if (
       user && user.password && await HashHelper.compare(password, user.password)
     ) {
