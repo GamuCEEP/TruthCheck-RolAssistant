@@ -616,7 +616,7 @@ let ResourceCard = _class = _dec6(((_class = class ResourceCard extends Shadow {
             delete resource.docVersion;
             delete resource.isShared;
             delete resource.createdAt;
-            return resource;
+            return resource
         }
         return this.cleanResource(resource);
     }
@@ -679,6 +679,7 @@ let ResourceCard = _class = _dec6(((_class = class ResourceCard extends Shadow {
         delete resource.isDisabled;
         delete resource.updatedAt;
         delete resource.likedResources;
+        delete resource.role;
         return resource;
     }
     constructor(...args){

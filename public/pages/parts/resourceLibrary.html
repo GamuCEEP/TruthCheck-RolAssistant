@@ -7,44 +7,43 @@
     <button>Effect</button>
   </div>
   <div id="container"></div>
-</div>
 
-<script>
-  function init(ctx) {
-    let local
-    local = ctx.parentNode
-    showResources('effect')
-    const buttons = local.querySelectorAll('#selector button')
-    for (const button of buttons) {
-      button.addEventListener('click', e => {
-        const resource = e.target.innerText.toLowerCase()
-        showResources(resource)
-      })
-    }
-    async function showResources(resourceType) {
-      const ids = await (await fetch(`/sw/id/${resourceType}`)).json()
-      const container = local.querySelector('#container')
-      container.innerHTML = ''
-      if (ids.length == 0) {
-        container.innerHTML = `
+  <script >
+    function init(ctx) {
+      let local
+      local = ctx.parentNode
+      showResources('effect')
+      const buttons = local.querySelectorAll('#selector button')
+      for (const button of buttons) {
+        button.addEventListener('click', e => {
+          const resource = e.target.innerText.toLowerCase()
+          showResources(resource)
+        })
+      }
+      async function showResources(resourceType) {
+        const ids = await (await fetch(`/sw/id/${resourceType}`)).json()
+        const container = local.querySelector('#container')
+        container.innerHTML = ''
+        if (ids.length == 0) {
+          container.innerHTML = `
         <div id="placeholder">
           <p>
             There's no ${resourceType}s currently, <a href="#">why don't create one?</a>
           <\p>
         </div>
         `
-        const a = container.querySelector('a')
-        a.addEventListener('click', () => {
-          local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(1)
-        })
-      }
-      for (const id of ids) {
-        const card = document.createElement('g-resource')
-        card.setAttribute('model', resourceType)
-        card.setAttribute('resource-id', id)
-        card.setAttribute('action', 'show')
-        card.setAttribute('onsend', 'console.log')
-        card.setAttribute('filter', `
+          const a = container.querySelector('a')
+          a.addEventListener('click', () => {
+            local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(1)
+          })
+        }
+        for (const id of ids) {
+          const card = document.createElement('g-resource')
+          card.setAttribute('model', resourceType)
+          card.setAttribute('resource-id', id)
+          card.setAttribute('action', 'show')
+          card.setAttribute('onsend', 'console.log')
+          card.setAttribute('filter', `
         e=>{
           return {
             id: e._id ?? e.id,
@@ -53,65 +52,68 @@
           }
         }
         `)
-        container.appendChild(card)
+          container.appendChild(card)
+        }
       }
+
+    }
+  </script>
+
+  <style>
+    #placeholder {
+      display: block;
+      width: 500px;
+      height: 50px;
+      background-color: var(--main-color);
+      border-radius: 3px;
+      text-align: center;
+      margin: 100px;
     }
 
-  }
-</script>
+    #placeholder p {
+      display: block;
+      margin: 15px;
+    }
 
-<style>
-  #placeholder {
-    display: block;
-    width: 500px;
-    height: 50px;
-    background-color: var(--main-color);
-    border-radius: 3px;
-    text-align: center;
-    margin: 100px;
-  }
+    #placeholder a {
+      color: var(--accent-color);
+    }
 
-  #placeholder p {
-    display: block;
-    margin: 15px;
-  }
+    #container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
 
-  #placeholder a {
-    color: var(--accent-color);
-  }
-  #container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  g-resource {
-    display: block;
-    margin: 0 auto;
-    width: 300px;
-    height: 450px;
-    margin: 10px;
-  }
+    g-resource {
+      display: block;
+      margin: 0 auto;
+      width: 300px;
+      height: 450px;
+      margin: 10px;
+    }
 
-  #selector {
-    margin: 20px auto;
-    width: max-content;
-    color: aliceblue !important;
-  }
+    #selector {
+      margin: 20px auto;
+      width: max-content;
+      color: aliceblue !important;
+    }
 
-  #selector button {
-    border: none;
-    width: 100px;
-    height: 30px;
-    border-radius: 3px;
-    color: white;
-    background-color: var(--main-color);
-  }
+    #selector button {
+      border: none;
+      width: 100px;
+      height: 30px;
+      border-radius: 3px;
+      color: white;
+      background-color: var(--main-color);
+    }
 
-  #selector button:hover {
-    filter: brightness(1.2)
-  }
+    #selector button:hover {
+      filter: brightness(1.2)
+    }
 
-  #selector button:active {
-    filter: brightness(.8)
-  }
-</style>
+    #selector button:active {
+      filter: brightness(.8)
+    }
+  </style>
+</div>

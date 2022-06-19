@@ -10,69 +10,71 @@
   <g-resource model="actor" action="create" onsend="create" filter="filter">
   </g-resource>
 
-</div>
-
-<script>
-  let gResource
-  let local
-  function init(ctx) {
-    local = ctx.parentNode
-    const buttons = local.querySelectorAll('#selector button')
-    gResource = local.querySelector('g-resource')
-    for (const button of buttons) {
-      button.addEventListener('click', () => {
-        gResource.setAttribute('model', button.innerText.toLowerCase())
+  <script>
+    let gResource
+    let local
+    function init(ctx) {
+      local = ctx.parentNode
+      const buttons = local.querySelectorAll('#selector button')
+      gResource = local.querySelector('g-resource')
+      for (const button of buttons) {
+        button.addEventListener('click', () => {
+          gResource.setAttribute('model', button.innerText.toLowerCase())
+        })
+      }
+    }
+    function filter(r) {
+      return {
+        id: r._id ?? r.id,
+        name: r.name,
+        description: r.description
+      }
+    }
+    async function create(rawResource) {
+      const resource = formatResource(rawResource)
+      const url = `/api/resources/${gResource.model}s`
+      console.log({ resource })
+      const response = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(resource)
       })
+      const notif = local.querySelector('g-notification')
+      console.log(notif)
+      if (response.status >= 200 && response.status < 300) {
+        notif.notify(`${gResource.model} created succesfully`, 'info')
+      } else {
+        notif.notify(`${gResource.model} could not be created`, 'error')
+      }
     }
-  }
-  function filter(r){
-    return {
-      id: r._id ?? r.id,
-      name: r.name,
-      description: r.description
+  </script>
+  <style>
+    g-resource {
+      display: block;
+      margin: 0 auto;
+      width: 80%;
     }
-  }
-  async function create(rawResource) {    
-    const resource = formatResource(rawResource)
-    const url = `/api/resources/${gResource.model}s` 
-    console.log({resource})
-    const response = await fetch(url , {
-      method: 'POST',
-      body: JSON.stringify(resource)
-    })
-    const notif = local.querySelector('g-notification')
-    console.log(notif)
-    if(response.status >= 200 && response.status < 300){
-      notif.notify(`${gResource.model} created succesfully`, 'info')
-    }else{
-      notif.notify(`${gResource.model} could not be created`, 'error')
-    }
-  }
-</script>
-<style>
-  g-resource {
-    display: block;
-    margin: 0 auto;
-    width: 80%;
-  }
 
-  #selector {
-    margin: 20px auto;
-    width: max-content;
-    color: aliceblue !important;
-  }
-  #selector button{
-    border: none;
-    width: 100px;
-    height: 30px;
-    border-radius: 3px;
-    color: white;
-    background-color: var(--main-color);
-  }
-  #selector button:hover{
-    filter: brightness(1.2)
-  }
-  #selector button:active{
-    filter: brightness(.8)
-  }
-</style>
+    #selector {
+      margin: 20px auto;
+      width: max-content;
+      color: aliceblue !important;
+    }
+
+    #selector button {
+      border: none;
+      width: 100px;
+      height: 30px;
+      border-radius: 3px;
+      color: white;
+      background-color: var(--main-color);
+    }
+
+    #selector button:hover {
+      filter: brightness(1.2)
+    }
+
+    #selector button:active {
+      filter: brightness(.8)
+    }
+  </style>
+</div>

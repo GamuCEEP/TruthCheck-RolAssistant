@@ -4,50 +4,120 @@
   <g-resource model="user" action="show" resource-id="me" href="/api/auth/me" onsend="">
   </g-resource>
   <button id="swapper">Edit</button>
-</div>
 
-<script>
-  function init(ctx){
-    const local = ctx.parentElement
-    const swapper = local.querySelector('#swapper')
-    const card = local.querySelector('g-resource')
-    const states = [
-      {
-        name: 'Cancel',
-        action: 'edit'
-      },
-      {
-        name: 'Edit',
-        action: 'show'
+  <div>
+    <h2>General statistics</h2>
+    <ul>
+      <li>
+        <div id="gameNumber">
+        </div>
+      </li>
+      <li>
+        <div id="actorNumber">
+        </div>
+      </li>
+      <li>
+        <div id="itemNumber">
+        </div>
+      </li>
+      <li>
+        <div id="stageNumber">
+        </div>
+      </li>
+      <li>
+        <div id="effectNumber">
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script >
+    async function init(ctx) {
+      const local = ctx.parentElement
+      
+      console.log(local)
+
+      for (const resource of [
+        'game',
+        'actor',
+        'item',
+        'stage',
+        'effect'
+      ]) {
+        const span = local.querySelector(`#${resource}Number`);
+        const ids = await (await fetch(`/sw/id/${resource}`)).json();
+        span.innerHTML = `
+        <p># of created <br> ${resource}s</p>
+          <span> ${ids.length} </span>
+        `;
       }
-    ]
-    let state = 0
-    nextState()
-    swapper.addEventListener('click',nextState)
 
-    function nextState(){
-      state = ++state % states.length
-      card.setAttribute('action', states[state].action)
-      swapper.innerText = states[state].name
+
+
+      const swapper = local.querySelector('#swapper')
+      const card = local.querySelector('g-resource')
+      const states = [
+        {
+          name: 'Cancel',
+          action: 'edit'
+        },
+        {
+          name: 'Edit',
+          action: 'show'
+        }
+      ]
+      let state = 0
+      nextState()
+      swapper.addEventListener('click', nextState)
+
+      function nextState() {
+        state = ++state % states.length
+        card.setAttribute('action', states[state].action)
+        swapper.innerText = states[state].name
+      }
     }
-  }
 
-</script>
+  </script>
 
-<style>
-  #account{
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 40px;
-  }
-  g-resource{
-    display: block;
-    width: 400px;
-  }
-  #swapper{
-    width: 300px;
-  }
-</style>
+  <style>
+    #account {
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 40px;
+    }
+
+    g-resource {
+      display: block;
+      width: 400px;
+    }
+
+    #swapper {
+      width: 300px;
+    }
+    h2{
+      text-align: center;
+    }
+    ul{
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+    li div{
+      background-color: var(--main-color);
+      padding: 10px;
+      border-radius: 3px;
+    }
+    li p{
+      text-align: center;
+    }
+    li span{
+      display: block;
+      text-align: center;
+    }
+  </style>
+
+</div>

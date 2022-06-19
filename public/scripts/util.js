@@ -23,7 +23,7 @@ function formatGame(resource) {
   const game = JSON.parse(JSON.stringify(resource))
   //Players -> actors
   if (game["players"]) {
-    game["actors"] = game["players"]?.map((e) => e.key.id);
+    game["actors"] = game["players"]?.map((e) => e.id ?? e.key.id);
     delete game["players"];
   }
   //Stages.stage
@@ -44,20 +44,12 @@ function formatGame(resource) {
       stage: s["stage"]["key"]["id"]
     }
   })
-  //   game["stages"]["stage"] = game["stages"]["stage"]["key"]["id"];
-  
-  // //Deck.resource
-  // if (game["stages"]["deck"]) {
-  //   game["stages"]["deck"] = game["stages"]["deck"]?.map((e) => {
-  //     return {
-  //       odds: e["odds"],
-  //       resource: {
-  //         referencedCollection: e["resource"]["key"]["type"],
-  //         referencedResource: e["resource"]["key"]["id"],
-  //       },
-  //       condition: e["condition"],
-  //     };
-  //   });
-  // }
   return game;
 }
+
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+window.addEventListener('resize', () => {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+});

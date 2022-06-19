@@ -6,9 +6,7 @@
   },
   "required": [
     "name",
-    "email",
-    "role",
-    "createdAt"
+    "email"
   ],
   "properties": {
     "name": {
@@ -18,14 +16,6 @@
     "email": {
       "type": "string",
       "title": "Email"
-    },
-    "role": {
-      "type": "string",
-      "title": "Role"
-    },
-    "createdAt": {
-      "type": "string",
-      "title": "Creation Date"
     }
   }
 }
