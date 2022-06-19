@@ -17,8 +17,9 @@ export const createUserValidation = {
     password: yup
       .string()
       .required()
-      .min(6)
-      .max(255),
+      .min(6)//TODO: Fix this so you can register!!
+      .max(255)
+      .required()
   }),
 };
 

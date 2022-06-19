@@ -33,10 +33,10 @@
       const cache = await fromCache(url, cacheTypes.util);
       if (cache) return cache;
       const response = await self.fetch(url, requestInit);
-      if (response.status == 302 || url.includes('auth')) {
+      if (response.status == 302 || url.includes("auth")) {
         return response;
       }
-      console.log('Cached:',url)
+      console.log("Cached:", url);
       toCache(url, (await response).clone(), cacheTypes.util);
       return response;
     }
@@ -153,17 +153,19 @@
   async function register(request) {
     if (request.method != "POST") return returnToReferer(request, "error");
     const form = await request.clone().formData();
-    const authResponse = await authHelper(
-      {
+    const authResponse = await fetch("/api/auth/me", {
+      method: "POST",
+      body: JSON.stringify({
         email: form.get("email"),
         password: form.get("password"),
         name: form.get("name"),
-      },
-      request,
-      "/api/auth/me",
-    );
+      }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     if (status(authResponse) != "ok") {
-      return authResponse;
+      return returnToReferer(request, 'error');
     }
     return login(request);
   }
@@ -287,8 +289,8 @@
 
   async function saveLogin(response) {
     if (response.tokens && response.user) {
-      await deleteCache(new Request('tokens'),cacheTypes.private)
-      await deleteCache(new Request('user'),cacheTypes.private)
+      await deleteCache(new Request("tokens"), cacheTypes.private);
+      await deleteCache(new Request("user"), cacheTypes.private);
       dataToCache("tokens", response.tokens, cacheTypes.private);
       dataToCache("user", response.user, cacheTypes.shared);
     }
