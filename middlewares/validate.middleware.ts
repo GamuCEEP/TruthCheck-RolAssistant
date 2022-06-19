@@ -46,7 +46,6 @@ const checkValidation = async (
 ): Promise<void> => {
   try {
     const a = await schema.validate(payload, { stripUnknown: true, abortEarly: true });
-    log.debug(a)
   } catch (validationErrors) {
     throw ({ ...validationErrors, status: Status.BadRequest });
   }

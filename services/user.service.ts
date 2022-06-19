@@ -17,6 +17,7 @@ class UserService {
     options: CreateUserStructure,
   ) {
     const { name, email, password } = options;
+    log.debug('Finding one')
     const userExists: (UserSchema | undefined) = await User.findOne({ email });
     if (userExists) {
       log.error("User already exists");
@@ -29,9 +30,11 @@ class UserService {
         type: "Conflict",
       });
     }
+    log.debug('Hashing password')
     const hashedPassword = await HashHelper.encrypt(password);
+    log.debug('Getting date')
     const createdAt = new Date();
-
+    log.debug('Inserting one')
     const user: string | Bson.ObjectId = await User.insertOne(
       {
         name,
@@ -44,7 +47,7 @@ class UserService {
         likedResources: [],
       },
     );
-
+      log.debug('Done :)')
     if (!user) {
       log.error("Could not create user");
       return throwError({
