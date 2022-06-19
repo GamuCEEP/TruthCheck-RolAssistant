@@ -3,12 +3,6 @@ import { foreignKeyValidation, idValidation } from "./resource.validation.ts";
 
 export const createUserValidation = {
   body: yup.object({
-    name: yup
-      .string()
-      .min(1)
-      .max(255)
-      .trim()
-      .required(`name is required`),
     email: yup
       .string()
       .email()
@@ -16,10 +10,15 @@ export const createUserValidation = {
       .required(`email is required`),
     password: yup
       .string()
-      .required()
-      .min(6)//TODO: Fix this so you can register!!
+      .required(`password is required`)
       .max(255)
-      .required()
+      .min(6),
+    name: yup
+      .string()
+      .min(1)
+      .max(255)
+      .trim()
+      .required(`name is required`),
   }),
 };
 
