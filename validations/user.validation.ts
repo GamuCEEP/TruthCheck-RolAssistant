@@ -11,8 +11,7 @@ export const createUserValidation = {
     password: yup
       .string()
       .required(`password is required`)
-      .max(255)
-      .min(6),
+      .max(255),
     name: yup
       .string()
       .min(1)

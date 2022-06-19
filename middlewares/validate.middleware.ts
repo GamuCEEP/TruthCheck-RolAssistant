@@ -2,6 +2,7 @@
 
 import { helpers, RouterContext, Status } from "../deps.ts";
 import { throwError } from "./errorHandler.middleware.ts";
+import log from "../middlewares/logger.middleware.ts";
 
 /**
  * Checks if there is any unwanted parameters provided and
@@ -43,10 +44,10 @@ const checkValidation = async (
   },
   payload: any,
 ): Promise<void> => {
-  //checkInvalidParams(schema.fields, payload);
   try {
     await schema.validate(payload, { stripUnknown: true, abortEarly: true });
   } catch (validationErrors) {
+    log.debug(validationErrors)
     throw ({ ...validationErrors, status: Status.BadRequest });
   }
 };
