@@ -4,7 +4,9 @@ export {
   compare,
   genSalt,
   hash,
-  compareSync
+  compareSync,
+  genSaltSync,
+  hashSync,
 } from "https://deno.land/x/bcrypt@v0.4.0/mod.ts";
 export {
   Application,

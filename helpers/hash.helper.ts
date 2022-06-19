@@ -1,4 +1,4 @@
-import { compareSync, genSalt, hash } from "../deps.ts";
+import { compareSync, genSaltSync , hashSync } from "../deps.ts";
 
 class HashHelper {
   /**
@@ -7,8 +7,8 @@ class HashHelper {
    * @returns Promise<string> Returns encrypted password hash
    */
   public static async encrypt(str: string): Promise<string> {
-    const salt = await genSalt(8);
-    return hash(str, salt);
+    const salt = await genSaltSync(8);
+    return hashSync(str, salt);
   }
 
   /**
