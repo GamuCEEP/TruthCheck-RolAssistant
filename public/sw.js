@@ -28,7 +28,7 @@
    * @param {boolean} cache
    * @returns {Promise<Response>}
    */
-  async function fetch(url, requestInit, cache = false) {
+  async function fetch(url, requestInit, cache = true) {
     if (cache) {
       const cache = await fromCache(url, cacheTypes.util);
       if (cache) return cache;
