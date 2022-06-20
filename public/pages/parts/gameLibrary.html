@@ -4,9 +4,13 @@
   <img src onerror="init(this)" style="display:none">
 
   <script >
+    reloadGL = true
+    window.onerror = setTimeout(() => reloadGL && location.reload(), 1)
     function init(ctx) {
       let local
       local = ctx.parentNode
+      reloadGL = false
+      window.onerror = null
       showResources()
       async function showResources() {
         const ids = await (await fetch(`/sw/id/game`)).json()
@@ -20,7 +24,7 @@
       `
         const a = container.querySelector('a')
         a.addEventListener('click', () => {
-          local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(1)
+          local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(0)
         })
         if (ids.length != 0) {
           container.innerHTML = ''

@@ -118,7 +118,7 @@ class UserService {
         type: "NotFound",
       });
     }
-    const { isDisabled, name, likedResources } = options;
+    const { name } = options;
     const userRights: string[] = roleRights.get(state.role);
     if (state.id !== id && !userRights.includes("manageUsers")) {
       return throwError({
@@ -131,28 +131,29 @@ class UserService {
       });
     }
 
-    if (likedResources) {
-      if (likedResources.add) {
-        for (const foreignKey of likedResources.add) {
-          const keyExists = user.likedResources.find(
-            (key) => equals(key, foreignKey),
-          );
-          if (keyExists) continue;
-          user.likedResources.push(foreignKey);
-        }
-      }
-      if (likedResources.remove) {
-        for (const foreignKey of likedResources.remove) {
-          user.likedResources = user.likedResources.filter(
-            (key) => !equals(key, foreignKey),
-          );
-        }
-      }
-    }
+    // if (likedResources) {
+    //   if (likedResources.add) {
+    //     for (const foreignKey of likedResources.add) {
+    //       const keyExists = user.likedResources.find(
+    //         (key) => equals(key, foreignKey),
+    //       );
+    //       if (keyExists) continue;
+    //       user.likedResources.push(foreignKey);
+    //     }
+    //   }
+    //   if (likedResources.remove) {
+    //     for (const foreignKey of likedResources.remove) {
+    //       user.likedResources = user.likedResources.filter(
+    //         (key) => !equals(key, foreignKey),
+    //       );
+    //     }
+    //   }
+    // }
 
     const { docVersion } = user;
     const newDocVersion = docVersion + 1;
     const updatedAt = new Date();
+    log.debug(`Updating user ${name}`)
     const result: ({
       upsertedId: any;
       upsertedCount: number;
@@ -161,10 +162,10 @@ class UserService {
     }) = await User.updateOne({ _id: new Bson.ObjectId(id) }, {
       $set: {
         name,
-        isDisabled,
+        // isDisabled,
         updatedAt,
         docVersion: newDocVersion,
-        likedResources: user.likedResources,
+        // likedResources: user.likedResources,
       },
     });
     if (!result) {

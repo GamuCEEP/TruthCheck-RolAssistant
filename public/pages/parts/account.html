@@ -1,8 +1,9 @@
 <div id="account">
   <img src onerror="init(this)" style="display:none">
 
-  <g-resource model="user" action="show" resource-id="me" href="/api/auth/me" onsend="">
+  <g-resource model="user" action="show" resource-id="me" href="/api/auth/me" onsend="save">
   </g-resource>
+  <g-notification></g-notification>
   <button id="swapper">Edit</button>
 
   <div>
@@ -31,11 +32,30 @@
     </ul>
   </div>
 
-  <script >
+  <script>
+    async function save(resource) {
+      const url = `/api/auth/me`
+
+      const response = await fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(resource),
+        headers: { 'Content-Type': 'application/json' },
+      })
+      const notif = local.querySelector('g-notification')
+      if (response.status >= 200 && response.status < 300) {
+        notif.notify(`User updated succesfully`, 'info')
+      } else {
+        notif.notify(`User could not be updated`, 'error')
+      }
+    }
+    let local
+    reloadAC = true
+    window.onerror = setTimeout(() => reloadAC && location.reload(), 1)
     async function init(ctx) {
-      const local = ctx.parentElement
-      
-      console.log(local)
+      local = ctx.parentElement
+      reloadAC = false
+      window.onerror = null
+
 
       for (const resource of [
         'game',
@@ -97,24 +117,30 @@
     #swapper {
       width: 300px;
     }
-    h2{
+
+    h2 {
       text-align: center;
     }
-    ul{
+
+    ul {
       list-style: none;
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       gap: 10px;
     }
-    li div{
+
+    li div {
       background-color: var(--main-color);
       padding: 10px;
       border-radius: 3px;
     }
-    li p{
+
+    li p {
       text-align: center;
     }
-    li span{
+
+    li span {
       display: block;
       text-align: center;
     }

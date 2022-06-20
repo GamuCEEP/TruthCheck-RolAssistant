@@ -28,7 +28,7 @@
    * @param {boolean} cache
    * @returns {Promise<Response>}
    */
-  async function fetch(url, requestInit, cache = true) {
+  async function fetch(url, requestInit, cache = false) {
     if (cache) {
       const cache = await fromCache(url, cacheTypes.util);
       if (cache) return cache;
@@ -69,7 +69,7 @@
     const pathname = new URL(request.url).pathname;
 
     const handler = getHandler(pathname, handlers);
-    return handler(request);
+    return handler(request.clone());
   }
 
   /**
@@ -85,18 +85,23 @@
         },
       }, false);
     }
-    //Me update is divided in 2 endpoints,
-    // 'api/auth/me' for name change
-    // 'api/resources/:id?liked' | 'api/resources/:id?disliked'
-    if (request.method == "PUT") {
-      const form = await request.clone().formData();
-      return authHelper(
-        {
-          name: form.get("name"),
-        },
-        request,
-        "/api/auth/me",
-      );
+    /*
+      Me update is divided in 2 endpoints,
+      'api/auth/me' for name change
+      'api/resources/:id?liked' | 'api/resources/:id?disliked'
+    */
+   if (request.method == "PUT") {
+     const form = await request.clone().json();
+     if(!form.name) return new Response({},{status: 400})
+     return fetch(request.url, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name: form.name
+      }),
+      headers: {
+        ...await createAuthHeader(),
+      },
+    }, false);
     }
   }
   async function autoLoggin() {
@@ -280,7 +285,7 @@
       console.log("Falta data");
       return returnToReferer(request, "missingData");
     }
-    const response = await authFetch(url, credentials);
+    const response = await authFetch(url, credentials, request.method);
     if (status(response) != "ok") {
       return returnToReferer(request, "error");
     }

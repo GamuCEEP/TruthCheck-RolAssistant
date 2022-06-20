@@ -13,8 +13,12 @@
   <script>
     let gResource
     let local
+    reloadCR = true
+    window.onerror = setTimeout(() => reloadCR && location.reload(), 1)
     function init(ctx) {
       local = ctx.parentNode
+      window.onerror = null;
+      reloadCR = false
       const buttons = local.querySelectorAll('#selector button')
       gResource = local.querySelector('g-resource')
       for (const button of buttons) {

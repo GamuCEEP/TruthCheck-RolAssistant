@@ -65,12 +65,12 @@ class UserController {
   ) {
     const { id } = state;
     const body = request.body();
-    const { name, isDisabled, likedResources } = await body.value;
-    log.debug("Updating me");
+    const { name } = JSON.parse(await body.value);
+    log.debug(`Updating me ${JSON.parse(await body.value).name}`);
     await UserService.updateOne(id as string, state, {
       name,
-      isDisabled,
-      likedResources,
+      // isDisabled,
+      // likedResources,
     });
     response.body = await UserService.getOne(id as string);
   }

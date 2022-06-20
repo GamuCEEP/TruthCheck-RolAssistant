@@ -9,9 +9,13 @@
   <div id="container"></div>
 
   <script >
+    reloadRL = true
+    window.onerror = setTimeout(() => reloadRL && location.reload(), 1)
     function init(ctx) {
       let local
       local = ctx.parentNode
+      window.onerror = null
+      reloadRL = false
       showResources('effect')
       const buttons = local.querySelectorAll('#selector button')
       for (const button of buttons) {
@@ -34,7 +38,7 @@
         `
           const a = container.querySelector('a')
           a.addEventListener('click', () => {
-            local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(1)
+            local.parentNode.host.parentNode.parentNode.parentNode.host.setPage(0)
           })
         }
         for (const id of ids) {
@@ -89,7 +93,7 @@
       display: block;
       margin: 0 auto;
       width: 300px;
-      height: 450px;
+      /* height: 450px; to let flex modify height */
       margin: 10px;
     }
 

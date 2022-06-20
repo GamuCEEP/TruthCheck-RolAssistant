@@ -20,6 +20,7 @@ function formatResource(resource) {
   return resource;
 }
 function formatGame(resource) {
+  console.log(resource)
   const game = JSON.parse(JSON.stringify(resource))
   //Players -> actors
   if (game["players"]) {

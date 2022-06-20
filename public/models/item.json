@@ -85,7 +85,16 @@
         "options": {
           "compact": true
         },
-        "enum": ["Fire", "Water", "Nature"]
+        "enum": [
+          "Fire",
+          "Water",
+          "Nature",
+          "Air",
+          "Poison",
+          "Armor",
+          "Weapon",
+          "Pet"
+        ]
       }
     }
   }
