@@ -6,7 +6,7 @@
   const controller = navigator.serviceWorker.controller;
   if (controller) {
     console.log(`Page already controlled by ${controller.scriptURL}`);
-    // return;
+    return;
     //development only :)
     const r = await navigator.serviceWorker.getRegistration(
       controller.scriptURL,
